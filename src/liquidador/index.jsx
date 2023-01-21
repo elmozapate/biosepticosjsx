@@ -14,7 +14,7 @@ const Liquidador = (props) => {
         valorAbono: 0,
         abonoCapital: 0,
         interesDeuda: 0,
-
+        simulacion: false
     })
 
     const crearCredito = () => {
@@ -42,7 +42,7 @@ const Liquidador = (props) => {
         const newDAta = {
             valorAbono: 0,
             tipo: 'Mes nuevo',
-            actual: newDeuda,
+            actual: newDeuda > 0 ? newDeuda : 0,
             mes: deuda.mes + 1,
             interesDeuda: (parseFloat(deuda.actual / 100) * parseFloat(deuda.interes)),
         }
@@ -50,14 +50,22 @@ const Liquidador = (props) => {
         newHstorial.push(newDAta)
         setDeuda({
             ...deuda,
-            actual: newDeuda,
+            actual: newDeuda > 0 ? newDeuda : 0,
             mes: deuda.mes + 1,
             interesDeuda: (parseFloat(deuda.actual / 100) * parseFloat(deuda.interes)),
             historial: newHstorial
         })
-      /*   setTimeout(() => {
-            elemto2.click()
-        }, 1000); */
+        if (deuda.simulacion) {
+
+            setTimeout(() => {
+                try {
+                    elemto2.click()
+
+                } catch (error) {
+                    console.log('listo');
+                }
+            }, 300);
+        }
     }
     const handle = (e) => {
         e.preventDefault();
@@ -65,7 +73,7 @@ const Liquidador = (props) => {
         const value = e.target.value
         setDeuda({
             ...deuda,
-            [id]: parseFloat(value)
+            [id]: !isNaN(parseFloat(value)) ? value : 0
         })
     }
     const abonoCapital = () => {
@@ -84,13 +92,33 @@ const Liquidador = (props) => {
         setDeuda({
             ...deuda,
             actual: parseFloat(deuda.actual - deuda.valorAbono),
-            valorAbono:0
+            valorAbono: deuda.simulacion ? deuda.valorAbono : 0
         })
-      /*   setTimeout(() => {
-            elemto1.click()
-        }, 1000); */
+        if (deuda.simulacion) {
+            setTimeout(() => {
+                try {
+                    elemto1.click()
+
+                } catch (error) {
+                    console.log('listo');
+                }
+            }, 300);
+        }
 
 
+
+    }
+    const simulacion = () => {
+        elemto2 = document.getElementById('elemto2')
+        let oldValue = deuda
+        if (oldValue.simulacion) {
+
+        } else {
+            oldValue.simulacion = true
+
+        }
+        setDeuda(oldValue)
+        elemto2.click()
     }
     let nownow = true
     useEffect(() => {
@@ -102,7 +130,7 @@ const Liquidador = (props) => {
     }, [])
     return (
         <>
-            <Liqui deuda={deuda} setDeuda={setDeuda} abonoCapital={abonoCapital} mesSiguente={mesSiguente} crearCredito={crearCredito} handle={handle} />
+            <Liqui deuda={deuda} setDeuda={setDeuda} abonoCapital={abonoCapital} mesSiguente={mesSiguente} simulacion={simulacion} crearCredito={crearCredito} handle={handle} />
         </>
     )
 
