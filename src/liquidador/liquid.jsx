@@ -24,22 +24,15 @@ const Liqui = (props) => {
                     <h2> Interes Deuda : {deuda.interesDeuda},
                         <h3>Valor abono : {deuda.valorAbono}</h3>
                     </h2>
-                    <br />
                     {deuda.mes === -1 && <>DEUDA INICIAL<input type={'number'} placeHolder={'deuda'} value={deuda.deuda} onChange={handle} id={'deuda'} /></>}
                    <br />
                     {deuda.mes === -1 && <>PORCENTAJE DE INTERES<input type={'number'} placeHolder={'Interes prestamo'} value={deuda.interes} onChange={handle} id={'interes'} /></>}
-                    <br />
                     {deuda.mes > -1 && <>VALOR DEL ABOMO<input type={'number'} value={deuda.valorAbono} onChange={handle} id={'valorAbono'} min={deuda.interesDeuda} defaultValue={deuda.interesDeuda} /></>}
-                    <br />
                     {deuda.actual > 0 && deuda.mes > -1 && <button id={'elemto2'} onClick={(e) => { e.preventDefault(); abonoCapital() }}>ABONO</button>}
                     {deuda.actual > 0 && deuda.mes > -1 && <button onClick={(e) => {
                         e.preventDefault(); simulacion()
                     }}>{ deuda.simulacion?'Detener Simulacion' :'Simulacion'}</button>}
-                    <br />  
                       <button id={'elemto1'} onClick={(e) => { e.preventDefault(); deuda.actual !== 0 && deuda.mes > -1 ? mesSiguente() : crearCredito() }}>{deuda.mes > -1 ? 'SIGUENTE MES' : 'CREAR PRESTAMO'}</button>
-
-                  
-                <br />
                     <button onClick={(e) => {
                         e.preventDefault(); setDeuda({
                             deuda: 0,
