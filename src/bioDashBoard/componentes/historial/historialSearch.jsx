@@ -2,7 +2,7 @@
 import StylesObj from "@/styles/stylesObj"
 import StringsObj from "@/engine/content"
 import { UserObj } from "@/engine/content"
-import Liquidador from "@/liquidador/liquidador"
+import Liquidador from "@/liquidador"
 const userStructure = UserObj()
 const objCssInit = StylesObj()
 const objStringsInit = StringsObj()
