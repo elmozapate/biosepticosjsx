@@ -73,7 +73,7 @@ const Liquidador = (props) => {
         const value = e.target.value
         setDeuda({
             ...deuda,
-            [id]: !isNaN(parseFloat(value)) ? parseFloat(value)  : 0
+            [id]: !isNaN(parseFloat(value)) && parseFloat(value) >= 0 ? parseFloat(value) : 0
         })
     }
     const abonoCapital = () => {
