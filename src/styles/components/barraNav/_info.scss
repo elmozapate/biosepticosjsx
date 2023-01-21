@@ -1,0 +1,18 @@
+@function getRemSize($sizePx) {
+    @return ($sizePx / 16px) * 1rem;
+}
+.nav-userData {
+    display: flex;
+    align-items: center;
+    gap: getRemSize(10px);
+    padding: getRemSize(2px) getRemSize(10px) getRemSize(2px) getRemSize(10px);
+cursor: pointer;
+    p:hover {
+        transition: 700;
+        transform: scale(1.2);
+    }
+}
+.nav-userData:hover {
+    transition: 700;
+    background-color: rgb(249, 249, 240);
+}

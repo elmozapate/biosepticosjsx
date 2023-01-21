@@ -1,0 +1,53 @@
+@function getRemSize($sizePx) {
+    @return ($sizePx / 16px) * 1rem;
+}
+.titles {
+    color: aliceblue;
+    font-weight: 900;
+    font-size: 3rem;
+    text-transform: capitalize;
+    margin: getRemSize(25px) 0;
+}
+.titles-left {
+    width: 100vw;
+    max-width: 100vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: getRemSize(40px);
+    padding: 0 getRemSize(30px);
+    h1 {
+        color: aliceblue;
+        font-weight: 700;
+        font-size: getRemSize(30px);
+        text-transform: capitalize;
+        text-align: left;
+    }
+    .back-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: getRemSize(30px);
+        font-size: getRemSize(30px);
+        padding-right: 1rem;
+        border: none;
+        outline: none;
+        background-color: transparent;
+        color: white;
+        font-weight: 900;
+        span {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: getRemSize(30px);
+            font-size: getRemSize(16px);
+            font-weight: 700;
+            margin-right: 5px;
+
+        }
+    }
+    .back-button:hover {
+        transition: 1500;
+        transform: scale(1.1);
+    }
+}

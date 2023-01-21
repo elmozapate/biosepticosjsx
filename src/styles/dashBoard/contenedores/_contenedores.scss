@@ -1,0 +1,178 @@
+@function getRemSize($sizePx) {
+    @return ($sizePx / 16px) * 1rem;
+}
+.dashBoard-main {
+    width: 100vw;
+    max-width: 100vw;
+    height: calc(100vh - getRemSize(60px));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    background-color: rgb(16, 32, 72);
+    overflow: hidden;
+}
+.dashBoard-section {
+    width: 100vw;
+    max-width: 100vw;
+    height: calc(100vh - getRemSize(60px));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    background-color: rgb(16, 32, 72);
+    flex-direction: row-reverse;
+}
+.dashBoard-section-large {
+    width: 100vw;
+    max-width: 100vw;
+    height: calc(100vh - getRemSize(60px));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: #fff;
+    background-color: rgb(16, 32, 72);
+}
+.dashBoard-section-card {
+    width: 70vw;
+    min-width: 500px;
+    height: calc(100vh - getRemSize(60px));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: #fff;
+    background-color: rgb(16, 32, 72);
+}
+.dashBoard-section-card-large {
+    width: 100vw;
+    max-width: 100vw;
+    height: calc(100vh - getRemSize(120px));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: #fff;
+    background-color: rgb(16, 32, 72);
+}
+.dashBoard-section-menu {
+    max-width: 30vw;
+    width: 100%;
+    min-width: getRemSize(200px);
+    height: calc(100vh - getRemSize(60px));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: #fff;
+    background-color: rgb(49, 67, 113);
+}
+.dashBoard-section-menu-large {
+    width: 100vw;
+    max-width: 100vw;
+    height: getRemSize(55px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    background-color: rgb(49, 67, 113);
+}
+.dashBoard-section-menu-item {
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid rgb(216, 213, 213);
+    font-size: 2rem;
+    font-weight: 500;
+    text-transform: capitalize;
+    height: calc(100vh - getRemSize(120px) / 5);
+    max-width: 30vw;
+    width: 100%;
+    min-width: getRemSize(200px);
+}
+.dashBoard-section-menu-item:hover {
+    transition: 1000;
+    transform: scale(1.05);
+    background-color: rgb(41, 56, 95);
+}
+.dashBoard-section-menu-item-large {
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 20vw;
+    min-width: getRemSize(180px);
+    border: 1px solid rgb(216, 213, 213);
+    height: getRemSize(60px);
+    font-size: 2rem;
+    text-transform: capitalize;
+}
+.dashBoard-section-menu-item-large:hover {
+    transition: 1000;
+    transform: scale(1.05);
+    background-color: rgb(41, 56, 95);
+}
+.dashBoard-section-menu-item-selected {
+    background-color: rgb(16, 32, 72);
+}
+.dashBoard-section-menu-item-selected:hover {
+    transform: scale(1);
+    border: none;
+    cursor: auto;
+    background-color: rgb(16, 32, 72);
+}
+.dashBoard-section-option-container {
+    display: flex;
+    width: 100vw;
+    max-width: 100vw;
+    height: calc(100vh - getRemSize(120px));
+    flex-direction: column;
+    align-items: center;
+}
+.dashBoard-section-option {
+    transform: 2000;
+    min-width: getRemSize(200px);
+    width: 20vw;
+    height: getRemSize(400px);
+    border-radius: 18px;
+    box-shadow: 0 1.5px 3px 0 rgba(0, 0, 0, 0.16);
+    border: solid 0.5px #dcdcdc;
+    background-color: rgb(27, 31, 49);
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.7rem;
+    font-weight: 600;
+    white-space: wrap;
+    color: gainsboro;
+    text-align: center;
+    padding: getRemSize(25px);
+    cursor: pointer;
+    text-transform: capitalize;
+}
+.dashBoard-section-option:hover {
+    transition: 2000;
+    transform: scale(1.05);
+    background-color: rgb(42, 47, 70);
+}
+.dashBoard-section-option-row {
+    display: flex;
+    width: 100vw;
+    max-width: 100vw;
+    justify-content: space-evenly;
+    align-items: center;
+}
+.dashBoard-inFuntion-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    max-width: 100vw;
+    height: calc(100vh - getRemSize(120px));
+    background-color: #fff;
+    color: black;
+    text-transform: uppercase;
+}
