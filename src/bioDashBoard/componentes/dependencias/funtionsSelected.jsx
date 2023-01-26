@@ -8,7 +8,7 @@ import InteractiveTable from "../interactiveTable/interactiveTable"
 const objCssInit = StylesObj()
 const objStringsInit = StringsObj()
 const FuntionsSelected = (props) => {
-    const { users = { array: [] }, inShowed = '', inSection = '', objStrings = objStringsInit, objCss = objCssInit, showed = { state: false, function: 'centro rapido' } } = props
+    const { empresas = { array: [] },users = { array: [] }, inShowed = '', inSection = '', objStrings = objStringsInit, objCss = objCssInit, showed = { state: false, function: 'centro rapido' } } = props
     const [inProcess, setInprocess] = useState({
         state: true,
         process: ''
@@ -26,7 +26,7 @@ const FuntionsSelected = (props) => {
                 {
                     inProcess.state && showed.function === 'ver o modificar' &&
                     <>
-                        <InteractiveTable users={users} objCss={objCss} objStrings={objStrings} inSection={inSection} setInprocess={setInprocess} inProcess={inProcess} />
+                        <InteractiveTable empresas={empresas} users={users} objCss={objCss} objStrings={objStrings} inSection={inSection} inShowed={inShowed} setInprocess={setInprocess} inProcess={inProcess} />
                     </>
                 }
                 {

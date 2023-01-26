@@ -21,8 +21,8 @@ const Declaraciones = (props) => {
                             infoContainer: 'nav-userContain',
                             languageSelect: 'nav-languageSelect',
                             dataContainer: 'nav-userData',
-                            menuActivator:'nav-menuActivator',
-                            photoContainer:'nav-photoContainer',
+                            menuActivator: 'nav-menuActivator',
+                            photoContainer: 'nav-photoContainer',
                         },
                         absoluteBox: {
                             main: 'absolutedialog',
@@ -36,39 +36,39 @@ const Declaraciones = (props) => {
                                 main: 'form-registro'
                             }
                         },
-                        app:{
-                            main:'app-container',
-                            cardContainer:'app-cardContainer',
-                            cardView:'app-cardView',
-                            sideContainer:'app-sideContainer',
-                            sideContainerOpen:'app-sideContainer-open',
-                            sideNav:'app-sideNav',
-                            sideNavOpen:'app-sideNav-open',
-                            smallViews:'app-smallViews',
-                            smallViewsSelected:'app-smallViews-selected',
-                            smallViewsOpen:'app-smallViews-open',
-                            sectionTitle:'titles',
-                            sectionTitleLeft:'titles-left',
-                            backButton:'back-button'
+                        app: {
+                            main: 'app-container',
+                            cardContainer: 'app-cardContainer',
+                            cardView: 'app-cardView',
+                            sideContainer: 'app-sideContainer',
+                            sideContainerOpen: 'app-sideContainer-open',
+                            sideNav: 'app-sideNav',
+                            sideNavOpen: 'app-sideNav-open',
+                            smallViews: 'app-smallViews',
+                            smallViewsSelected: 'app-smallViews-selected',
+                            smallViewsOpen: 'app-smallViews-open',
+                            sectionTitle: 'titles',
+                            sectionTitleLeft: 'titles-left',
+                            backButton: 'back-button'
                         },
                         dashBoard: {
                             main: 'dashBoard-main',
-                            sectionContainer:'dashBoard-section',
-                            sectionContainerLarge:'dashBoard-section-large',
-                            sectionContainerCard:'dashBoard-section-card',
-                            sectionContainerCardLarge:'dashBoard-section-card-large',
-                            sectionContainerMenu:'dashBoard-section-menu',
-                            sectionContainerMenuLarge:'dashBoard-section-menu-large',
-                            sectionContainerMenuItem:'dashBoard-section-menu-item',
-                            sectionContainerMenuItemLarge:'dashBoard-section-menu-item-large',
+                            sectionContainer: 'dashBoard-section',
+                            sectionContainerLarge: 'dashBoard-section-large',
+                            sectionContainerCard: 'dashBoard-section-card',
+                            sectionContainerCardLarge: 'dashBoard-section-card-large',
+                            sectionContainerMenu: 'dashBoard-section-menu',
+                            sectionContainerMenuLarge: 'dashBoard-section-menu-large',
+                            sectionContainerMenuItem: 'dashBoard-section-menu-item',
+                            sectionContainerMenuItemLarge: 'dashBoard-section-menu-item-large',
                             sectionContainerMenuItemSelected: 'dashBoard-section-menu-item-selected',
-                            sectionOption:'dashBoard-section-option',
-                            sectionOptionRow:'dashBoard-section-option-row',
-                            sectionOptionContainer:'dashBoard-section-option-container',
-                            sectionTitle:'titles',
-                            sectionTitleLeft:'titles-left',
-                            backButton:'back-button',
-                            inFuntion:'dashBoard-inFuntion-container'
+                            sectionOption: 'dashBoard-section-option',
+                            sectionOptionRow: 'dashBoard-section-option-row',
+                            sectionOptionContainer: 'dashBoard-section-option-container',
+                            sectionTitle: 'titles',
+                            sectionTitleLeft: 'titles-left',
+                            backButton: 'back-button',
+                            inFuntion: 'dashBoard-inFuntion-container'
                         }
 
                     }
@@ -94,11 +94,12 @@ const Declaraciones = (props) => {
                         },
                         navBar: {
                             menu: {
-                                console:'IR CONSOLA',
-                                logistic:'CENTRO LOGISTICA',
-                                config:'CONFIGURACION',
-                                page:'PAGINA',
-                                logOut:'CERRAR SESION'
+                                console: 'IR CONSOLA',
+                                logistic: 'CENTRO LOGISTICA',
+                                empresas: 'EMPRESAS',
+                                vendedores: 'VENDEDORES',
+                                page: 'PAGINA',
+                                logOut: 'CERRAR SESION'
                             }
                         },
                         dashBoard: {
@@ -118,11 +119,12 @@ const Declaraciones = (props) => {
                         },
                         navBar: {
                             menu: {
-                                console:'GO CONSOLE',
-                                logistic:'LOGISTIC CENTER',
-                                config:'CONFIGURATION',
-                                page:'PAGE',
-                                logOut:'LOGOUT'
+                                console: 'GO CONSOLE',
+                                logistic: 'LOGISTIC CENTER',
+                                empresas: 'COMPANIES',
+                                vendedores: 'SALES',
+                                page: 'PAGE',
+                                logOut: 'LOGOUT'
                             }
                         },
                         dashBoard: {
@@ -131,30 +133,30 @@ const Declaraciones = (props) => {
                     }
                     strings.state = 'returning'
                     break;
-                    case 'frances':
-                        strings.text = {
-                            pageTittle: 'BIOSEPTICOS',
-                            homePage: {
-                                intro: 'Bienvenue a mon app'
-                            },
-                            app: {
-                                intro: 'WELCOME TO THE LOGISTIC CENTER'
-                            },
-                            navBar: {
-                                menu: {
-                                    console:'GO CONSOLE',
-                                    logistic:'LOGISTIC CENTER',
-                                    config:'CONFIGURATION',
-                                    page:'PAGE',
-                                    logOut:'LOGOUT'
-                                }
-                            },
-                            dashBoard: {
-                                intro: ' ADMINISTRATIVE CONSOLE  BIOSEPTICOS SA'
-                            },
-                        }
-                        strings.state = 'returning'
-                        break;
+                case 'frances':
+                    strings.text = {
+                        pageTittle: 'BIOSEPTICOS',
+                        homePage: {
+                            intro: 'Bienvenue a mon app'
+                        },
+                        app: {
+                            intro: 'WELCOME TO THE LOGISTIC CENTER'
+                        },
+                        navBar: {
+                            menu: {
+                                console: 'GO CONSOLE',
+                                logistic: 'LOGISTIC CENTER',
+                                config: 'CONFIGURATION',
+                                page: 'PAGE',
+                                logOut: 'LOGOUT'
+                            }
+                        },
+                        dashBoard: {
+                            intro: ' ADMINISTRATIVE CONSOLE  BIOSEPTICOS SA'
+                        },
+                    }
+                    strings.state = 'returning'
+                    break;
                 default:
                     break;
             }

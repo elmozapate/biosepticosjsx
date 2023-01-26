@@ -23,6 +23,7 @@ const userStructure = UserObj()
 const UserCheck = (props) => {
     const { usersArray = [], setUsersArray = [] } = props
     const [userData, setUserName] = useState(userStructure)
+    const [empresas, setEmpresas] = useState({ array: [] })
     const [users, setUsers] = useState({ array: [] })
     const [objCss, setObjCss] = useState(objCssInit)
     const [popUp, setPopUp] = useState(popUpStructure)
@@ -103,12 +104,25 @@ const UserCheck = (props) => {
             if (actionTodo === 'changePasswordRes' && parseInt(res) === parseInt(msg.resId)) {
                 if (msg.res === 'ok') {
                     setPopUp(popUpStructure)
+                    sendLogin()
                 }
             }
         })
     }
     const cleanUserData = () => {
         setUserName({ ...userStructure })
+    }
+    const pedirEmpresas = () => {
+        const res = MiddlewareSelector({ ask: 'pedirEmpresas', data: userData })
+        socket.on("bioApp", (msg) => {
+            const actionTodo = msg.actionTodo
+            if (actionTodo === 'pedirEmpresasRes' && parseInt(res) === parseInt(msg.resId)) {
+                if (msg.res === 'ok') {
+                    console.log(msg.empresas);
+                    setEmpresas({ ...empresas, array: msg.empresas })
+                }
+            }
+        })
     }
     const setUserDataApp = (type, value) => {
         if (type === 'changeType') {
@@ -132,7 +146,13 @@ const UserCheck = (props) => {
             {
                 userData.type === 'clientUser' &&
                 <>
-                    CONFIGURACION
+                    EMPRESAS
+                </>
+            }
+               {
+                userData.type === 'vendedor' &&
+                <>
+                    Vendedores
                 </>
             }
             {
@@ -144,7 +164,7 @@ const UserCheck = (props) => {
             {
                 userData.type === 'adminUser' &&
                 <>
-                    <DashBoard users={users} userData={userData} objCss={objCss} objStrings={objStrings} />
+                    <DashBoard empresas={empresas} users={users} pedirEmpresas={pedirEmpresas} userData={userData} objCss={objCss} objStrings={objStrings} />
                 </>
             }
             <AbsoluteBox userData={userData} objCss={objCss} popUp={popUp} />

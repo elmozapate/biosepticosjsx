@@ -16,6 +16,13 @@ export const MiddlewareSelector = (props) => {
                 reqId: res
             });
             break;
+            case 'pedirEmpresas':
+            socket.emit('bioSepticos', {
+                'dataIn': props.data,
+                actionTodo: "pedirEmpresas",
+                reqId: res
+            });
+            break;
         case 'changePassword':
             SendNewPasword(socket, props, res)
             break;

@@ -9,7 +9,7 @@ const objStringsInit = StringsObj()
 
 const Empresas = (props) => {
     const modeloDependencia = ModeloDependencia()
-    const { objStrings = objStringsInit, objCss = objCssInit, showed = 'centro rapido' } = props
+    const { empresas = { array: [] },users = { array: [] }, pedirEmpresas = console.log, objStrings = objStringsInit, objCss = objCssInit, showed = 'centro rapido' } = props
     const [sectionFuntion, setSectionFuntion] = useState({
         state: false,
         function: ''
@@ -22,9 +22,9 @@ const Empresas = (props) => {
                         <>
                             <div className={objCss.dashBoard.sectionTitleLeft}>
                                 <h1 > {`${sectionFuntion.function} ${showed}`} </h1>
-                                <button onClick={(e) => { e.preventDefault(); setSectionFuntion({ ...sectionFuntion, state: false, function: '' }) }}  className={objCss.dashBoard.backButton} ><span> Volver </span> ↩</button>
+                                <button onClick={(e) => { e.preventDefault(); setSectionFuntion({ ...sectionFuntion, state: false, function: '' }) }} className={objCss.dashBoard.backButton} ><span> Volver </span> ↩</button>
                             </div>
-                            <FuntionsSelected objCss={objCss} objStrings={objStrings} showed={sectionFuntion}/>
+                            <FuntionsSelected empresas={empresas} users={users} objCss={objCss} objStrings={objStrings} showed={sectionFuntion} inShowed={showed} />
 
 
                         </>
@@ -36,7 +36,7 @@ const Empresas = (props) => {
                                     modeloDependencia.map((key, i) => {
                                         return (
                                             <>
-                                                <div onClick={(e) => { e.preventDefault(); setSectionFuntion({ ...sectionFuntion, state: true, function: key }) }} className={objCss.dashBoard.sectionOption}>
+                                                <div onClick={(e) => { e.preventDefault(); pedirEmpresas(); setSectionFuntion({ ...sectionFuntion, state: true, function: key }) }} className={objCss.dashBoard.sectionOption}>
                                                     {`${key} ${showed}`}
                                                 </div>
                                             </>

@@ -12,7 +12,7 @@ const userStructure = UserObj()
 const objCssInit = StylesObj()
 const objStringsInit = StringsObj()
 const Selector = (props) => {
-    const {users={array:[]} , userData = userStructure, objStrings = objStringsInit, objCss = objCssInit, dashBoard = false } = props
+    const {pedirEmpresas=console.log,empresas = { array: [] }, users={array:[]} ,companies={array:[]}, userData = userStructure, objStrings = objStringsInit, objCss = objCssInit, dashBoard = false } = props
 
     const [selectioned, setSelectioned] = useState(dashBoard?'centro rapido':'inicio')
     const [sideOpen, setSideOpen] = useState(false)
@@ -29,7 +29,7 @@ const Selector = (props) => {
                                         <>
                                             {
 
-                                                <SectionContainer users={users} sideOpen={sideOpen} objCss={objCss} objStrings={objStrings} showed={key} willShow={setSelectioned} />
+                                                <SectionContainer empresas={empresas} pedirEmpresas={pedirEmpresas} users={users} companies={companies} sideOpen={sideOpen} objCss={objCss} objStrings={objStrings} showed={key} willShow={setSelectioned} />
 
                                             }
                                         </>

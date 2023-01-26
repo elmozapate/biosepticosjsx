@@ -19,7 +19,11 @@ const NavMenu = (props) => {
 
                 }
                 {
-                    userData.type !=='clientUser' && userData.permisions.configuracion && <p id="nav-menu-opt-2" onClick={(e) => { e.preventDefault(); setUserData('changeType', 'clientUser'); setMenuOpen(false) }}>{objStrings.navBar.menu.config}</p>
+                    userData.type !=='clientUser' && userData.permisions.empresas && <p id="nav-menu-opt-2" onClick={(e) => { e.preventDefault(); setUserData('changeType', 'clientUser'); setMenuOpen(false) }}>{objStrings.navBar.menu.empresas}</p>
+
+                }
+                {
+                    userData.type !=='vendedor' && <p id="nav-menu-opt-3" onClick={(e) => { e.preventDefault(); setUserData('changeType', 'vendedor'); setMenuOpen(false) }}>{objStrings.navBar.menu.vendedores}</p>
 
                 }
                 {

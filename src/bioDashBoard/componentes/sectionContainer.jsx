@@ -11,7 +11,7 @@ const objCssInit = StylesObj()
 const objStringsInit = StringsObj()
 
 const SectionContainer = (props) => {
-    const { users={array:[]},sideOpen = false, objStrings = objStringsInit, objCss = objCssInit, showed = 'inicio' } = props
+    const { users={array:[]},pedirEmpresas=console.log,empresas = { array: [] }, sideOpen = false, objStrings = objStringsInit, objCss = objCssInit, showed = 'inicio' } = props
     return (
         <>
             <div className={showed === 'inicio' || showed === 'centro rapido' ? objCss.dashBoard.sectionContainerCard : objCss.dashBoard.sectionContainerCardLarge}>
@@ -22,7 +22,7 @@ const SectionContainer = (props) => {
                     showed === 'bioSepticos' && <Logistica objCss={objCss} objStrings={objStrings} showed={showed} />
                 }
                 {
-                    showed === 'empresas' && <Empresas objCss={objCss} objStrings={objStrings} showed={showed} />
+                    showed === 'empresas' && <Empresas pedirEmpresas={pedirEmpresas} empresas={empresas} objCss={objCss} objStrings={objStrings} showed={showed} />
                 }
                 {
                     showed === 'estadisticas' && <Estadisticas objCss={objCss} objStrings={objStrings} showed={showed} />
