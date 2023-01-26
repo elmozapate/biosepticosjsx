@@ -8,10 +8,12 @@ export default function Home() {
     const [usersArray, setUsersArray] = useState(0)
 
     setInterval(() => {
-        if (mensajes.length > usersArray) {
+        if (mensajes.length > usersArray+1) {
             const index = usersArray
 
             setUsersArray(index + 1)
+        }else{
+            setUsersArray(-1)
         }
 
     }, 5000);
@@ -25,7 +27,10 @@ export default function Home() {
             </Head>
             <main className={'div-main'}>
                 <div className='melipage'>
-                    <p>{mensajes[usersArray]}</p>
+                    {
+                        usersArray!==-1?                    <p>{mensajes[usersArray]}</p>
+                        :<p>Mamacita MUAKSS</p>
+                    }
                 </div>
 
             </main>
