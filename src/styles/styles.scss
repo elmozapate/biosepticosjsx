@@ -81,3 +81,20 @@
         }
     }
 }
+.melipage {
+    display: flex;
+    min-width: 100vw;
+    width: 100vw;
+    max-width: 100vw;
+    min-height: 100vh;
+    height: 100vh;
+    max-height: 100vh;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(42, 47, 70);
+    p {
+        font-size: 3rem;
+        font-weight: 900;
+        color: #dcdcdc;
+    }
+}

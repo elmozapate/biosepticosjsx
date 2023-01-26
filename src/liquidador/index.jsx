@@ -14,7 +14,11 @@ const Liquidador = (props) => {
         valorAbono: 0,
         abonoCapital: 0,
         interesDeuda: 0,
-        simulacion: false
+        simulacion: false,
+        deudaString: '0.00',
+        actualString: '0.00',
+        interesDeudaString: '0.00',
+        valorAbonoString:'0.00'
     })
 
     const crearCredito = () => {
@@ -30,7 +34,8 @@ const Liquidador = (props) => {
             mes: deuda.mes + 1,
             interesDeuda: (parseFloat(deuda.deuda / 100) * parseFloat(deuda.interes)),
             historial: newHstorial,
-
+            interesDeudaString: !isNaN(parseFloat((parseFloat(deuda.deuda / 100) * parseFloat(deuda.interes)))) && parseFloat((parseFloat(deuda.deuda / 100) * parseFloat(deuda.interes))) >= 0 ? formatoMiles(parseFloat((parseFloat(deuda.deuda / 100) * parseFloat(deuda.interes)))) : 0,
+            actualString: !isNaN(parseFloat(parseFloat(parseFloat(deuda.deuda)) + (parseFloat(deuda.deuda / 100) * parseFloat(deuda.interes)))) && parseFloat(parseFloat(parseFloat(deuda.deuda)) + (parseFloat(deuda.deuda / 100) * parseFloat(deuda.interes))) >= 0 ? formatoMiles(parseFloat(parseFloat(parseFloat(deuda.deuda)) + (parseFloat(deuda.deuda / 100) * parseFloat(deuda.interes)))) : 0,
         })
 
     }
@@ -51,8 +56,10 @@ const Liquidador = (props) => {
         setDeuda({
             ...deuda,
             actual: newDeuda > 0 ? newDeuda : 0,
+            actualString: !isNaN(parseFloat( newDeuda > 0 ? newDeuda : 0)) && parseFloat( newDeuda > 0 ? newDeuda : 0) >= 0 ? formatoMiles(parseFloat( newDeuda > 0 ? newDeuda : 0)) : 0,
             mes: deuda.mes + 1,
             interesDeuda: (parseFloat(deuda.actual / 100) * parseFloat(deuda.interes)),
+            interesDeudaString: !isNaN(parseFloat((parseFloat(deuda.actual / 100) * parseFloat(deuda.interes)))) && parseFloat((parseFloat(deuda.actual / 100) * parseFloat(deuda.interes))) >= 0 ? formatoMiles(parseFloat((parseFloat(deuda.actual / 100) * parseFloat(deuda.interes)))) : 0,
             historial: newHstorial
         })
         if (deuda.simulacion) {
@@ -67,14 +74,29 @@ const Liquidador = (props) => {
             }, 300);
         }
     }
+    const formatoMiles = (number) => {
+        const exp = /(\d)(?=(\d{3})+(?!\d))/g;
+        const rep = '$1,';
+        let arr = !isNaN(number) ? parseFloat(number).toFixed(2).toString().split('.') : number.toString().split('.');
+        arr[0] = arr[0].replace(exp, rep);
+        return arr[1] ? arr.join('.') : arr[0];
+    }
     const handle = (e) => {
         e.preventDefault();
         const id = e.target.id
         const value = e.target.value
-        setDeuda({
-            ...deuda,
-            [id]: !isNaN(parseFloat(value)) && parseFloat(value) >= 0 ? parseFloat(value) : 0
-        })
+        if (id === 'deuda' || id === 'actual' || id === 'interesDeuda'|| id === 'valorAbono') {
+            setDeuda({
+                ...deuda,
+                [id]: !isNaN(parseFloat(value)) && parseFloat(value) >= 0 ? parseFloat(value) : 0,
+                [`${id}String`]: !isNaN(parseFloat(value)) && parseFloat(value) >= 0 ? formatoMiles(parseFloat(value)) : 0
+            })
+        } else {
+            setDeuda({
+                ...deuda,
+                [id]: !isNaN(parseFloat(value)) && parseFloat(value) >= 0 ? parseFloat(value) : 0,
+            })
+        }
     }
     const abonoCapital = () => {
         let newHstorial = deuda.historial
@@ -92,6 +114,7 @@ const Liquidador = (props) => {
         setDeuda({
             ...deuda,
             actual: parseFloat(deuda.actual - deuda.valorAbono),
+            actualString: !isNaN(parseFloat( parseFloat(deuda.actual - deuda.valorAbono))) && parseFloat( parseFloat(deuda.actual - deuda.valorAbono)) >= 0 ? formatoMiles(parseFloat( parseFloat(deuda.actual - deuda.valorAbono))) : 0,
             valorAbono: deuda.simulacion ? deuda.valorAbono : 0
         })
         if (deuda.simulacion) {

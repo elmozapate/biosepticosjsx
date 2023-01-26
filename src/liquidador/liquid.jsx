@@ -8,20 +8,24 @@ const Liqui = (props) => {
         valorAbono: 0,
         abonoCapital: 0,
         interesDeuda: 0,
-        simulacion: false
+        simulacion: false,
+        deudaString: '0.00',
+        actualString: '0.00',
+        interesDeudaString: '0.00',
+        valorAbonoString:'0.00'
 
     }, simulacion = console.log, setDeuda = console.log, mesSiguente = console.log, abonoCapital = console.log, handle = console.log, crearCredito = console.log } = props
     return (
         <>
             <div className="row">
                 <div className="liquidar">
-                    <h1>Deuda : {`$ ${deuda.deuda.toFixed(2)}`}</h1>
-                    <h1>Deuda Actual : {`$ ${deuda.actual.toFixed(2)}`}</h1>
-                    <h2>Interes prestamo : {(deuda.interes)} %</h2>
+                <h1>Deuda : {`$ ${deuda.deudaString}`}</h1>
+                    <h1>Deuda Actual : {`$ ${deuda.actualString}`}</h1>
+                     <h2>Interes prestamo : {(deuda.interes)} %</h2>
                     <h2>Año- {deuda.mes / 12 >= 1 ? parseInt(deuda.mes / 12) : 0}</h2>
 
                     <h2>Mes- {deuda.mes - (parseInt(deuda.mes / 12) * 12) + 1}</h2>
-                    <h2> Interes Deuda : {`$ ${deuda.interesDeuda.toFixed(2)}`} </h2>
+                    <h2> Interes Deuda : {`$ ${deuda.interesDeudaString}`} </h2>
                     <h3>Valor abono : {`$ ${deuda.valorAbono.toFixed(2)}`}</h3>
                     {deuda.mes === -1 && <>DEUDA INICIAL<input type={'number'} placeHolder={'deuda'} value={deuda.deuda} onChange={handle} id={'deuda'} /></>}
                     <br />
@@ -42,7 +46,10 @@ const Liqui = (props) => {
                             valorAbono: 0,
                             abonoCapital: 0,
                             interesDeuda: 0,
-
+                            deudaString: '0.00',
+                            actualString: '0.00',
+                            interesDeudaString: '0.00',
+                            valorAbonoString:'0.00'
                         })
                     }}>REINICIAR</button>
 
@@ -72,8 +79,6 @@ const Liqui = (props) => {
                         )
                     })}
                 </table></div>
-
-
             </div>
         </>
     )
