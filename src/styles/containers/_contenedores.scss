@@ -40,11 +40,16 @@
     border-radius: 18px;
     box-shadow: 0 1.5px 3px 0 rgba(0, 0, 0, 0.16);
     border: solid 0.5px #dcdcdc;
-    background-color: #fff;
+    background-color: rgb(12, 39, 39);
     position: fixed;
     left: 55%;
     top: 50%;
     transform: translate(-50%, -50%);
+    color: #fff;
+    font-weight: getRemSize(25px);
+    text-align: center;
+    font-weight: 900;
+    padding: getRemSize(20px);
 }
 .app-container {
     width: 100vw;
@@ -78,7 +83,7 @@
     background-color: #fff;
     color: black;
 }
-.app-cardView:hover{
+.app-cardView:hover {
     transition: 1000;
     transform: scale(1.1);
     background-color: rgb(204, 202, 198);
@@ -116,14 +121,12 @@
     background-color: #fff;
     color: black;
     cursor: pointer;
-
 }
 .app-smallViews:hover {
     transition: 1000;
     transform: scale(1.1);
     background-color: rgb(204, 202, 198);
     cursor: pointer;
-
 }
 .app-smallViews-selected {
     background-color: rgb(17, 137, 25) !important;
@@ -149,4 +152,86 @@
     transition: 1000;
     transform: scale(1.1);
     background-color: rgb(204, 202, 198);
+}
+.companies-main {
+    width: 100vw;
+    max-width: 100vw;
+    height: calc(100vh - getRemSize(60px));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    background-color: rgb(39, 67, 47);
+}
+.companies-main,
+.companies-selector-container {
+    width: 100vw;
+    max-width: 100vw;
+    height: calc(100vh - getRemSize(60px));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    background-color: rgb(39, 67, 47);
+}
+.companies-selector-container {
+    flex-direction: column;
+}
+.companies-selector {
+    width: 70vw;
+    max-width: getRemSize(1000px);
+    height: calc(100vh - getRemSize(150px));
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    color: #fff;
+}
+.companies-selectorBox {
+    text-align: center;
+    width: 40%;
+    max-width: getRemSize(300px);
+    min-height: getRemSize(300px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    background-color: rgb(0, 7, 2);
+    cursor: pointer;
+    border: 0.5px solid rgb(217, 255, 231);
+    font-weight: 900;
+    font-size: 1.3rem;
+    border-radius: 14px;
+}
+.flex-adress {
+    padding: 0 getRemSize(15px);
+    justify-content: space-between;
+    align-items: center;
+    display: flex;
+    border: none !important;
+    border-bottom: 0.5px solid white !important;
+    border-left: 0.5px solid white !important;
+    outline: none !important;
+    opacity: 0.8 !important;
+    background-color: transparent !important;
+    border-radius: 14px !important;
+    min-width: getRemSize(340px);
+    max-width: getRemSize(340px);
+    width: getRemSize(340px);
+}
+.flex-selector {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: getRemSize(5px);
+    border: none !important;
+    border-bottom: 0.5px solid white !important;
+    border-left: 0.5px solid white !important;
+    outline: none !important;
+    opacity: 0.8 !important;
+    background-color: transparent !important;
+    border-radius: 14px !important;
+    select{
+        border: none !important;
+        
+    }
 }

@@ -19,10 +19,12 @@ const AppContainer = (props) => {
             {inUse === 'app' ?
                 <>
                     <div className={objCss.app.main}>
-                        {
-                            startTransition ? <><Selector userData={userData} objCss={objCss} objStrings={objStrings} /></> : <> {objStrings.app.intro}</>
+                        {userData.type === 'operativeUser'?
+                            startTransition ? <><Selector userData={userData} objCss={objCss} objStrings={objStrings} /></> : <> {objStrings.app.intro}</>:<></>
                         }
-
+                        {userData.type === 'clientUser' ?
+                            startTransition ? <><Selector userData={userData} objCss={objCss} objStrings={objStrings} /></> : <>BIENVENIDOS AL CENTRO DE EMPRESAS BIO APP {/* objStrings.app.intro */}</>:<></>
+                        }
                     </div>
                 </> :
                 <div className={objCss.dashBoard.main}>

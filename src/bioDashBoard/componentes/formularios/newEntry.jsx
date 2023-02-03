@@ -9,7 +9,6 @@ const objStringsInit = StringsObj()
 const NewEntry = (props) => {
 
     const { userData = userStructure, objStrings = objStringsInit, objCss = objCssInit, willShow = console.log, inSection = 'inicio' } = props
-    console.log(inSection);
     return (
         <>
             {

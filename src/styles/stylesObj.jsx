@@ -21,6 +21,11 @@ const StylesObj = () => {
         forms: {
             register: {
                 main: ''
+            },
+            personalData: {
+                miniSection: '',
+                miniSectionAdress:''
+
             }
         },
         app: {
@@ -35,8 +40,8 @@ const StylesObj = () => {
             smallViewsSelected: '',
             smallViewsOpen: '',
             sectionTitle: '',
-            sectionTitleLeft:'',
-            backButton:'',
+            sectionTitleLeft: '',
+            backButton: '',
         },
         dashBoard: {
             main: '',
@@ -49,14 +54,21 @@ const StylesObj = () => {
             sectionContainerMenuItem: '',
             sectionContainerMenuItemLarge: '',
             sectionContainerMenuItemSelected: '',
-            sectionOption:'',
-            sectionOptionContainer:'',
-            sectionOptionRow:'',
-            sectionTitle:'',
-            sectionTitleLeft:'',
-            backButton:'',
-            inFuntion:''
+            sectionOption: '',
+            sectionOptionContainer: '',
+            sectionOptionRow: '',
+            sectionTitle: '',
+            sectionTitleLeft: '',
+            backButton: '',
+            inFuntion: ''
 
+        },
+        companies: {
+            main: '',
+            dataForm: '',
+            dataSelector: '',
+            dataSelectorContainer: '',
+            dataFormContainer: ''
         }
 
     }

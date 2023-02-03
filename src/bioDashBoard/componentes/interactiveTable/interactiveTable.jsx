@@ -8,7 +8,6 @@ const objStringsInit = StringsObj()
 const InteractiveTable = (props) => {
 
     const { users = { array: [] }, empresas = { array: [] }, userData = userStructure, objStrings = objStringsInit, objCss = objCssInit, willShow = console.log, inShowed = 'inicio' } = props
-    console.log(inShowed);
     return (
         <>
             {inShowed === 'usuariosApp' && users.array.map((key, i) => {

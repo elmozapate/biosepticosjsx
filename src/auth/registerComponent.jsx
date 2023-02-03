@@ -14,7 +14,6 @@ const RegisterComponent = (props) => {
         } else {
             setTrueData(false)
         }
-        console.log(userData, trueData);
     }, [userData])
     return (
         <>

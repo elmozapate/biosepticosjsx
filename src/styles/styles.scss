@@ -1,14 +1,16 @@
+@function getRemSize($sizePx) {
+    @return ($sizePx / 16px) * 1rem;
+}
+@import url("https://fonts.cdnfonts.com/css/bodoni-mt");
+@import url('https://fonts.cdnfonts.com/css/copperplate');
+@import "texts/appfonts", "dashBoard/index", "containers/navBar", "containers/contenedores", "containers/formularios",
+    "components/componentes";
 * {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+    font-family: "copperplate", sans-serif;
 }
-@function getRemSize($sizePx) {
-    @return ($sizePx / 16px) * 1rem;
-}
-@import "texts/appfonts", "dashBoard/index", "containers/navBar", "containers/contenedores", "containers/formularios",
-    "components/componentes";
-
 .relative {
     position: relative;
 }
@@ -97,4 +99,7 @@
         font-weight: 900;
         color: #dcdcdc;
     }
+}
+.capitalize {
+    text-transform: capitalize;
 }

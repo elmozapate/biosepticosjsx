@@ -1,4 +1,4 @@
-import StringsObj from "@/engine/content"
+import StringsObj, { UserObj } from "@/engine/content"
 import StylesObj from "@/styles/stylesObj"
 import { useState } from "react"
 import FuntionsSelected from "./funtionsSelected"
@@ -6,10 +6,10 @@ import ModeloDependencia from "./modeloDependencia"
 
 const objCssInit = StylesObj()
 const objStringsInit = StringsObj()
-
+const userStructure = UserObj()
 const Empresas = (props) => {
     const modeloDependencia = ModeloDependencia()
-    const { empresas = { array: [] },users = { array: [] }, pedirEmpresas = console.log, objStrings = objStringsInit, objCss = objCssInit, showed = 'centro rapido' } = props
+    const {userData = userStructure, empresas = { array: [] },users = { array: [] }, pedirEmpresas = console.log, objStrings = objStringsInit, objCss = objCssInit, showed = 'centro rapido' } = props
     const [sectionFuntion, setSectionFuntion] = useState({
         state: false,
         function: ''
@@ -17,6 +17,8 @@ const Empresas = (props) => {
     return (
         <>
             <div className={objCss.dashBoard.sectionOptionContainer}>
+                {
+                <>
                 {
                     sectionFuntion.state ?
                         <>
@@ -47,6 +49,8 @@ const Empresas = (props) => {
 
                             </div>
                         </>
+                }
+                </>
                 }
             </div>
         </>

@@ -2,10 +2,11 @@ import Head from 'next/head'
 import Image from 'next/image'
 import MeliText from './melitext'
 
-export default function Home() {
-    
+export default function Home(props) {
+    const { usersArray = [], mensajes = {} } = props
 
-   
+
+
     return (
         <>
             <Head>
@@ -15,7 +16,7 @@ export default function Home() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <main className={'div-main'}>
-                <MeliText usersArray={usersArray} mensajes={mensajes} />
+                <MeliText /* usersArray={usersArray} */ /* mensajes={mensajes} */ />
                 {/*    <div className='melipage'>
                     {
                         usersArray !== -1 ? <p>{mensajes[usersArray]}</p>

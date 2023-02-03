@@ -34,6 +34,10 @@ const Declaraciones = (props) => {
                         forms: {
                             register: {
                                 main: 'form-registro'
+                            },
+                            personalData:{
+                                miniSection:'personalData-miniSection',
+                                miniSectionAdress:'personalData-miniSection-adress'
                             }
                         },
                         app: {
@@ -69,6 +73,21 @@ const Declaraciones = (props) => {
                             sectionTitleLeft: 'titles-left',
                             backButton: 'back-button',
                             inFuntion: 'dashBoard-inFuntion-container'
+                        },
+                        companies: {
+                            dataForm: 'companies-dataForm',
+                            main: 'companies-main',
+                            dataSelector: 'companies-selector',
+                            dataSelectorContainer: 'companies-selector-container',
+                            selectorBox: 'companies-selectorBox',
+                            dataFormContainer: 'companies-dataForm-container'
+                        },
+                        selector: {
+                            default: 'selector',
+                            nacionalidad: 'selector-nacionalidad',
+                            genero: 'selector-genero',
+                            tipoDeDocumento: 'selector-tipoDeDocumento',
+
                         }
 
                     }
@@ -105,6 +124,17 @@ const Declaraciones = (props) => {
                         dashBoard: {
                             intro: 'CONSOLA ADMINISTRATIVA BIOSEPTICOS SA'
                         },
+                        companies: {
+                            firsTime_0: 'Bienvenido',
+                            firsTime_1: ', lo primero para poder continuar es llenar tu informacioón personal',
+                            dataForm: 'Por Favor, selecciona con que categoria empezaras'
+                        },
+                        selector: {
+                            default: '',
+                            nacionalidad: 'nacionalidad',
+                            genero: 'genero',
+                            tipoDeDocumento: 'tipo de documento',
+                        }
                     }
                     strings.state = 'returning'
                     break;
@@ -130,6 +160,18 @@ const Declaraciones = (props) => {
                         dashBoard: {
                             intro: ' ADMINISTRATIVE CONSOLE  BIOSEPTICOS SA'
                         },
+                        companies: {
+                            firsTime_0: 'Welcome',
+                            firsTime_1: ', first to continue, you may fill your personal information',
+                            dataForm: 'Please, choose a category to fill'
+
+                        },
+                        selector: {
+                            default: '',
+                            nacionalidad: 'nacionality',
+                            genero: 'gender',
+                            tipoDeDocumento: 'document type',
+                        }
                     }
                     strings.state = 'returning'
                     break;

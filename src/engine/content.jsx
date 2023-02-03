@@ -10,14 +10,25 @@ const StringsObj = () => {
         dashBoard: {
             intro: ''
         },
+        companies: {
+            firsTime_0: '',
+            firsTime_1: '',
+            dataForm: ''
+        },
         navBar: {
             menu: {
-                console:'',
-                logistic:'',
-                config:'',
-                page:'',
-                logOut:''
+                console: '',
+                logistic: '',
+                config: '',
+                page: '',
+                logOut: ''
             }
+        },
+        selector: {
+            default: '',
+            nacionalidad: '',
+            genero: '',
+            tipoDeDocumento: '',
         }
     }
 }
@@ -27,17 +38,21 @@ export const UserObj = () => {
         permisions: {
             console: false,
             logistica: false,
-            configuracion: false
+            configuracion: false,
+            empresas: false,
+            vendedores: false,
         },
         nombre: '',
         status: 'unRegistered',
         password: '',
         passwordRepeat: '',
-        avatar:{
-            withPhoto:false,
-            url:''
+        dataRequired: true,
+        id: '',
+        avatar: {
+            withPhoto: false,
+            url: ''
         },
-        appPermisions:{
+        appPermisions: {
             inicio: true,
             clientes: false,
             servicios: false,

@@ -8,6 +8,7 @@ import { useState } from 'react'
 export default function Home() {
   const [usersArray, setUsersArray] = useState({
     array: [{
+      id: '1234567890',
       nombre: 'moet', password: '1234', permisions: {
         console: true,
         logistica: true,
@@ -27,10 +28,12 @@ export default function Home() {
         withPhoto: false,
         url: ''
       },
+      dataRequired: false,
       status: 'registered',
 
 
     }, {
+      id: '0987654321',
       nombre: 'oscar', password: '1234', permisions: {
         console: false,
         logistica: true,
@@ -52,8 +55,8 @@ export default function Home() {
       avatar: {
         withPhoto: true,
         url: '/image/oscar.png'
-      }
-
+      },
+      dataRequired: false,
     }]
   }
   )

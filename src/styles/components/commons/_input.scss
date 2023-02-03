@@ -1,0 +1,89 @@
+@function getRemSize($sizePx) {
+    @return ($sizePx / 16px) * 1rem;
+}
+.adress-form {
+    input,
+    select {
+        padding-left: getRemSize(15px);
+        width: getRemSize(120px) !important;
+        max-width: getRemSize(120px) !important;
+        height: getRemSize(30px) !important;
+        max-height: getRemSize(30px) !important;
+        border: none !important;
+        outline: none !important;
+        opacity: 0.8 !important;
+        background-color: transparent !important;
+        border-radius: 14px !important;
+        color: beige !important;
+        font-weight: 700 !important;
+        font-size: getRemSize(18px) !important;
+    }
+    select {
+        cursor: pointer;
+        color: rgb(0, 0, 0) !important;
+    }
+    select:valid {
+        color: beige !important;
+    }
+    button {
+        border: 0.5px solid white !important;
+        cursor: pointer !important;
+    }
+    button:hover {
+        transform: scale(1.2);
+    }
+}
+.form-default ,.form-registro,.absolutedialog_popout{
+    input,
+    select,
+    button {
+        padding-left: getRemSize(15px);
+        width: getRemSize(230px) ;
+        max-width: getRemSize(230px) ;
+        height: getRemSize(30px) ;
+        max-height: getRemSize(30px) ;
+        border: none ;
+        border-bottom: 0.5px solid white ;
+        border-left: 0.5px solid white ;
+        outline: none ;
+        opacity: 0.8 ;
+        background-color: transparent ;
+        border-radius: 14px ;
+        color: beige ;
+        font-weight: 700 ;
+        font-size: getRemSize(18px) ;
+    }
+    select {
+        color: rgb(0, 0, 0) ;
+    }
+    select:valid {
+        color: beige ;
+    }
+    button {
+        border: 0.5px solid white !important;
+        cursor: pointer !important;
+    }
+    button:hover {
+        transform: scale(1.2);
+    }
+}
+.formInput-btn {
+    width: getRemSize(230px) !important;
+    max-width: getRemSize(230px) !important;
+    height: getRemSize(30px) !important;
+    max-height: getRemSize(30px) !important;
+    border: 0.5px solid white !important;
+    outline: none !important;
+    opacity: 0.8 !important;
+    background-color: transparent !important;
+    border-radius: 14px !important;
+    color: beige !important;
+    font-weight: 700 !important;
+    font-size: getRemSize(18px) !important;
+}
+button {
+    cursor: pointer !important;
+}
+button:hover {
+    transform: scale(1.2);
+}

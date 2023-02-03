@@ -69,7 +69,7 @@ const Liquidador = (props) => {
                     elemto2.click()
 
                 } catch (error) {
-                    console.log('listo');
+                    console.log;
                 }
             }, 300);
         }
@@ -123,7 +123,7 @@ const Liquidador = (props) => {
                     elemto1.click()
 
                 } catch (error) {
-                    console.log('listo');
+                    console.log;
                 }
             }, 300);
         }

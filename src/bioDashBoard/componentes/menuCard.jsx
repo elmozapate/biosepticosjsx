@@ -12,7 +12,7 @@ const MenuCard = (props) => {
     return (
         <>
             <div 
-            onClick={(e)=>{e.preventDefault;willShow(showed);console.log(showed);}}
+            onClick={(e)=>{e.preventDefault;willShow(showed)}}
             className={`${showed=== isShowed?objCss.dashBoard.sectionContainerMenuItemSelected:' '}  ${isShowed === 'inicio'||isShowed === 'centro rapido' ? objCss.dashBoard.sectionContainerMenuItem : objCss.dashBoard.sectionContainerMenuItemLarge}`}>
                 {showed}
             </div>

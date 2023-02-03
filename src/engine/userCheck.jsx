@@ -13,8 +13,11 @@ import DashBoard from "@/bioDashBoard/dashBoard"
 import EnvM from "@/envMachetero"
 import io from "socket.io-client"
 import MiddlewareSelector from "@/middleware/askSelector"
+import ModeloUsuario from "@/bioApp/models/modelosUsuario"
+import CentroDeEmpresas from "@/bioApp/empresas/centroDeEmpresas"
+import FormularioNuevo from "@/bioDashBoard/componentes/formularios/formularioNuevo"
 const envM = EnvM()
-
+const plantillaUSuario = ModeloUsuario()
 const socket = io(envM.hostBack)
 const popUpStructure = PopUpObj()
 const objCssInit = Declaraciones({ language: 'spanish', type: 'styles' }).styles
@@ -23,8 +26,10 @@ const userStructure = UserObj()
 const UserCheck = (props) => {
     const { usersArray = [], setUsersArray = [] } = props
     const [userData, setUserName] = useState(userStructure)
+    const [userModel, setUserModel] = useState(plantillaUSuario)
     const [empresas, setEmpresas] = useState({ array: [] })
     const [users, setUsers] = useState({ array: [] })
+    const [usersAll, setUsersAll] = useState({ array: [] })
     const [objCss, setObjCss] = useState(objCssInit)
     const [popUp, setPopUp] = useState(popUpStructure)
     const [objStrings, setObjStrings] = useState(objStringsInit)
@@ -73,7 +78,13 @@ const UserCheck = (props) => {
             if (actionTodo === 'loginRes' && parseInt(res) === parseInt(msg.resId)) {
                 if (msg.res === 'ok') {
                     setUsers({ ...users, array: msg.users })
+                    setUsersAll({ ...usersAll, array: msg.usersAll })
                     setUserName({ ...userData, ...msg.body, passwordRepeat: '' })
+                    console.log(msg.usersAll);
+                    const modelUser = ModeloUsuario({
+                        ...userData,
+                        ...msg.body, passwordRepeat: '', status: 'registered'
+                    })
                     if (msg.body.passwordChange) {
                         const funtions = { setUserData: setUserData, sendData: sendData, setPopUp: setPopUp, sendLogin: sendLogin, changePassword: changePassword }
                         const resPopUp = InterfazRegistro('changePassword', funtions)
@@ -82,9 +93,14 @@ const UserCheck = (props) => {
                             ...userData,
                             ...msg.body, passwordRepeat: '', status: 'registered'
                         })
+                        setUserModel({ ...userModel, ...modelUser })
+
+                        /*                     dataEntry()
+                         */
                     } else {
                         setTimeout(() => {
                             setUserName({ ...userData, ...msg.body, passwordRepeat: '', status: 'registered' })
+                            setUserModel({ ...userModel, ...modelUser })
                             setPopUp(popUpStructure)
                         }, 500);
                     }
@@ -105,6 +121,7 @@ const UserCheck = (props) => {
                 if (msg.res === 'ok') {
                     setPopUp(popUpStructure)
                     sendLogin()
+
                 }
             }
         })
@@ -118,7 +135,6 @@ const UserCheck = (props) => {
             const actionTodo = msg.actionTodo
             if (actionTodo === 'pedirEmpresasRes' && parseInt(res) === parseInt(msg.resId)) {
                 if (msg.res === 'ok') {
-                    console.log(msg.empresas);
                     setEmpresas({ ...empresas, array: msg.empresas })
                 }
             }
@@ -131,6 +147,7 @@ const UserCheck = (props) => {
             const funtions = { setUserData: setUserData, sendData: sendData, setPopUp: setPopUp, sendLogin: sendLogin }
             const resPopUp = InterfazRegistro(type, funtions)
             setPopUp(resPopUp)
+
         }
 
     }
@@ -143,30 +160,39 @@ const UserCheck = (props) => {
                     <PageIndex objCss={objCss} objStrings={objStrings} />
                 </>
             }
-            {
-                userData.type === 'clientUser' &&
-                <>
-                    EMPRESAS
-                </>
-            }
-               {
-                userData.type === 'vendedor' &&
-                <>
-                    Vendedores
-                </>
-            }
-            {
-                userData.type === 'operativeUser' &&
-                <>
-                    <CentroDeLogistica userData={userData} objCss={objCss} objStrings={objStrings} />
-                </>
-            }
-            {
-                userData.type === 'adminUser' &&
-                <>
-                    <DashBoard empresas={empresas} users={users} pedirEmpresas={pedirEmpresas} userData={userData} objCss={objCss} objStrings={objStrings} />
-                </>
-            }
+            {userData.type !== 'newUser' && userModel.userObj.dataRequired ?
+                <FormularioNuevo userData={userData} setUserData={setUserModel} objCss={objCss} objStrings={objStrings} />
+                : <>
+
+                    {
+                        userData.type === 'clientUser' &&
+                        <>
+                            {
+
+                                <CentroDeEmpresas userData={userData} objCss={objCss} objStrings={objStrings} />
+
+                            }
+
+                        </>
+                    }
+                    {
+                        userData.type === 'vendedor' &&
+                        <>
+                        </>
+                    }
+                    {
+                        userData.type === 'operativeUser' &&
+                        <>
+                            <CentroDeLogistica userData={userData} objCss={objCss} objStrings={objStrings} />
+                        </>
+                    }
+                    {
+                        userData.type === 'adminUser' &&
+                        <>
+                            <DashBoard empresas={empresas} users={users} pedirEmpresas={pedirEmpresas} userData={userData} objCss={objCss} objStrings={objStrings} />
+                        </>
+                    }
+                </>}
             <AbsoluteBox userData={userData} objCss={objCss} popUp={popUp} />
         </>
     )

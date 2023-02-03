@@ -48,7 +48,6 @@ const FormularioAppUser = (props) => {
         const res = MiddlewareSelector({
             ask: 'newUser', data: newUserData
         })
-        console.log(res.toString());
         resId = res
 
     }
@@ -56,11 +55,10 @@ const FormularioAppUser = (props) => {
         socket.on("bioApp", (msg) => {
             const actionTodo = msg.actionTodo
             const Data = msg.dataIn
-            console.log('asas', msg);
             switch (actionTodo) {
                 case 'newEntryRes':
                     if (parseInt(msg.resId) === parseInt(resId)) {
-                        console.log('ya');
+                        window.alert(`Este es el nombre de usuario${msg.body.nombre} <br/>Esta es la clave temporal ${msg.body.password} <br/> Porfavor guardar datos`)
                         setSending(false)
                     }
                     break;

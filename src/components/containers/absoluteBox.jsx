@@ -12,7 +12,6 @@ const AbsoluteBox = (props) => {
         /*   if (userData.nombre.length > 2 && userData.password.length > 3 && userData.passwordRepeat.length > 3) {
               setTrueData(true)
           } */
-        console.log(userData, 'trueData',popUp);
     }, [userData])
     return (
         <>
