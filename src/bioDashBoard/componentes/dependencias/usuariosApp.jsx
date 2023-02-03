@@ -10,7 +10,7 @@ const objStringsInit = StringsObj()
 const UsuariosApp = (props) => {
     const modeloDependencia = ModeloDependencia()
 
-    const {users={array:[]} ,objStrings = objStringsInit, objCss = objCssInit, showed = 'centro rapido' } = props
+    const {usersAll={array:[]}, users={array:[]} ,objStrings = objStringsInit, objCss = objCssInit, showed = 'centro rapido' } = props
     const [sectionFuntion, setSectionFuntion] = useState({
         state: false,
         function: ''
@@ -25,7 +25,7 @@ const UsuariosApp = (props) => {
                                 <h1 > {`${sectionFuntion.function} ${showed}`} </h1>
                                 <button onClick={(e) => { e.preventDefault(); setSectionFuntion({ ...sectionFuntion, state: false, function: '' }) }} className={objCss.dashBoard.backButton} ><span> Volver </span> ↩</button>
                             </div>
-                            <FuntionsSelected users={users} objCss={objCss} objStrings={objStrings} showed={sectionFuntion} inShowed={showed}/>
+                            <FuntionsSelected usersAll={usersAll} users={users} objCss={objCss} objStrings={objStrings} showed={sectionFuntion} inShowed={showed}/>
                         </>
                         :
                         <>

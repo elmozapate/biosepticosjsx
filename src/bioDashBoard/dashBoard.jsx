@@ -4,10 +4,10 @@ import AppContainer from "@/bioApp/componentes/contenedorPrincipal"
 const objCssInit = StylesObj()
 const objStringsInit = StringsObj()
 const DashBoard = (props) => {
-    const { pedirEmpresas = console.log, users = { array: [] },empresas = { array: [] }, userData = userStructure, objStrings = objStringsInit, objCss = objCssInit } = props
+    const {usersAll={array:[]}, pedirEmpresas = console.log, users = { array: [] },empresas = { array: [] }, userData = userStructure, objStrings = objStringsInit, objCss = objCssInit } = props
     return (
         <>
-            <AppContainer pedirEmpresas={pedirEmpresas} empresas={empresas} users={users} userData={userData} objCss={objCss} objStrings={objStrings} inUse={'dashBoard'} />
+            <AppContainer usersAll={usersAll} pedirEmpresas={pedirEmpresas} empresas={empresas} users={users} userData={userData} objCss={objCss} objStrings={objStrings} inUse={'dashBoard'} />
 
         </>
     )

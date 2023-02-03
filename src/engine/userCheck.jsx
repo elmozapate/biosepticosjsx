@@ -189,7 +189,7 @@ const UserCheck = (props) => {
                     {
                         userData.type === 'adminUser' &&
                         <>
-                            <DashBoard empresas={empresas} users={users} pedirEmpresas={pedirEmpresas} userData={userData} objCss={objCss} objStrings={objStrings} />
+                            <DashBoard empresas={empresas} usersAll={usersAll} users={users} pedirEmpresas={pedirEmpresas} userData={userData} objCss={objCss} objStrings={objStrings} />
                         </>
                     }
                 </>}

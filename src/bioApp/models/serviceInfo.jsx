@@ -1,7 +1,7 @@
 import ObjDireccion from "./modeloDireccion"
 import ObjRutaIndividual from "./modeloRutaIndividual"
 import ObjShedule from "./modeloShedule"
-import ObjVendedor from "./modeloVendedor"
+import { ObjVendedor } from "./modeloVendedor"
 const TarjetaDeServicio = () => {
     const ObjServicio = {
         cliente: '',
@@ -31,6 +31,6 @@ const TarjetaDeServicio = () => {
         solicitudes: []
     }
 
-return ObjServicio
+    return ObjServicio
 }
 export default TarjetaDeServicio

@@ -7,7 +7,7 @@ const userStructure = UserObj()
 const objCssInit = StylesObj()
 const objStringsInit = StringsObj()
 const AppContainer = (props) => {
-    const { pedirEmpresas = console.log, empresas = { array: [] }, users = { array: [] }, userData = userStructure, objStrings = objStringsInit, objCss = objCssInit, inUse = 'app' } = props
+    const {usersAll={array:[]}, pedirEmpresas = console.log, empresas = { array: [] }, users = { array: [] }, userData = userStructure, objStrings = objStringsInit, objCss = objCssInit, inUse = 'app' } = props
     const [startTransition, setStartTransition] = useState(false)
     useEffect(() => {
         setTimeout(() => {
@@ -29,7 +29,7 @@ const AppContainer = (props) => {
                 </> :
                 <div className={objCss.dashBoard.main}>
                     {
-                        startTransition ? <><Selector pedirEmpresas={pedirEmpresas} empresas={empresas} users={users} userData={userData} objCss={objCss} objStrings={objStrings} dashBoard /></> : <> {objStrings.dashBoard.intro}</>
+                        startTransition ? <><Selector usersAll={usersAll} pedirEmpresas={pedirEmpresas} empresas={empresas} users={users} userData={userData} objCss={objCss} objStrings={objStrings} dashBoard /></> : <> {objStrings.dashBoard.intro}</>
                     }
 
                 </div>
