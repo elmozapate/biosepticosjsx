@@ -4,7 +4,9 @@
 .nav-main {
     width: 100vw;
     max-width: 100vw;
+    min-height: getRemSize(60px);
     height: getRemSize(60px);
+    max-height: getRemSize(60px);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -14,8 +16,9 @@
 .nav-logo {
     display: flex;
     align-items: center;
+    gap: getRemSize(20px);
 }
-.nav-languageSelect{
+.nav-languageSelect {
     cursor: pointer;
 }
 .nav-userContain {
@@ -24,14 +27,13 @@
     justify-content: flex-end;
     gap: getRemSize(30px);
     position: relative;
-    
 }
-.nav-menuActivator{
+.nav-menuActivator {
     display: flex;
     align-items: center;
     gap: getRemSize(10px);
-    }
-    
+}
+
 .nav-photoContainer {
     display: flex;
     height: getRemSize(45px);

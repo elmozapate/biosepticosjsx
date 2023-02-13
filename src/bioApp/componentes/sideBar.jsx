@@ -1,15 +1,16 @@
 import StylesObj from "@/styles/stylesObj"
 import StringsObj from "@/engine/content"
-import { ArraySelector } from "../models/modelosSelector"
+import { ArraySelector, ArraySelectorEmpresas, ArraySelectorVendedores } from "../models/modelosSelector"
 import SmallViews from "./smallViews"
 import { useEffect } from "react"
 import { UserObj } from "@/engine/content"
-const userStructure = UserObj()
 
+const userStructure = UserObj()
+const emptyArray = []
 const objCssInit = StylesObj()
 const objStringsInit = StringsObj()
 const SideBar = (props) => {
-    const { userData=userStructure,objStrings = objStringsInit, sideOpen = false, setSideOpen = console.log, objCss = objCssInit, willShow = console.log, showed = 'inicio' } = props
+    const { userData = userStructure, setPopUp = console.log, objStrings = objStringsInit, sideOpen = false, setSideOpen = console.log, objCss = objCssInit, willShow = console.log, showed = 'inicio' } = props
 
     let listener = false
     let listenerExit = false
@@ -31,17 +32,15 @@ const SideBar = (props) => {
 
     }, [])
     return (
-        <>
-            <div id={objCss.app.sideNav} className={sideOpen ? objCss.app.sideNavOpen : objCss.app.sideNav}>
-                {ArraySelector.map((key, i) => {
-                    return (<>
-                    {userData.appPermisions[key] && 
+        <div id={objCss.app.sideNav} className={sideOpen ? objCss.app.sideNavOpen : objCss.app.sideNav}>
+            {(userData.type === 'operativeUser' ? ArraySelector : userData.type === 'vendedor' ? ArraySelectorVendedores : userData.type === 'clientUser' ? ArraySelectorEmpresas : emptyArray).map((key, i) => {
+                return (<div id={(parseInt(Math.random() * 9999999999)).toString()}>
+                    {userData[(userData.type === 'operativeUser' ? 'appPermisions' : userData.type === 'vendedor' ? 'sellPermisions' : userData.type === 'clientUser' ? 'companyPermisions' : '')][key] &&
                         <SmallViews numberOf={i} sideOpen={sideOpen} isShowed={showed} objCss={objCss} objStrings={objStrings} showed={key} willShow={willShow} />
-                    }</>)
-                })}
+                    }</div>)
+            })}
 
-            </div>
-        </>
+        </div>
     )
 }
 export default SideBar

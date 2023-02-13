@@ -9,22 +9,18 @@ const objStringsInit = StringsObj()
 
 const MenuContainer = (props) => {
 
-    const { userData = userStructure, objStrings = objStringsInit, objCss = objCssInit, willShow = console.log, showed = '', isShowed = 'inicio', selected = 'inicio' } = props
+    const { userData = userStructure, setPopUp = console.log, objStrings = objStringsInit, objCss = objCssInit, willShow = console.log, showed = '', isShowed = 'inicio', selected = 'inicio' } = props
     return (
-        <>
-            <div className={showed === 'inicio'||showed === 'centro rapido' ? objCss.dashBoard.sectionContainerMenu : objCss.dashBoard.sectionContainerMenuLarge}>
-                {
-                    ArraySection.map((key, i) => {
-                        return (
-                            <>
-                                <MenuCard showed={key} objCss={objCss} objStrings={objStrings} isShowed={showed}  willShow={willShow}/>
-                            </>
-                        )
-                    })
-                }
+        <div id={(parseInt(Math.random() * 9999999999)).toString()} className={showed === 'inicio' || showed === 'centro rapido' ? objCss.dashBoard.sectionContainerMenu : objCss.dashBoard.sectionContainerMenuLarge}>
+            {
+                ArraySection.map((key, i) => {
+                    return (
+                        <MenuCard showed={key} objCss={objCss} objStrings={objStrings} isShowed={showed} willShow={willShow} />
+                    )
+                })
+            }
 
-            </div>
-        </>
+        </div>
     )
 }
 export default MenuContainer

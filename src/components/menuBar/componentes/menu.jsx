@@ -5,7 +5,7 @@ const objStringsInit = StringsObj()
 const userStructure = UserObj()
 
 const NavMenu = (props) => {
-    const { objStrings = objStringsInit, userData = userStructure, setUserData = console.log, setMenuOpen = console.log, objCss = objCssInit, cleanUserData = console.log } = props
+    const { objStrings = objStringsInit, userData = userStructure, setPopUp = console.log, setUserData = console.log, setMenuOpen = console.log, objCss = objCssInit, cleanUserData = console.log } = props
     return (
         <div id="nav-menu-div">
 
@@ -24,6 +24,10 @@ const NavMenu = (props) => {
                 }
                 {
                     userData.type !== 'vendedor' && userData.permisions.vendedores && <p id="nav-menu-opt-3" onClick={(e) => { e.preventDefault(); setUserData('changeType', 'vendedor'); setMenuOpen(false) }}>{objStrings.navBar.menu.vendedores}</p>
+
+                }
+                {
+                    userData.dataRequired && userData.type === 'newUser' && !userData.permisions.console && !userData.permisions.logistica && !userData.permisions.empresas && !userData.permisions.vendedores && <p id="nav-menu-opt-4" onClick={(e) => { e.preventDefault(); setUserData('changeType', 'createUserData'); setMenuOpen(false) }}>TERMINAR REGISTRO</p>
 
                 }
                 {

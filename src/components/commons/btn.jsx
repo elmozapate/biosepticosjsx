@@ -1,16 +1,25 @@
 
 const BtnComp = (props) => {
-    const { funtions = console.log, text = '', children = '', classN = '' } = props
+    const { inSending = false, funtions = console.log, text = '', children = '', classN = '' } = props
     return (
-        <button
-            className={classN}
-            onClick={(e) => {
-                e.preventDefault();
-                funtions(e)
-            }}>
-                {children}
-                {text}
-        </button>
+        <>
+            {
+                inSending
+                    ?
+                    <>ENVIANDO::::</>
+                    :
+                    <button
+                        className={classN}
+                        onClick={(e) => {
+                            e.preventDefault();
+                            funtions(e)
+                        }}>
+                        {children}
+                        {text}
+                    </button>
+            }
+        </>
+
     )
 
 }

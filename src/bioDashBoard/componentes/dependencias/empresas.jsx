@@ -9,7 +9,7 @@ const objStringsInit = StringsObj()
 const userStructure = UserObj()
 const Empresas = (props) => {
     const modeloDependencia = ModeloDependencia()
-    const {userData = userStructure, empresas = { array: [] },users = { array: [] }, pedirEmpresas = console.log, objStrings = objStringsInit, objCss = objCssInit, showed = 'centro rapido' } = props
+    const { startCreating = console.log, userData = userStructure, setPopUp = console.log, empresas = { array: [] }, users = { array: [] }, pedirEmpresas = console.log, objStrings = objStringsInit, objCss = objCssInit, showed = 'centro rapido' } = props
     const [sectionFuntion, setSectionFuntion] = useState({
         state: false,
         function: ''
@@ -18,39 +18,38 @@ const Empresas = (props) => {
         <>
             <div className={objCss.dashBoard.sectionOptionContainer}>
                 {
-                <>
-                {
-                    sectionFuntion.state ?
-                        <>
-                            <div className={objCss.dashBoard.sectionTitleLeft}>
-                                <h1 > {`${sectionFuntion.function} ${showed}`} </h1>
-                                <button onClick={(e) => { e.preventDefault(); setSectionFuntion({ ...sectionFuntion, state: false, function: '' }) }} className={objCss.dashBoard.backButton} ><span> Volver </span> ↩</button>
-                            </div>
-                            <FuntionsSelected empresas={empresas} users={users} objCss={objCss} objStrings={objStrings} showed={sectionFuntion} inShowed={showed} />
+                    <>
+                        {
+                            sectionFuntion.state ?
+                                <>
+                                    <div className={objCss.dashBoard.sectionTitleLeft}>
+                                        <h1 > {`${sectionFuntion.function} ${showed}`} </h1>
+                                        <button onClick={(e) => { e.preventDefault(); setSectionFuntion({ ...sectionFuntion, state: false, function: '' }) }} className={objCss.dashBoard.backButton} ><span> Volver </span> ↩</button>
+                                    </div>
+                                    <FuntionsSelected startCreating={startCreating} empresas={empresas} users={users} objCss={objCss} objStrings={objStrings} showed={sectionFuntion} inShowed={showed} />
 
 
-                        </>
-                        :
-                        <>
-                            <h1 className={objCss.dashBoard.sectionTitle}>{showed} </h1>
-                            <div className={objCss.dashBoard.sectionOptionRow}>
-                                {
-                                    modeloDependencia.map((key, i) => {
-                                        return (
-                                            <>
-                                                <div onClick={(e) => { e.preventDefault(); pedirEmpresas(); setSectionFuntion({ ...sectionFuntion, state: true, function: key }) }} className={objCss.dashBoard.sectionOption}>
-                                                    {`${key} ${showed}`}
-                                                </div>
-                                            </>
-                                        )
+                                </>
+                                :
+                                <>
+                                    <div className={objCss.dashBoard.sectionOptionRow}>
+                                        <h1 className={objCss.dashBoard.sectionTitle}>{showed} </h1>
 
-                                    })
-                                }
+                                        {
+                                            modeloDependencia.map((key, i) => {
+                                                return (
+                                                    <div id={`iddd-${i}`} onClick={(e) => { e.preventDefault(); pedirEmpresas(); setSectionFuntion({ ...sectionFuntion, state: true, function: key }) }} className={objCss.dashBoard.sectionOption}>
+                                                        {`${key} ${showed}`}
+                                                    </div>
+                                                )
 
-                            </div>
-                        </>
-                }
-                </>
+                                            })
+                                        }
+
+                                    </div>
+                                </>
+                        }
+                    </>
                 }
             </div>
         </>

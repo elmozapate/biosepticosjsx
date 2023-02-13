@@ -2,7 +2,7 @@
     @return ($sizePx / 16px) * 1rem;
 }
 @import url("https://fonts.cdnfonts.com/css/bodoni-mt");
-@import url('https://fonts.cdnfonts.com/css/copperplate');
+@import url("https://fonts.cdnfonts.com/css/copperplate");
 @import "texts/appfonts", "dashBoard/index", "containers/navBar", "containers/contenedores", "containers/formularios",
     "components/componentes";
 * {
@@ -14,7 +14,8 @@
 .relative {
     position: relative;
 }
-.column-abs {
+.column-abs,
+.column-abs-empresas {
     position: absolute;
     display: flex;
     min-height: fit-content;
@@ -29,6 +30,14 @@
     border-bottom-left-radius: 8px;
     box-shadow: 0 1.5px 3px 0 rgba(0, 0, 0, 0.16);
     background-color: #fff;
+}
+.column-abs-empresas {
+    right: getRemSize(150px);
+    .flex-column {
+        min-height: fit-content;
+        height: fit-content;
+        max-height: fit-content;
+    }
 }
 .liquidar {
     display: flex;
@@ -83,23 +92,205 @@
         }
     }
 }
-.melipage {
-    display: flex;
-    min-width: 100vw;
-    width: 100vw;
-    max-width: 100vw;
-    min-height: 100vh;
-    height: 100vh;
-    max-height: 100vh;
-    justify-content: center;
-    align-items: center;
-    background-color: rgb(42, 47, 70);
+.flex-column-100 {
+    min-height: 100vh !important;
+    height: 100vh !important;
+    max-height: 100vh !important;
+    background-color: rgb(42, 47, 70) !important;
+}
+.melipage,
+.torneos {
+    display: flex !important;
+    flex-direction: column !important;
+    min-width: 100vw !important;
+    width: 100vw !important;
+    max-width: 100vw !important;
+    height: 100%;
+    justify-content: center !important;
+    align-items: center !important;
     p {
-        font-size: 3rem;
+        font-size: 1rem;
         font-weight: 900;
         color: #dcdcdc;
     }
+    span {
+        font-weight: 900;
+    }
 }
+.torneos {
+    height: 100%;
+
+    display: flex !important;
+    flex-direction: column !important;
+    gap: getRemSize(2px) !important;
+    justify-content: space-evenly !important;
+    align-items: center !important;
+    padding: getRemSize(30px);
+    background-color: rgb(42, 47, 70) !important;
+    .tablaplayers {
+        height: getRemSize(500px);
+        max-height: 70vh;
+        overflow: auto;
+    }
+    .listaPlayer {
+        font-weight: 700 !important;
+        font-weight: 700 !important;
+        font-size: 2rem;
+        span {
+            width: getRemSize(200px);
+        }
+        .s {
+            width: getRemSize(100px);
+        }
+        .xs {
+            width: getRemSize(40px);
+        }
+        .xl {
+            width: getRemSize(280px);
+        }
+        border: 1px solid rgb(209, 206, 201);
+        padding: 10px getRemSize(30px);
+        span {
+            width: getRemSize(200px);
+            text-align: center;
+        }
+        .s {
+            width: getRemSize(100px);
+        }
+        .xs {
+            width: getRemSize(40px);
+        }
+        .xl {
+            width: getRemSize(280px);
+        }
+        .xxl {
+            width: getRemSize(320px);
+        }
+        button {
+            width: getRemSize(150px) !important;
+            height: getRemSize(40px) !important;
+            font-size: 1.7rem;
+            border: 1px solid #cbb4b4;
+            border-radius: 15px;
+        }
+    }
+    h1 {
+        font-size: 3.4rem !important;
+        font-weight: 900 !important;
+        color: #dcdcdc !important;
+        padding-bottom: getRemSize(50px) !important;
+    }
+    .s1 {
+        max-height: 30vh;
+        height: 30vh;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: getRemSize(2px) !important;
+        justify-content: center !important;
+        align-items: center !important;
+    }
+    .s2 {
+        max-height: 70vh;
+        height: 70vh;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: getRemSize(2px) !important;
+        justify-content: space-evenly !important;
+        align-items: center !important;
+    }
+    .back {
+        margin-top: 50px;
+    }
+    button {
+        width: getRemSize(350px) !important;
+        height: getRemSize(60px) !important;
+        font-size: 1.7rem;
+        border: 1px solid #cbb4b4;
+        border-radius: 15px;
+    }
+    .listaBoton {
+        border: 0.5px solid seashell;
+        padding: getRemSize(5px) getRemSize(20px);
+        width: getRemSize(500px) !important;
+        display: flex !important;
+        justify-content: space-between !important;
+        font-size: 2rem;
+        font-weight: 900 !important;
+        color: #dcdcdc !important;
+        button {
+            width: getRemSize(100px) !important;
+            height: getRemSize(40px) !important;
+            font-size: 1.2rem;
+            border: 1px solid #cbb4b4;
+            border-radius: 15px;
+        }
+    }
+    span {
+        font-weight: 900 !important;
+    }
+    .listarecord {
+        font-weight: 700 !important;
+        font-size: 2rem;
+        span {
+            width: getRemSize(200px);
+        }
+        .s {
+            width: getRemSize(100px);
+        }
+        .xs {
+            width: getRemSize(40px);
+        }
+        .xl {
+            width: getRemSize(280px);
+        }
+    }
+}
+
 .capitalize {
-    text-transform: capitalize;
+    text-transform: capitalize !important;
+}
+.color-black {
+    color: black !important;
+}
+.flex-column {
+    display: flex;
+    flex-direction: column;
+    gap: getRemSize(10px);
+    min-height: calc(100vh - getRemSize(60px));
+    height: calc(100vh - getRemSize(60px));
+    max-height: calc(100vh - getRemSize(60px));
+    justify-content: space-evenly;
+    min-width: fit-content;
+    width: getRemSize(750px);
+    max-width: getRemSize(1050px);
+}
+.max-h {
+    min-height: calc(100vh - getRemSize(360px)) !important;
+    height: calc(100vh - getRemSize(360px)) !important;
+    max-height: calc(100vh - getRemSize(360px)) !important;
+}
+.flex-row {
+    display: flex;
+    gap: getRemSize(10px);
+    align-items: center;
+    white-space: nowrap;
+}
+.row-large {
+    min-width: calc(100vw - getRemSize(60px));
+
+    max-width: calc(100vw - getRemSize(210px));
+}
+.just-space {
+    justify-content: space-between;
+}
+.bg-green {
+    background-color: green !important;
+}
+.color-green {
+    color: green;
+}
+.no-transform {
+    font-size: 2rem;
+    text-transform: none !important;
+    font-family: "Times New Roman", Times, serif !important;
 }

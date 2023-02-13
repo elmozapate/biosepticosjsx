@@ -105,6 +105,7 @@
     justify-content: center;
     gap: getRemSize(20px);
     height: calc(100vh - getRemSize(60px));
+    max-height: calc(100vh - getRemSize(60px));
     width: 100%;
     max-width: calc(100vw - getRemSize(60px));
     flex-wrap: wrap;
@@ -132,6 +133,33 @@
     background-color: rgb(17, 137, 25) !important;
     color: rgb(253, 248, 248) !important;
 }
+.service-list {
+   min-height: getRemSize(400px);
+   height: 100%;
+    max-height: getRemSize(900px);
+    border: 1px solid rgb(204, 202, 198);
+    border-radius: 14px;
+    min-width: getRemSize(450px);
+    width: fit-content;
+    max-width: calc(100vw - getRemSize(200px));
+    white-space: nowrap;
+    padding: getRemSize(20px);
+    overflow: auto;
+    tr,p {
+        display: flex;
+        align-items: center;
+        border-bottom: 1px solid rgb(204, 202, 198);
+        padding-bottom: getRemSize(5px);
+        .p {
+            padding-bottom: 0 !important;
+            border-bottom: none;
+        }
+        td,th,span {
+            margin: 0 getRemSize(17px);
+        }
+    }
+}
+
 .app-smallViews-selected:hover {
     transition: 1000;
     transform: scale(1.1);
@@ -167,7 +195,11 @@
 .companies-selector-container {
     width: 100vw;
     max-width: 100vw;
+    min-height: calc(100vh - getRemSize(60px));
+
     height: calc(100vh - getRemSize(60px));
+    max-height: calc(100vh - getRemSize(60px));
+
     display: flex;
     justify-content: center;
     align-items: center;
@@ -180,11 +212,12 @@
 .companies-selector {
     width: 70vw;
     max-width: getRemSize(1000px);
-    height: calc(100vh - getRemSize(150px));
+    max-height: calc(100vh - getRemSize(120px));
     display: flex;
     justify-content: space-evenly;
     align-items: center;
     color: #fff;
+    padding: getRemSize(20px);
 }
 .companies-selectorBox {
     text-align: center;
@@ -230,8 +263,79 @@
     opacity: 0.8 !important;
     background-color: transparent !important;
     border-radius: 14px !important;
-    select{
+    select {
         border: none !important;
-        
     }
+}
+.row-table {
+    max-height: calc(100vh - getRemSize(240px)) !important;
+    overflow-y: auto;
+    padding-top: 20px;
+    border: 1px solid black;
+    min-height: calc(100vh - getRemSize(240px)) !important;
+    height: calc(100vh - getRemSize(240px)) !important;
+    table {
+        margin-top: 20px;
+        min-width: 100% !important;
+        position: relative;
+        padding: 10px 0;
+        max-height: calc(100vh - getRemSize(20px)) !important;
+        tr,
+        td {
+            text-align: center;
+            max-height: 20px !important;
+            height: 20px !important;
+            min-height: 20px !important;
+            min-width: 200px !important;
+            width: 400px !important;
+            max-width: 400px !important;
+            padding: 3px 0;
+            border: 1px solid black;
+        }
+        thead {
+            th {
+                border: 1px;
+                border-color: #dcdcdc !important;
+                text-align: center;
+                max-height: 50px !important;
+                height: 50px !important;
+                min-height: 50px !important;
+                min-width: 200px !important;
+                width: 400px !important;
+                max-width: 400px !important;
+            }
+            margin-top: -50px;
+
+            position: fixed;
+            /*  top: 10px;
+            left: 10px; */
+            background-color: #000;
+            color: white;
+            font-weight: 700;
+            z-index: 100;
+            text-transform: uppercase;
+            th,
+            tr {
+                border: 1px solid #dcdcdc;
+                border-color: #dcdcdc !important;
+            }
+        }
+        tbody {
+            padding-top: 20px;
+            overflow-y: auto;
+            min-width: fit-content !important;
+
+            td {
+                max-height: 20px !important;
+                height: 20px !important;
+                min-height: 20px !important;
+                min-width: 200px !important;
+                width: 400px !important;
+                max-width: 400px !important;
+            }
+        }
+    }
+}
+.mr-head {
+    margin-right: getRemSize(20px) !important;
 }

@@ -18,7 +18,7 @@ const Liquidador = (props) => {
         deudaString: '0.00',
         actualString: '0.00',
         interesDeudaString: '0.00',
-        valorAbonoString:'0.00'
+        valorAbonoString: '0.00'
     })
 
     const crearCredito = () => {
@@ -56,7 +56,7 @@ const Liquidador = (props) => {
         setDeuda({
             ...deuda,
             actual: newDeuda > 0 ? newDeuda : 0,
-            actualString: !isNaN(parseFloat( newDeuda > 0 ? newDeuda : 0)) && parseFloat( newDeuda > 0 ? newDeuda : 0) >= 0 ? formatoMiles(parseFloat( newDeuda > 0 ? newDeuda : 0)) : 0,
+            actualString: !isNaN(parseFloat(newDeuda > 0 ? newDeuda : 0)) && parseFloat(newDeuda > 0 ? newDeuda : 0) >= 0 ? formatoMiles(parseFloat(newDeuda > 0 ? newDeuda : 0)) : 0,
             mes: deuda.mes + 1,
             interesDeuda: (parseFloat(deuda.actual / 100) * parseFloat(deuda.interes)),
             interesDeudaString: !isNaN(parseFloat((parseFloat(deuda.actual / 100) * parseFloat(deuda.interes)))) && parseFloat((parseFloat(deuda.actual / 100) * parseFloat(deuda.interes))) >= 0 ? formatoMiles(parseFloat((parseFloat(deuda.actual / 100) * parseFloat(deuda.interes)))) : 0,
@@ -85,7 +85,7 @@ const Liquidador = (props) => {
         e.preventDefault();
         const id = e.target.id
         const value = e.target.value
-        if (id === 'deuda' || id === 'actual' || id === 'interesDeuda'|| id === 'valorAbono') {
+        if (id === 'deuda' || id === 'actual' || id === 'interesDeuda' || id === 'valorAbono') {
             setDeuda({
                 ...deuda,
                 [id]: !isNaN(parseFloat(value)) && parseFloat(value) >= 0 ? parseFloat(value) : 0,
@@ -114,7 +114,7 @@ const Liquidador = (props) => {
         setDeuda({
             ...deuda,
             actual: parseFloat(deuda.actual - deuda.valorAbono),
-            actualString: !isNaN(parseFloat( parseFloat(deuda.actual - deuda.valorAbono))) && parseFloat( parseFloat(deuda.actual - deuda.valorAbono)) >= 0 ? formatoMiles(parseFloat( parseFloat(deuda.actual - deuda.valorAbono))) : 0,
+            actualString: !isNaN(parseFloat(parseFloat(deuda.actual - deuda.valorAbono))) && parseFloat(parseFloat(deuda.actual - deuda.valorAbono)) >= 0 ? formatoMiles(parseFloat(parseFloat(deuda.actual - deuda.valorAbono))) : 0,
             valorAbono: deuda.simulacion ? deuda.valorAbono : 0
         })
         if (deuda.simulacion) {

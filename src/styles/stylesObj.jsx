@@ -1,6 +1,7 @@
 const StylesObj = () => {
     return {
         main: '',
+        mario:'',
         barraNav: {
             main: '',
             logoContainer: '',

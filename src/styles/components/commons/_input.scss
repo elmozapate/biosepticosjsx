@@ -2,11 +2,12 @@
     @return ($sizePx / 16px) * 1rem;
 }
 .adress-form {
+    padding: getRemSize(20px) 0 ;
     input,
     select {
         padding-left: getRemSize(15px);
-        width: getRemSize(120px) !important;
-        max-width: getRemSize(120px) !important;
+        width: getRemSize(160px) !important;
+        max-width: getRemSize(160px) !important;
         height: getRemSize(30px) !important;
         max-height: getRemSize(30px) !important;
         border: none !important;
@@ -26,6 +27,8 @@
         color: beige !important;
     }
     button {
+        width: getRemSize(300px) !important;
+        max-width: getRemSize(300px) !important;
         border: 0.5px solid white !important;
         cursor: pointer !important;
     }

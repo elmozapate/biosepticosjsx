@@ -8,10 +8,11 @@ import EnvM from "@/envMachetero"
 import io from "socket.io-client"
 import FormularioPersonalData from "./formularioPersonalData"
 import FormularioContactData from "./formularioContactData"
+import { Socket } from "@/middleware/routes/connect/socket/socketOn"
 
 const envM = EnvM()
 
-const socket = io(envM.hostBack)
+const socket = Socket
 const userStructure = UserObj()
 const objCssInit = StylesObj()
 const objStringsInit = StringsObj()
@@ -19,10 +20,10 @@ let resId = 0
 
 const FormularioNuevo = (props) => {
 
-    const { setUserData = console.log, userData = userStructure, objStrings = objStringsInit, objCss = objCssInit, willShow = console.log, showed = 'inicio' } = props
+    const { userModel = ModeloUsuario(), setUserData = console.log, userData = userStructure, setPopUp = console.log, objStrings = objStringsInit, objCss = objCssInit, willShow = console.log, showed = 'inicio' } = props
     const [firstTime, setFirstTime] = useState(true)
     const [formSelected, setFormSelected] = useState({ selected: 'none', })
-    const [userFullModel, setuserFullModel] = useState(ModeloUsuario())
+    const [userFullModel, setuserFullModel] = useState(userModel)
     const [sending, setSending] = useState(false)
     const [ready, setReady] = useState(false)
     const [newUserData, setNewUserData] = useState({
@@ -46,6 +47,7 @@ const FormularioNuevo = (props) => {
             id: userData.id,
             userObj: {
                 ...userData,
+                type: userData.type === 'createUserData' ? 'newUser' : userData.type,
                 dataRequired: false
             },
             app: {
@@ -103,6 +105,7 @@ const FormularioNuevo = (props) => {
                 case 'dataRes-allUserData':
                     if (parseInt(msg.resId) === parseInt(resId)) {
                         setUserData({
+                            type: userData.type === 'createUserData' ? 'newUser' : userData.type,
                             ...userData,
                             ...msg.body
                         })
@@ -140,11 +143,11 @@ const FormularioNuevo = (props) => {
                                 :
                                 <div className={objCss.companies.dataFormContainer}>
                                     {
-                                        formSelected.selected === 'personalData' && <><FormularioPersonalData sendData={sendData} userData={userData} objCss={objCss} objStrings={objStrings} /></>
+                                        formSelected.selected === 'personalData' && <><FormularioPersonalData sendData={sendData} userData={userData} setPopUp={setPopUp} userFullModel={userFullModel} objCss={objCss} objStrings={objStrings} /></>
 
                                     }
                                     {
-                                        formSelected.selected === 'contactData' && <><FormularioContactData sendData={sendData} userData={userData} objCss={objCss} objStrings={objStrings} /> </>
+                                        formSelected.selected === 'contactData' && <><FormularioContactData userFullModel={userFullModel} sendData={sendData} userData={userData} setPopUp={setPopUp} objCss={objCss} objStrings={objStrings} /> </>
 
                                     }
                                     <br />
@@ -164,7 +167,7 @@ export default FormularioNuevo
 :
 <form className={objCss.companies.dataForm} >
     <br />
-    <InputComp type={'text'} id={'nombre'} value={newUserData.nombre} placeHolder={'Nombre de Usuario'} funtions={handleCreate} required />
+    <InputComp type={'text'} id={'nombre'} value={newUserData.nombre} placeholder={'Nombre de Usuario'} funtions={handleCreate} required />
     <br />
     {ready && <button onClick={(e) => { e.preventDefault; createUser() }}>
         Crear

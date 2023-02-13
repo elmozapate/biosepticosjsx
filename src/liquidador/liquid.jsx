@@ -12,24 +12,24 @@ const Liqui = (props) => {
         deudaString: '0.00',
         actualString: '0.00',
         interesDeudaString: '0.00',
-        valorAbonoString:'0.00'
+        valorAbonoString: '0.00'
 
     }, simulacion = console.log, setDeuda = console.log, mesSiguente = console.log, abonoCapital = console.log, handle = console.log, crearCredito = console.log } = props
     return (
         <>
             <div className="row">
                 <div className="liquidar">
-                <h1>Deuda : {`$ ${deuda.deudaString}`}</h1>
+                    <h1>Deuda : {`$ ${deuda.deudaString}`}</h1>
                     <h1>Deuda Actual : {`$ ${deuda.actualString}`}</h1>
-                     <h2>Interes prestamo : {(deuda.interes)} %</h2>
+                    <h2>Interes prestamo : {(deuda.interes)} %</h2>
                     <h2>Año- {deuda.mes / 12 >= 1 ? parseInt(deuda.mes / 12) : 0}</h2>
 
                     <h2>Mes- {deuda.mes - (parseInt(deuda.mes / 12) * 12) + 1}</h2>
                     <h2> Interes Deuda : {`$ ${deuda.interesDeudaString}`} </h2>
                     <h3>Valor abono : {`$ ${deuda.valorAbono.toFixed(2)}`}</h3>
-                    {deuda.mes === -1 && <>DEUDA INICIAL<input type={'number'} placeHolder={'deuda'} value={deuda.deuda} onChange={handle} id={'deuda'} /></>}
+                    {deuda.mes === -1 && <>DEUDA INICIAL<input type={'number'} placeholder={'deuda'} value={deuda.deuda} onChange={handle} id={'deuda'} /></>}
                     <br />
-                    {deuda.mes === -1 && <>PORCENTAJE DE INTERES<input type={'number'} placeHolder={'Interes prestamo'} value={deuda.interes} onChange={handle} id={'interes'} /></>}
+                    {deuda.mes === -1 && <>PORCENTAJE DE INTERES<input type={'number'} placeholder={'Interes prestamo'} value={deuda.interes} onChange={handle} id={'interes'} /></>}
                     {deuda.mes > -1 && <>VALOR DEL ABOMO<input type={'number'} value={deuda.valorAbono} onChange={handle} id={'valorAbono'} min={deuda.interesDeuda} defaultValue={deuda.interesDeuda} /></>}
                     {deuda.actual > 0 && deuda.mes > -1 && <button id={'elemto2'} onClick={(e) => { e.preventDefault(); abonoCapital() }}>ABONO</button>}
                     {deuda.actual > 0 && deuda.mes > -1 && <button onClick={(e) => {
@@ -49,7 +49,7 @@ const Liqui = (props) => {
                             deudaString: '0.00',
                             actualString: '0.00',
                             interesDeudaString: '0.00',
-                            valorAbonoString:'0.00'
+                            valorAbonoString: '0.00'
                         })
                     }}>REINICIAR</button>
 

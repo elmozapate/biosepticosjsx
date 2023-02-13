@@ -8,15 +8,14 @@ const objStringsInit = StringsObj()
 
 const MenuCard = (props) => {
 
-    const { userData = userStructure, objStrings = objStringsInit, objCss = objCssInit, willShow = console.log, showed = '', isShowed = 'inicio', selectioned='inicio'} = props
+    const { userData = userStructure, setPopUp = console.log, objStrings = objStringsInit, objCss = objCssInit, willShow = console.log, showed = '', isShowed = 'inicio', selectioned = 'inicio' } = props
     return (
-        <>
-            <div 
-            onClick={(e)=>{e.preventDefault;willShow(showed)}}
-            className={`${showed=== isShowed?objCss.dashBoard.sectionContainerMenuItemSelected:' '}  ${isShowed === 'inicio'||isShowed === 'centro rapido' ? objCss.dashBoard.sectionContainerMenuItem : objCss.dashBoard.sectionContainerMenuItemLarge}`}>
-                {showed}
-            </div>
-        </>
+        <div
+            id={(parseInt(Math.random() * 9999999999)).toString()}
+            onClick={(e) => { e.preventDefault; willShow(showed) }}
+            className={`${showed === isShowed ? objCss.dashBoard.sectionContainerMenuItemSelected : ' '}  ${isShowed === 'inicio' || isShowed === 'centro rapido' ? objCss.dashBoard.sectionContainerMenuItem : objCss.dashBoard.sectionContainerMenuItemLarge}`}>
+            {showed}
+        </div>
     )
 }
 export default MenuCard

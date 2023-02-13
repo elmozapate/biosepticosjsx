@@ -6,12 +6,10 @@ const objStringsInit = StringsObj()
 
 const CentroRapido = (props) => {
 
-    const { objStrings = objStringsInit, objCss = objCssInit,showed='centro rapido' } = props
+    const { objStrings = objStringsInit, objCss = objCssInit, showed = 'centro rapido' } = props
     return (
-        <>
-                <h1 className={objCss.app.sectionTitle}>{showed} </h1>
+        <h1 id={(parseInt(Math.random() * 9999999999)).toString()} className={objCss.app.sectionTitle}>{showed} </h1>
 
-        </>
     )
 }
 export default CentroRapido

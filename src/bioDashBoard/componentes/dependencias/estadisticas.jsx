@@ -1,4 +1,4 @@
-import StringsObj from "@/engine/content"
+import StringsObj, { UserObj } from "@/engine/content"
 import StylesObj from "@/styles/stylesObj"
 import { useState } from "react"
 import FuntionsSelected from "./funtionsSelected"
@@ -10,7 +10,7 @@ const objStringsInit = StringsObj()
 const Estadisticas = (props) => {
     const modeloDependencia = ModeloDependencia()
 
-    const { objStrings = objStringsInit, objCss = objCssInit, showed = 'centro rapido' } = props
+    const { setPopUp = console.log, userData = UserObj(), objStrings = objStringsInit, objCss = objCssInit, showed = 'centro rapido' } = props
     const [sectionFuntion, setSectionFuntion] = useState({
         state: false,
         function: ''
@@ -23,24 +23,23 @@ const Estadisticas = (props) => {
                         <>
                             <div className={objCss.dashBoard.sectionTitleLeft}>
                                 <h1 > {`${sectionFuntion.function} ${showed}`} </h1>
-                                <button onClick={(e) => { e.preventDefault(); setSectionFuntion({ ...sectionFuntion, state: false, function: '' }) }}  className={objCss.dashBoard.backButton} ><span> Volver </span> ↩</button>
+                                <button onClick={(e) => { e.preventDefault(); setSectionFuntion({ ...sectionFuntion, state: false, function: '' }) }} className={objCss.dashBoard.backButton} ><span> Volver </span> ↩</button>
                             </div>
-                            <FuntionsSelected objCss={objCss} objStrings={objStrings} showed={sectionFuntion}/>
+                            <FuntionsSelected userData={userData} setPopUp={setPopUp} objCss={objCss} objStrings={objStrings} showed={sectionFuntion} />
 
 
                         </>
                         :
                         <>
-                            <h1 className={objCss.dashBoard.sectionTitle}>{showed} </h1>
                             <div className={objCss.dashBoard.sectionOptionRow}>
+                                <h1 className={objCss.dashBoard.sectionTitle}>{showed} </h1>
+
                                 {
                                     modeloDependencia.map((key, i) => {
                                         return (
-                                            <>
-                                                <div onClick={(e) => { e.preventDefault(); setSectionFuntion({ ...sectionFuntion, state: true, function: key }) }} className={objCss.dashBoard.sectionOption}>
-                                                    {`${key} ${showed}`}
-                                                </div>
-                                            </>
+                                            <div id={`ieefds-${i}`} onClick={(e) => { e.preventDefault(); setSectionFuntion({ ...sectionFuntion, state: true, function: key }) }} className={objCss.dashBoard.sectionOption}>
+                                                {`${key} ${showed}`}
+                                            </div>
                                         )
 
                                     })

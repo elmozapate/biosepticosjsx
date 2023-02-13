@@ -1,25 +1,16 @@
 import InputComp from "@/components/commons/input"
 import StringsObj, { UserObj } from "@/engine/content"
-import MiddlewareSelector from "@/middleware/askSelector"
 import StylesObj from "@/styles/stylesObj"
 import { useEffect, useState } from "react"
-import PermisionComp from "./permisionComp"
-import EnvM from "@/envMachetero"
-import io from "socket.io-client"
-import { ObjContacto, ObjDatosPersonales } from "@/bioApp/models/modelosUsuario"
-import SelectComp from "@/components/commons/selector"
-import { generos, nacionalidad, tipoDeDocumento } from "@/bioApp/models/selectores"
-import DateSelect from "@/components/commons/dateSelect"
+import { ObjContacto } from "@/bioApp/models/modelosUsuario"
 import AdressAdd from "@/bioApp/componentes/adressAdd"
-const envM = EnvM()
 
-const socket = io(envM.hostBack)
 const userStructure = UserObj()
 const objCssInit = StylesObj()
 const objStringsInit = StringsObj()
 const FormularioContactData = (props) => {
 
-    const { userData = userStructure, objStrings = objStringsInit, objCss = objCssInit, sendData = console.log, showed = 'inicio' } = props
+    const { userData = userStructure, setPopUp = console.log, objStrings = objStringsInit, objCss = objCssInit, sendData = console.log, showed = 'inicio' } = props
 
     const [sending, setSending] = useState(false)
     const [ready, setReady] = useState(false)
@@ -38,7 +29,6 @@ const FormularioContactData = (props) => {
             ...personalObj,
             direccion: adress.direccion
         })
-        console.log(adress);
         /* const value = e.target.value
         let oldData = newUserData
         oldData.nombre = value
@@ -68,14 +58,14 @@ const FormularioContactData = (props) => {
                             <div className="form-default formInput">
                                 <div className={objCss.forms.personalData.miniSection}>
                                     correo Electronico
-                                    <InputComp type={'email'} id={'correoElectronico'} value={personalObj.correoElectronico} placeHolder={'correo Electronico'} funtions={handleCreate} required />
+                                    <InputComp type={'email'} id={'correoElectronico'} value={personalObj.correoElectronico} placeholder={'correo Electronico'} funtions={handleCreate} required />
                                     telefono Principal
-                                    <InputComp type={'number'} id={'telefonoPrincipal'} value={personalObj.telefonoPrincipal} placeHolder={'telefono Principal'} funtions={handleCreate} required />
+                                    <InputComp type={'number'} id={'telefonoPrincipal'} value={personalObj.telefonoPrincipal} placeholder={'telefono Principal'} funtions={handleCreate} required />
                                     telefono secundario
-                                    <InputComp type={'number'} id={'telefonoSecundario'} value={personalObj.telefonoSecundario} placeHolder={'telefono secundario'} funtions={handleCreate} required />
+                                    <InputComp type={'number'} id={'telefonoSecundario'} value={personalObj.telefonoSecundario} placeholder={'telefono secundario'} funtions={handleCreate} required />
                                 </div>
                                 <div className={objCss.forms.personalData.miniSectionAdress}>
-                                    <AdressAdd userData={userData} objCss={objCss} objStrings={objStrings} send={sendCity} />                                </div>
+                                    <AdressAdd userData={userData} setPopUp={setPopUp} objCss={objCss} objStrings={objStrings} send={sendCity} />                                </div>
 
                             </div>
                             <br />

@@ -34,11 +34,13 @@ const StringsObj = () => {
 }
 export const UserObj = () => {
     return {
+        appType: '',
         type: 'newUser',
+        token: '',
         permisions: {
             console: false,
             logistica: false,
-            configuracion: false,
+            bioseptico: false,
             empresas: false,
             vendedores: false,
         },
@@ -47,6 +49,7 @@ export const UserObj = () => {
         password: '',
         passwordRepeat: '',
         dataRequired: true,
+        emailConfirmation: false,
         id: '',
         avatar: {
             withPhoto: false,
@@ -63,6 +66,29 @@ export const UserObj = () => {
             historial: false,
             requerimientos: false,
             vendedores: false,
+        },
+        companyPermisions: {
+            inicio: true,
+            empresa: true,
+            obras: false,
+            servicios: false,
+            personalLogistico: false,
+            rutas: false,
+            novedades: false,
+            historial: false,
+            requerimientos: false,
+            vendedores: false,
+        },
+        sellPermisions: {
+            inicio: true,
+            clientes: false,
+            servicios: false,
+            rutas: false,
+            novedades: false,
+            ventas: false,
+            novedades: false,
+            historial: false,
+            requerimientos: false,
         }
 
     }
@@ -72,7 +98,8 @@ export const PopUpObj = () => {
         type: '',
         funtions: {},
         name: '',
-        active: false
+        active: false,
+        data: {}
 
     }
 }

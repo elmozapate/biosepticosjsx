@@ -4,11 +4,11 @@ const userStructure = UserObj()
 const objCssInit = StylesObj()
 const objStringsInit = StringsObj()
 const UnRegistered = (props) => {
-    const { objStrings = objStringsInit, userData = userStructure, objCss = objCssInit, setUserData = console.log } = props
+    const { objStrings = objStringsInit, userData = userStructure, setPopUp = console.log, objCss = objCssInit, setUserData = console.log } = props
     return (
         <>
-            <p onClick={(e)=>{e.preventDefault(), setUserData('register')}}>Registrate</p>
-            <p onClick={(e)=>{e.preventDefault(), setUserData('login')}}>Login</p>
+            <p onClick={(e) => { e.preventDefault(), setUserData('register') }}>Registrate</p>
+            <p onClick={(e) => { e.preventDefault(), setUserData('login') }}>Login</p>
 
         </>
     )

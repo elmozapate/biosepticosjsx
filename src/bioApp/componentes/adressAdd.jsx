@@ -5,22 +5,22 @@ import StylesObj from "@/styles/stylesObj"
 import { useEffect, useState } from "react"
 import EnvM from "@/envMachetero"
 import io from "socket.io-client"
-import { ObjContacto } from "@/bioApp/models/modelosUsuario"
+import { EmpresaObj, ObjContacto } from "@/bioApp/models/modelosUsuario"
 import SelectComp from "@/components/commons/selector"
 import { CitySelector } from "../models/modelosSelector"
-const envM = EnvM()
+import { Socket } from "@/middleware/routes/connect/socket/socketOn"
 
-const socket = io(envM.hostBack)
+const socket = Socket
 const userStructure = UserObj()
 const objCssInit = StylesObj()
 const objStringsInit = StringsObj()
 const AdressAdd = (props) => {
 
-    const { userData = userStructure, objStrings = objStringsInit, objCss = objCssInit, send = console.log, showed = 'inicio' } = props
+    const { inEmpresa = false, userData = userStructure, setPopUp = console.log, objStrings = objStringsInit, objCss = objCssInit, send = console.log, showed = 'inicio' } = props
     const [placeInfo, setplaceInfo] = useState({ departamentos: [], ciudades: [], selected: '', selectedCity: '' })
     const [sending, setSending] = useState(false)
     const [ready, setReady] = useState(false)
-    const [personalObj, setPersonalObj] = useState(ObjContacto)
+    const [personalObj, setPersonalObj] = useState(inEmpresa ? EmpresaObj().contact : ObjContacto)
     const handleCreate = (e) => {
         e.preventDefault()
         const value = e.target.value
@@ -32,7 +32,9 @@ const AdressAdd = (props) => {
                 [id]: value
             }
         })
-
+        if (id === 'barrio') {
+            send(personalObj)
+        }
     }
     const selectDepartamento = (e) => {
         e.preventDefault()
@@ -107,13 +109,13 @@ const AdressAdd = (props) => {
 
                                     }
                                     {
-                                        placeInfo.selectedCity !== '' && <InputComp type={'text'} id={'barrio'} value={personalObj.direccion.barrio} placeHolder={'barrio'} funtions={handleCreate} required />
+                                        placeInfo.selectedCity !== '' && <InputComp type={'text'} id={'barrio'} value={personalObj.direccion.barrio} placeholder={'barrio'} funtions={handleCreate} required />
                                     }
                                 </>
                             }
                             <br />
-                            {ready && <button className="formInput-btn" onClick={(e) => { e.preventDefault; send(personalObj) }}>
-                                AQUI VIVO
+                            {ready && <button className="formInput-btn" onClick={(e) => { e.preventDefault; }}>
+                                DIRECCION CORRECTA
                             </button>}
                         </form>
                     </>

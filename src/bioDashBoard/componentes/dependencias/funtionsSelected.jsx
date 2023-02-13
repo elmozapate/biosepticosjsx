@@ -1,4 +1,5 @@
-import StringsObj from "@/engine/content"
+import { ModeloBiosepticos } from "@/bioApp/models/modeloBiosepticos"
+import StringsObj, { UserObj } from "@/engine/content"
 import StylesObj from "@/styles/stylesObj"
 import { useState } from "react"
 import NewEntry from "../formularios/newEntry"
@@ -8,7 +9,7 @@ import InteractiveTable from "../interactiveTable/interactiveTable"
 const objCssInit = StylesObj()
 const objStringsInit = StringsObj()
 const FuntionsSelected = (props) => {
-    const {usersAll={array:[]}, empresas = { array: [] },users = { array: [] }, inShowed = '', inSection = '', objStrings = objStringsInit, objCss = objCssInit, showed = { state: false, function: 'centro rapido' } } = props
+    const { actualizarEstado = console.log, setPopUp = console.log, modeloBiosepticos = { vehiculos: [], ...ModeloBiosepticos }, usersAll = { array: [] }, empresas = { array: [] }, vehiculos = { array: [] }, users = { array: [] }, inShowed = '', inSection = '', objStrings = objStringsInit, objCss = objCssInit, showed = { state: false, function: 'centro rapido' }, userData = UserObj() } = props
     const [inProcess, setInprocess] = useState({
         state: true,
         process: ''
@@ -20,19 +21,19 @@ const FuntionsSelected = (props) => {
  */}                {
                     inProcess.state && showed.function === 'crear' &&
                     <>
-                        <NewEntry objCss={objCss} objStrings={objStrings} inSection={inShowed} setInprocess={setInprocess} inProcess={inProcess} />
+                        <NewEntry userData={userData} setPopUp={setPopUp} objCss={objCss} objStrings={objStrings} inSection={inShowed} setInprocess={setInprocess} inProcess={inProcess} />
                     </>
                 }
                 {
                     inProcess.state && showed.function === 'ver o modificar' &&
                     <>
-                        <InteractiveTable usersAll={usersAll} empresas={empresas} users={users} objCss={objCss} objStrings={objStrings} inSection={inSection} inShowed={inShowed} setInprocess={setInprocess} inProcess={inProcess} />
+                        <InteractiveTable modeloBiosepticos={modeloBiosepticos} actualizarEstado={actualizarEstado} vehiculos={vehiculos} usersAll={usersAll} empresas={empresas} users={users} objCss={objCss} objStrings={objStrings} inSection={inSection} inShowed={inShowed} setInprocess={setInprocess} inProcess={inProcess} />
                     </>
                 }
                 {
                     inProcess.state && showed.function === 'historial' &&
                     <>
-                        <HistorialSearch objCss={objCss} objStrings={objStrings} inSection={inSection} setInprocess={setInprocess} inProcess={inProcess} />
+                        <HistorialSearch usersAll={usersAll} empresas={empresas} inShowed={inShowed} users={users} objCss={objCss} objStrings={objStrings} inSection={inSection} setInprocess={setInprocess} inProcess={inProcess} />
                     </>
                 }
             </div>

@@ -15,6 +15,7 @@ const Declaraciones = (props) => {
                 case 'spanish':
                     strings.styles = {
                         main: 'div-main',
+                        mario: 'bg-green',
                         barraNav: {
                             main: 'nav-main',
                             logoContainer: 'nav-logo',
@@ -35,9 +36,9 @@ const Declaraciones = (props) => {
                             register: {
                                 main: 'form-registro'
                             },
-                            personalData:{
-                                miniSection:'personalData-miniSection',
-                                miniSectionAdress:'personalData-miniSection-adress'
+                            personalData: {
+                                miniSection: 'personalData-miniSection',
+                                miniSectionAdress: 'personalData-miniSection-adress'
                             }
                         },
                         app: {
@@ -126,7 +127,7 @@ const Declaraciones = (props) => {
                         },
                         companies: {
                             firsTime_0: 'Bienvenido',
-                            firsTime_1: ', lo primero para poder continuar es llenar tu informacioón personal',
+                            firsTime_1: ', lo primero para poder continuar es llenar tu información personal',
                             dataForm: 'Por Favor, selecciona con que categoria empezaras'
                         },
                         selector: {

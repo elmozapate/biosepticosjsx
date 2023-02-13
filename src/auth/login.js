@@ -1,9 +1,9 @@
 import EnvM from "@/envMachetero"
 import io from "socket.io-client"
+import { Socket } from "@/middleware/routes/connect/socket/socketOn"
 
-const envM = EnvM()
 
-const socket = io(envM.hostBack)
+const socket = Socket
 export const LoginAuth = (userData) => {
 
     const res = parseInt(Math.random() * 988888888)

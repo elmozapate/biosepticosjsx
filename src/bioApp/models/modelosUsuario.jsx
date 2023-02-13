@@ -40,18 +40,21 @@ export const ObjPermisions = {
     console: false,
     logistica: false,
     empresas: false,
-    vendedores: false
+    vendedores: false,
+    bioseptico: false
 }
 export const ObjPermisionsFunt = (props = ObjPermisions) => {
     return {
         console: props.console,
         logistica: props.logistica,
         empresas: props.empresas,
-        vendedores: props.vendedores
+        vendedores: props.vendedores,
+        bioseptico: props.bioseptico
     }
 }
 export const ObjAppUser = {
     user: '',
+    type: '',
     email: '',
     password: '',
     fechaDeCreacion: '',
@@ -60,18 +63,31 @@ export const ObjAppUser = {
         personal: false,
         contacto: false,
     },
+    relationed: {
+        biosepticos: [],
+        empresas: [],
+        ventas: []
+    },
     permisions: ObjPermisions,
 }
 export const ObjAppUserFunt = (props = { nombre: '', email: '', password: '', creadoPor: '', permisions: ObjPermisions }) => {
     return {
         user: props.nombre,
         email: '',
+        type: '',
         password: props.password,
         fechaDeCreacion: Date(),
         creadoPor: '',
         data: {
             personal: false,
             contacto: false,
+        },
+        relationed: {
+            biosepticos: [],
+            empresas: [],
+            ventas: [],
+            obras: [],
+            servicios: []
         },
         permisions: props.permisions,
     }
@@ -87,5 +103,41 @@ const ModeloUsuario = (userStructureIn = userStructure) => {
         historial: []
     }
     return userModel
+}
+export const EmpresaObj = () => {
+    return {
+        type: 'empresa',
+        id: '',
+        dataRequired: true,
+        contact: {
+            nombre: '',
+            sector: '',
+            avatar: {
+                withPhoto: false,
+                url: ''
+            },
+            correoElectronico: '',
+            telefonoPrincipal: Number(),
+            telefonoSecundario: Number(),
+            direccion: ObjDireccion,
+        },
+        legal: {
+            fechaDeCreacion: new Date(),
+            documento: '',
+            representante: ModeloUsuario(),
+            contratos: [],
+            cartera: { maximo: 20000000, cartera: 0, historial: [] },
+            vendedor: ''
+        },
+        servicios: [],
+        obras: [],
+        rutas: [],
+        historial: [],
+        novedades: [],
+        personalLogistico: [],
+        requerimientos: [],
+        vendedores: []
+
+    }
 }
 export default ModeloUsuario

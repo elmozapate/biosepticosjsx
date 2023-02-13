@@ -7,8 +7,8 @@ const CardView = (props) => {
     const { willShow = console.log, showed = '', objStrings = objStringsInit, objCss = objCssInit } = props
     return (
         <>
-            <div className={objCss.app.cardView} onClick={(e)=>{
-                e.preventDefault();willShow(showed)
+            <div id={`idShow-${parseInt(Math.random() * 9999)}`} className={objCss.app.cardView} onClick={(e) => {
+                e.preventDefault(); willShow(showed)
             }}>
                 {showed}
             </div>

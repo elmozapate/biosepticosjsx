@@ -5,12 +5,13 @@
     display: flex;
     flex-direction: column;
     gap: getRemSize(25px);
-    
 }
 .companies-dataForm-container {
     width: 70vw;
     max-width: getRemSize(1000px);
-    height: calc(100vh - getRemSize(150px));
+    min-height: calc(100vh - getRemSize(120px));
+    height: fit-content;
+    max-height: calc(100vh - getRemSize(150px));
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -33,24 +34,30 @@
     justify-content: center;
     align-items: center;
     gap: 1rem;
+    height: 100%
+   /*  min-height: calc(100vh - getRemSize(280px));
+    height: calc(100vh - getRemSize(120px));
+    max-height: calc(100vh - getRemSize(120px)) */;
 }
-.personalData-miniSection ,.personalData-miniSection-adress{
-    min-height: getRemSize(350px);
-    max-width: getRemSize(300px);
-
+.personalData-miniSection,
+.personalData-miniSection-adress {
+    min-height: calc(100vh - getRemSize(280px));
+    height: fit-content;
+    max-height: calc(100vh - getRemSize(250px));
+    max-width: getRemSize(400px);
+    overflow: auto;
     display: flex;
     align-items: center;
     flex-direction: column;
-    gap: 1rem;
-    padding: getRemSize(40px);
+    gap: 0.7rem;
+    padding: getRemSize(20px);
     border: 0.5px solid white !important;
-    font-size: getRemSize(18px) !important;
+    font-size: getRemSize(16px) !important;
     border-radius: 14px !important;
     color: beige !important;
     font-weight: 900 !important;
     text-transform: uppercase;
 }
-.personalData-miniSection-adress{
+.personalData-miniSection-adress {
     min-width: getRemSize(350px);
-
 }
