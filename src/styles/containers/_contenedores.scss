@@ -27,6 +27,54 @@
     top: 0;
     left: 0;
     background-color: rgba(0, 0, 0, 0.58);
+
+    .service-list,
+    .flex-row {
+        z-index: 1500;
+    }
+    .service-list {
+        background-color: black;
+        .small {
+            min-width: getRemSize(37px) !important;
+            width: getRemSize(37px) !important;
+            max-width: getRemSize(37px) !important;
+        }
+        .medium {
+            text-align: center;
+            min-width: getRemSize(110px) !important;
+            width: getRemSize(110px) !important;
+            max-width: getRemSize(110px) !important;
+        }
+        .big {
+            text-align: center;
+            min-width: getRemSize(145px) !important;
+            width: getRemSize(145px) !important;
+            max-width: getRemSize(145px) !important;
+        }
+    }
+}
+.row-space {
+    display: flex;
+    width: 100%;
+    max-width: calc(7 * getRemSize(100px)) !important;
+
+    justify-content: space-between;
+    align-items: center;
+    span {
+        border: 1px solid white;
+        padding: getRemSize(3px) getRemSize(4px);
+        border-radius: 14px;
+        cursor: pointer;
+    }
+    span:hover {
+        transform: scale(1.2);
+    }
+}
+.center {
+    background-color: rgba(0, 0, 0, 0.58);
+
+    justify-content: center;
+    align-items: center;
 }
 .absolutedialog_popout {
     z-index: 1500;
@@ -109,6 +157,10 @@
     width: 100%;
     max-width: calc(100vw - getRemSize(60px));
     flex-wrap: wrap;
+    overflow: auto;
+}
+.min-height-100 {
+    min-height: 100%;
 }
 .app-smallViews {
     display: flex;
@@ -134,8 +186,8 @@
     color: rgb(253, 248, 248) !important;
 }
 .service-list {
-   min-height: getRemSize(400px);
-   height: 100%;
+    min-height: getRemSize(400px);
+    height: 100%;
     max-height: getRemSize(900px);
     border: 1px solid rgb(204, 202, 198);
     border-radius: 14px;
@@ -145,7 +197,8 @@
     white-space: nowrap;
     padding: getRemSize(20px);
     overflow: auto;
-    tr,p {
+    tr,
+    p {
         display: flex;
         align-items: center;
         border-bottom: 1px solid rgb(204, 202, 198);
@@ -154,7 +207,9 @@
             padding-bottom: 0 !important;
             border-bottom: none;
         }
-        td,th,span {
+        td,
+        th,
+        span {
             margin: 0 getRemSize(17px);
         }
     }

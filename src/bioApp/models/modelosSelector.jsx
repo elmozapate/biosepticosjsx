@@ -13,7 +13,7 @@ const ObjSelector = () => {
     })
 }
 export const ArraySelector = [
-    'inicio', 'servicios', 'vehiculos', 'personalLogistico', 'rutas', 'novedades', 'historial', 'requerimientos']
+    'inicio', 'servicios', 'vehiculos', 'personalLogistico', 'rutas', 'calendario','novedades', 'historial', 'requerimientos']
 export const ArraySelectorBiosepticos = [
     'vehiculos', 'all', 'conductores', 'auxiliares', 'administrativo', 'operativo']
 export const ArraySelectorEmpresas = [
@@ -21,7 +21,7 @@ export const ArraySelectorEmpresas = [
 export const ArraySelectorVendedores = [
     'inicio', 'clientes', 'servicios', 'novedades', 'ventas', 'historial']
 export const ArrayHistorialTable = [
-    'date', 'action', 'id']
+    'date',/* 'hora','pais',  */'action', 'id']
 export const ArrayPersonalData = [
     'nombre', 'apellido', 'genero', 'fechaDeNacimiento', 'nacionalidad', 'tipoDeDocumento', 'numeroDeDocumento']
 export const ArrayCompanyData = [

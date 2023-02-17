@@ -14,7 +14,7 @@ const userStructure = UserObj()
 const objCssInit = StylesObj()
 const objStringsInit = StringsObj()
 const Selector = (props) => {
-    const { PedirBiosepticos = console.log, actualizarEstado = console.log, modeloBiosepticos = { vehiculos: [], ...ModeloBiosepticos }, servicios = { array: [] }, vehiculos = { array: [] }, pedirMisServicios = console.log, sendNewServicio = console.log, creatingObra = false, PedirObras = console.log, setCreatingObra = console.log, misObras = { array: [] }, misServicios = { array: [] }, miEmpresa = EmpresaObj(), vendedoresIn = false, empresasIn = false, usersAll = { array: [] }, pedirEmpresas = console.log, empresas = { array: [] }, users = { array: [] }, companies = { array: [] }, userData = userStructure, setPopUp = console.log, objStrings = objStringsInit, objCss = objCssInit, dashBoard = false } = props
+    const { obras = { array : [ ] }, rutas= { rutas: [ ] },PedirBiosepticos = console.log, actualizarEstado = console.log, modeloBiosepticos = { vehiculos: [], ...ModeloBiosepticos }, servicios = { array: [] }, vehiculos = { array: [] }, pedirMisServicios = console.log, sendNewServicio = console.log, creatingObra = false, PedirObras = console.log, setCreatingObra = console.log, misObras = { array: [] }, misServicios = { array: [] }, miEmpresa = EmpresaObj(), vendedoresIn = false, empresasIn = false, usersAll = { array: [] }, pedirEmpresas = console.log, empresas = { array: [] }, users = { array: [] }, companies = { array: [] }, userData = userStructure, setPopUp = console.log, objStrings = objStringsInit, objCss = objCssInit, dashBoard = false } = props
 
     const [selectioned, setSelectioned] = useState(dashBoard ? 'centro rapido' : 'inicio')
     const [sideOpen, setSideOpen] = useState(false)
@@ -60,7 +60,7 @@ const Selector = (props) => {
                             </div> :
                             <>
                                 <SideBar userData={userData} setPopUp={setPopUp} setSideOpen={setSideOpen} sideOpen={sideOpen} objCss={objCss} objStrings={objStrings} showed={selectioned} willShow={setSelectioned} />
-                                <AppSideContainer actualizarEstado={actualizarEstado} PedirBiosepticos={PedirBiosepticos} servicios={servicios} modeloBiosepticos={modeloBiosepticos} vehiculos={vehiculos} sendNewServicio={sendNewServicio} misServicios={misServicios} PedirObras={PedirObras}
+                                <AppSideContainer obras={obras} rutas={rutas} actualizarEstado={actualizarEstado} PedirBiosepticos={PedirBiosepticos} servicios={servicios} modeloBiosepticos={modeloBiosepticos} vehiculos={vehiculos} sendNewServicio={sendNewServicio} misServicios={misServicios} PedirObras={PedirObras}
                                     pedirMisServicios={pedirMisServicios} empresas={empresas} creatingObra={creatingObra} setCreatingObra={setCreatingObra} misObras={misObras} activeEmpresa={miEmpresa} userData={userData} setPopUp={setPopUp} users={users} sideOpen={sideOpen} objCss={objCss} objStrings={objStrings} showed={selectioned} />
                             </>
 

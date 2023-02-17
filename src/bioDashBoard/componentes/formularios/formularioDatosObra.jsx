@@ -13,7 +13,9 @@ const FormularioDatosObra = (props) => {
 
     const [sending, setSending] = useState(false)
     const [ready, setReady] = useState(false)
-    const [personalObj, setPersonalObj] = useState(ObraObj().contact)
+    const [personalObj, setPersonalObj] = useState({
+        ...ObraObj().contact, direccion: ObraObj().direccion,
+    })
     const handleCreate = (e) => {
         e.preventDefault()
         const value = e.target.value
@@ -30,7 +32,7 @@ const FormularioDatosObra = (props) => {
         })
     }
     useEffect(() => {
-        if (personalObj.nombre.length > 3 && personalObj.obra.length > 3 && personalObj.correoElectronico !== '' && personalObj.telefonoPrincipal !== '' && personalObj.telefonoSecundario !== '') {
+        if (personalObj.nombre.length > 3 && personalObj.obra.length > 3 && personalObj.correoElectronico !== '' && personalObj.telefonoPrincipal !== '' && personalObj.telefonoSecundario !== '' && personalObj.direccion.departamento !== '' && personalObj.direccion.ciudad !== '' && personalObj.direccion.barrio !== '') {
             setReady(true)
         } else {
             setReady(false)

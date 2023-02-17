@@ -38,6 +38,7 @@ const UserCheck = (props) => {
     const [vehiculos, setVehiculos] = useState({ array: [] })
     const [creatingObra, setCreatingObra] = useState(false)
     const [obras, setObras] = useState({ array: [] })
+    const [rutas, setRutas] = useState({ array: [] })
     const [servicios, setServicios] = useState({ array: [] })
     const [misEmpresasRes, setMisEmpresasRes] = useState({ array: [], obras: [] })
     const [misObras, setMisObras] = useState({ array: [] })
@@ -168,9 +169,15 @@ const UserCheck = (props) => {
                 setEmpresas({ ...empresas, array: msg.empresas })
             }
         }
+
         if (actionTodo === 'askBiosepticosRes' && parseInt(res) === parseInt(msg.resId)) {
             if (msg.res === 'ok') {
                 setModeloBiosepticos({ ...modeloBiosepticos, users: msg.biosepticos })
+            }
+        }
+        if (actionTodo === 'calendarioRes') {
+            if (msg.res === 'ok') {
+                setModeloBiosepticos({ ...modeloBiosepticos, calendario: msg.calendario })
             }
         }
         if (actionTodo === 'dataRes-allServiciosData' /* && parseInt(res) === parseInt(msg.resId) */) {
@@ -237,6 +244,7 @@ const UserCheck = (props) => {
                     vehiculos: msg.vehiculos,
                     ...msg.modeloBiosepticos
                 })
+                setRutas({ ...rutas, array: msg.rutas })
                 setVehiculos({ ...vehiculos, array: msg.vehiculos })
                 setObras({ ...obras, array: msg.obras })
                 setServicios({ ...servicios, array: msg.servicios })
@@ -368,7 +376,7 @@ const UserCheck = (props) => {
                     {
                         userData.type === 'operativeUser' && userData.permisions.logistica &&
                         <>
-                            <CentroDeLogistica PedirBiosepticos={PedirBiosepticos} servicios={servicios} modeloBiosepticos={modeloBiosepticos} actualizarEstado={actualizarEstado} vehiculos={vehiculos} userData={userData} setPopUp={setPopUp} objCss={objCss} objStrings={objStrings} />
+                            <CentroDeLogistica obras={obras} rutas={rutas} PedirBiosepticos={PedirBiosepticos} servicios={servicios} modeloBiosepticos={modeloBiosepticos} actualizarEstado={actualizarEstado} vehiculos={vehiculos} userData={userData} setPopUp={setPopUp} objCss={objCss} objStrings={objStrings} />
                         </>
                     }
                     {

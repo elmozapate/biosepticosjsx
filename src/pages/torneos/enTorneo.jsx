@@ -89,7 +89,6 @@ const EnTorneo = (props) => {
             {
                 stage.value === 1 &&
                 <>
-                    {(console.log(carrerasObj.enTorneo))}
                     {stage.inValue === 0 ? <>
                         <h1>CONFIGURAR TORNEO</h1>
                         <span

@@ -10,7 +10,7 @@ const userStructure = UserObj()
 const objCssInit = StylesObj()
 const objStringsInit = StringsObj()
 const AppContainer = (props) => {
-    const { actualizarEstado = console.log, PedirBiosepticos = console.log, modeloBiosepticos = { vehiculos: [], ...ModeloBiosepticos }, servicios = { array: [] }, vehiculos = { array: [] }, sendNewServicio = console.log, creatingObra = false, setCreatingObra = console.log, misObras = { array: [] }, misServicios = { array: [] }, startCreating = false, PedirObras = console.log, pedirMisServicios = console.log, setStartCreating = console.log, userModel = ModeloUsuario(), misEmpresas = {
+    const { obras = { array : [ ] }, rutas= { rutas: [ ] },actualizarEstado = console.log, PedirBiosepticos = console.log, modeloBiosepticos = { vehiculos: [], ...ModeloBiosepticos }, servicios = { array: [] }, vehiculos = { array: [] }, sendNewServicio = console.log, creatingObra = false, setCreatingObra = console.log, misObras = { array: [] }, misServicios = { array: [] }, startCreating = false, PedirObras = console.log, pedirMisServicios = console.log, setStartCreating = console.log, userModel = ModeloUsuario(), misEmpresas = {
         seleccionada: '', empresas: [], itemSelectioned: EmpresaObj()
     }, setMisEmpresas = console.log, usersAll = { array: [] }, pedirEmpresas = console.log, empresas = { array: [] }, users = { array: [] }, userData = userStructure, setPopUp = console.log, objStrings = objStringsInit, objCss = objCssInit, inUse = 'app' } = props
     const [startTransition, setStartTransition] = useState(false)
@@ -25,7 +25,7 @@ const AppContainer = (props) => {
                 <>
                     <div id={(parseInt(Math.random() * 9999999999)).toString()} className={objCss.app.main}>
                         {userData.type === 'operativeUser' ?
-                            startTransition ? <><Selector PedirBiosepticos={PedirBiosepticos} servicios={servicios} modeloBiosepticos={modeloBiosepticos} actualizarEstado={actualizarEstado} vehiculos={vehiculos} userData={userData} setPopUp={setPopUp} objCss={objCss} objStrings={objStrings} /></> : <> {objStrings.app.intro}</> : <></>
+                            startTransition ? <><Selector obras={obras} rutas={rutas} PedirBiosepticos={PedirBiosepticos} servicios={servicios} modeloBiosepticos={modeloBiosepticos} actualizarEstado={actualizarEstado} vehiculos={vehiculos} userData={userData} setPopUp={setPopUp} objCss={objCss} objStrings={objStrings} /></> : <> {objStrings.app.intro}</> : <></>
                         }
                         {userData.type === 'clientUser' ?
                             startTransition ?

@@ -7,6 +7,7 @@ export const TipoDeServiciosFull = [{ item: 'Alquiler de baños', costo: 400000 
 export const SemanaArray = ['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado']
 export const EstadosServicios = ['all', 'pending', 'active', 'inactive', 'done', 'verification']
 export const EstadosUser = ['all', 'conductores', 'auxiliares', 'administrativo', 'operativo']
+export const Meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
 export const EstadosServiciosObj = {
     active: false,
     array: [],

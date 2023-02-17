@@ -2,8 +2,9 @@ import Head from 'next/head'
 import Image from 'next/image'
 import Declaraciones from '@/engine/declaraciones'
 import UserCheck from '@/engine/userCheck'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { setCookies, removeCookies, getCookie } from 'cookies-next';
+import { laSemana, MonthShedule, WeekShedule } from '@/engine/content'
 
 
 export default function Home() {
@@ -61,7 +62,9 @@ export default function Home() {
     dataRequired: false,
   }]
 }
+
 )
+  
   return (
     <>
       <Head>
@@ -70,8 +73,10 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={'div-main'}>
-        <UserCheck /* user={userIn} */ usersArray={usersArray} setUsersArray={setUsersArray} />
+      <main className={'div-main '}>
+         
+
+                <UserCheck  usersArray={usersArray} setUsersArray={setUsersArray} />
       </main>
     </>
   )

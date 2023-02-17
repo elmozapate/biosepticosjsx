@@ -43,7 +43,7 @@ const RevisarMisEmpresas = (props) => {
                         {misEmpresas.array.map((key, i) => {
                             return (
                                 <>
-                                    <p id={`safe-${i}`}><p className="p">id:</p>  <span>{` ${key.id.split('-')[1]}`}</span>    <p className="p">Nombre:</p>  <span>{key.contact.nombre}</span>      <p className="p">correoElectronico:</p>  <span>{key.contact.correoElectronico}</span> <p className="p">Cartera:</p>  <span>{key.legal.cartera.cartera}</span>   {/* <p className="p">PROGRAMADO:</p>  <span> {key.shedule.activo ? 'si' : 'no'} </span>   <p className="p">ESTADO:</p>  <span>{key.shedule.estado}</span> */} </p>
+                                    <p id={`safe-${i}`}><p className="p">id:</p>  <span>{` ${key.id.split('-')[1]}`}</span>    <p className="p">Nombre:</p>  <span>{key.contact.nombre}</span>      <p className="p">correoElectronico:</p>  <span>{key.contact.correoElectronico}</span> <p className="p">Cartera:</p>  <span>{key.legal.cartera.cartera}</span>   </p>
                                 </>
                             )
                         })}</> : <>SIN CLIENTES</>

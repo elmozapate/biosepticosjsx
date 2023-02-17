@@ -37,7 +37,7 @@ const TableHistorialApp = (props) => {
                                         {
                                             ArrayHistorialTable.map((keyHeader, iHeader) => {
                                                 return (
-                                                    <td id={`data2-${iHeader}-${i}`}>{key[keyHeader]}</td>
+                                                    <td id={`data2-${iHeader}-${i}`}>{(keyHeader === 'hora' ||keyHeader ==='pais')? key.appDate[keyHeader] : key[keyHeader]}</td>
                                                 )
                                             })
                                         }

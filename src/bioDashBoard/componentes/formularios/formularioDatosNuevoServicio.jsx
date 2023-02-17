@@ -183,7 +183,8 @@ const FormularioDatosNuevoServicio = (props) => {
                             </div>}
                             {serviceStep.step === 3 && <div className="form-default formInput">
                                 Fecha De Inicio
-                                <DateSelect Btype MaxDate={false} personalObj={personalObj} startDate={personalObj.servicio.shedule.fechaDeInicio} setStartDate={setPersonalObj} />
+
+                                <DateSelect Btype MinDate={new Date(new Date().setDate(new Date().getDate() + 1))} MaxDate={new Date(new Date().setMonth(new Date().getMonth() + 3))} personalObj={personalObj} startDate={personalObj.servicio.shedule.fechaDeInicio} setStartDate={setPersonalObj} />
                                 {personalObj.servicio.shedule.fechaDeInicio !== '' && <>
                                     <p onClick={(e) => {
                                         e.preventDefault; setEndDate({ ...endDate, state: !endDate.state })

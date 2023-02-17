@@ -63,6 +63,7 @@ export const UserObj = () => {
             personalLogistico: false,
             rutas: false,
             novedades: false,
+            calendario: false,
             historial: false,
             requerimientos: false,
             vendedores: false,
@@ -102,5 +103,79 @@ export const PopUpObj = () => {
         data: {}
 
     }
+}
+export const DayShedule = (day, week, elMes, diaAentrar) => {
+    const hoyEs = parseInt(diaAentrar) === parseInt((new Date(day).toLocaleDateString()).split('/')[0]) ? true : false
+    return {
+        hoy: hoyEs, 
+        fecha:(new Date(day)).setDate((parseInt(new Date(day).getDate()-1))) , 
+        año: day !== '' ? day.toString().split(' ')[3] : 'off',
+        semanaMes: week,
+        mes: elMes,
+        dia: day !== '' ? day.toString().split(' ')[2] : 'off',
+        totalServicios: Number(),
+        serviciosActivos: Number(),
+        serviciosPendientes: Number(),
+        serviciosRealizados: Number(),
+        servicios: [],
+        historial: [],
+        rutas: [],
+        novedades: []
+    }
+}
+export const laSemana = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun','servicios']
+export const WeekShedule = (enSemanas, week = Number(), semana, elMes = Number(), diaAentrar) => {
+    let semanaRes = {
+        numSemana: parseInt(enSemanas),
+        semanaMes: parseInt(week),
+        dias: [DayShedule(semana['Mon'], week, elMes, diaAentrar), DayShedule(semana['Tue'], week, elMes, diaAentrar), DayShedule(semana['Wed'], week, elMes, diaAentrar), DayShedule(semana['Thu'], week, elMes, diaAentrar), DayShedule(semana['Fri'], week, elMes, diaAentrar), DayShedule(semana['Sat'], week, elMes, diaAentrar), DayShedule(semana['Sun'], week, elMes, diaAentrar)], totalServicios: Number(),
+        totalServicios: Number(),
+        serviciosActivos: Number(),
+        serviciosPendientes: Number(),
+        serviciosRealizados: Number(),
+        servicios: [],
+        historial: [],
+        novedades: []
+    }
+    return semanaRes
+}
+export const MonthShedule = (month = [], mes, añoAentrar, diaAentrar, semanas) => {
+    let semanaMonth = {
+        Mon: '',
+        Tue: '',
+        Wed: '',
+        Thu: '',
+        Fri: '',
+        Sat: '',
+        Sun: '',
+    }
+    let Month = []
+    let enSemana = 1
+    let enSemanas = semanas + 1
+    for (let index = 0; index < month.length; index++) {
+        const element = month[index];
+        if (element) {
+            semanaMonth[element.toString().split(' ')[0]] = element
+            if (element.toString().split(' ')[0] === 'Sun' || index === month.length - 1) {
+
+                Month.push(WeekShedule(enSemanas, enSemana, semanaMonth, mes, diaAentrar))
+                enSemana = enSemana + 1
+                enSemanas = enSemanas + 1
+                semanaMonth = {
+                    Mon: '',
+                    Tue: '',
+                    Wed: '',
+                    Thu: '',
+                    Fri: '',
+                    Sat: '',
+                    Sun: '',
+                }
+            }
+        }
+    }
+
+    /*     let mes = [WeekShedule(1), WeekShedule(2), WeekShedule(3),WeekShedule(4),WeekShedule(5)]
+     */
+    return Month
 }
 export default StringsObj

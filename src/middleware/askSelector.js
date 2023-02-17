@@ -8,9 +8,9 @@ import { Socket } from "@/middleware/routes/connect/socket/socketOn"
 import { SetEmpresas } from "@/request/sendEmpresa"
 import { SetObras } from "@/request/sendObra"
 import { SetServicio } from "@/request/sendServicio"
-import { SetVehiculo } from "@/request/sendVehiculo"
+import { ActualizarEstadoVehiculo, CrearRutaVehiculo, SetVehiculo } from "@/request/sendVehiculo"
 import { GetVendedores } from "@/request/getVendedores"
-import { AskBioseptico } from "@/request/getBioseptico"
+import { AskBioseptico, CrearCalendarioReq, CrearRutaDiariaReq } from "@/request/getBioseptico"
 
 
 const socket = Socket
@@ -25,7 +25,12 @@ export const MiddlewareSelector = (props) => {
             NewUserBio(socket, props, res)
             break;
         case 'actualizarEstado':
-            GetEmpresas(socket, props, res)
+            if (props.data && props.data.tipo && props.data.tipo === 'vehiculo') {
+                ActualizarEstadoVehiculo(socket, props, res)
+            }
+            break;
+        case 'crearRutaVehiculo':
+                CrearRutaVehiculo(socket, props, res)
             break;
         case 'pedirEmpresas':
             GetEmpresas(socket, props, res)
@@ -90,11 +95,22 @@ export const MiddlewareSelector = (props) => {
         case 'askBioseptico':
             AskBioseptico(socket, props, res)
             break
-
+        case 'crearAno':
+            CrearCalendarioReq(socket, props, res)
+            break
+        case 'crearRutaDiaria':
+            CrearRutaDiariaReq(socket, props, res)
+            break
 
         default:
             break;
     }
     return res
+}
+export const CrearCalendario = (ano) => {
+    MiddlewareSelector({ ask: 'crearAno', data: ano })
+}
+export const CrearRutaDiaria = (ruta) => {
+    MiddlewareSelector({ ask: 'crearRutaDiaria', data: ruta })
 }
 export default MiddlewareSelector
