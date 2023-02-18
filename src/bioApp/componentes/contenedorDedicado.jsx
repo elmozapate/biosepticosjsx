@@ -8,67 +8,49 @@ import RevisarVehiculos from "../empresas/revisarVehiculos"
 import RevisarMisEmpresas from "../empresas/revisarMisEmpresas"
 import { useEffect, useState } from "react"
 import DateView from "./dateView"
-import GooglMapsComp from "@/components/commons/googleMaps"
+import ContenedorMaps from "./contenedorMaps"
 const objCssInit = StylesObj()
 const objStringsInit = StringsObj()
 const userStructure = UserObj()
 
 const AppSideContainer = (props) => {
     const { obras = { array: [] }, rutas = { array: [] }, PedirBiosepticos = console.log, actualizarEstado = console.log, modeloBiosepticos = { vehiculos: [], ...ModeloBiosepticos }, servicios = { array: [] }, vehiculos = { array: [] }, empresas = { array: [] }, sendNewServicio = console.log, PedirObras = console.log, pedirMisServicios = console.log, creatingObra = false, setCreatingObra = console.log, misObras = { array: [] }, misServicios = { array: [] }, userData = userStructure, setPopUp = console.log, activeEmpresa = EmpresaObj(), sideOpen = false, objStrings = objStringsInit, objCss = objCssInit, showed = 'inicio' } = props
-    const [mapCenter, setMapCenter] = useState({ lat: 27.672932021393862, lng: 85.31184012689732 })
-    const [mapCenterGo, setMapCenterGo] = useState({ inicio: { lat: 27.672932021393862, lng: 85.31184012689732 }, final: { lat: 27.672932021393862, lng: 85.31184012689732 } })
 
-    const [lasDireccionesResult, setLasDireccionesResult] = useState({
-        state: false,
-        direcciones: []
-    })
-    const setMapCenterFuntion = (value) => {
-        setMapCenter({ ...value })
-        setMapCenterGo({
-            ...mapCenterGo,
-            inicio: { ...value }
+
+    /*         navigator.geolocation.clearWatch(id);
+     */
+    const modeloInicial = {
+        normal: false,
+        rastreado: false,
+        receptor: false,
+    }
+    const [stateMap, setStateMap] = useState(modeloInicial)
+    const hacerUsuario = (value) => {
+        setStateMap({
+            ...modeloInicial,
+            [value]: true,
         })
+        return true
     }
-    const setMapCenterFuntionDos = (value) => {
-        setMapCenter({ ...value })
-        setMapCenterGo({
-            ...mapCenterGo,
-            final: { ...value }
-        })
-    }
-    const irALugar = () => {
-        console.log(mapCenterGo);
-        window.open(`http://maps.google.com/maps?saddr=${mapCenterGo.inicio.lat},${mapCenterGo.inicio.lng}&daddr=${mapCenterGo.final.lat},${mapCenterGo.final.lng}`)
-    }
-    useEffect(() => {
-        PedirBiosepticos()
-        navigator.geolocation.getCurrentPosition(
-            function (position) { // success cb
-                console.log(position);
-                setMapCenter({
-                    ...mapCenter,
-                    lat: position.coords.latitude,
-                    lng: position.coords.longitude
-                })
-            },
-            function () { // fail cb
-            }
 
-
-        );
-        /*  let id = */
-        (navigator.geolocation.watchPosition(position => {
-            console.log(position.coords.latitude, position.coords.longitude, 'eoo', {
-                lat: position.coords.latitude,
-                lng: position.coords.longitude
-            });
-        }));
-
-/*         navigator.geolocation.clearWatch(id);
- */    }, [])
     useEffect(() => {
         actualizarEstado()
     }, [modeloBiosepticos])
+    useEffect(() => {
+        PedirBiosepticos()
+    }, [])
+    useEffect(() => {
+        if (showed === 'requerimientos') {
+            hacerUsuario('normal')
+        }
+        if (showed === 'historial') {
+            hacerUsuario('rastreado')
+        }
+        if (showed === 'novedades') {
+            hacerUsuario('receptor')
+        }
+    }, [showed])
+
     return (
         <>
             <div className={sideOpen ? objCss.app.sideContainer : objCss.app.sideContainerOpen}>
@@ -115,22 +97,22 @@ const AppSideContainer = (props) => {
                                 </>
                             }
                             {userData.type === 'operativeUser' &&
-                                showed === 'requerimientos' &&
-                                <>
-                                    <GooglMapsComp normal setLasDireccionesResult={setLasDireccionesResult} lasDireccionesResult={lasDireccionesResult} mapCenterGo={mapCenterGo} irALugar={irALugar} mapCenter={mapCenter} setMapCenterFuntion={setMapCenterFuntionDos} setMapCenter={setMapCenterFuntion} servicios={servicios} rutas={rutas} rutasIn objStrings={objStrings} objCss={objCss} actualizarEstado={actualizarEstado} misServicios={vehiculos} misServiciosSort={vehiculos} modeloBiosepticos={modeloBiosepticos} />
-                                </>
+                                showed === 'requerimientos' ?
+                                <>{<ContenedorMaps normal={stateMap.normal} receptor={stateMap.receptor} rastreado={stateMap.rastreado} />}</> : <></>
                             }
                             {userData.type === 'operativeUser' &&
-                                showed === 'historial' &&
+                                showed === 'historial' ?
                                 <>
-                                    <GooglMapsComp receptor setLasDireccionesResult={setLasDireccionesResult} lasDireccionesResult={lasDireccionesResult} mapCenterGo={mapCenterGo} irALugar={irALugar} mapCenter={mapCenter} setMapCenterFuntion={setMapCenterFuntionDos} setMapCenter={setMapCenterFuntion} servicios={servicios} rutas={rutas} rutasIn objStrings={objStrings} objCss={objCss} actualizarEstado={actualizarEstado} misServicios={vehiculos} misServiciosSort={vehiculos} modeloBiosepticos={modeloBiosepticos} />
-                                </>
+                                    {<ContenedorMaps receptor={stateMap.receptor} normal={stateMap.normal} rastreado={stateMap.rastreado} />
+                                    }
+                                </> : <></>
                             }
                             {userData.type === 'operativeUser' &&
-                                showed === 'novedades' &&
+                                showed === 'novedades' ?
                                 <>
-                                    <GooglMapsComp rastreado setLasDireccionesResult={setLasDireccionesResult} lasDireccionesResult={lasDireccionesResult} mapCenterGo={mapCenterGo} irALugar={irALugar} mapCenter={mapCenter} setMapCenterFuntion={setMapCenterFuntionDos} setMapCenter={setMapCenterFuntion} servicios={servicios} rutas={rutas} rutasIn objStrings={objStrings} objCss={objCss} actualizarEstado={actualizarEstado} misServicios={vehiculos} misServiciosSort={vehiculos} modeloBiosepticos={modeloBiosepticos} />
-                                </>
+                                    {<ContenedorMaps rastreado={stateMap.rastreado} receptor={stateMap.receptor} normal={stateMap.normal} />
+                                    }
+                                </> : <></>
                             }
                             {userData.type === 'vendedor' &&
                                 showed === 'clientes' &&

@@ -3,7 +3,7 @@ import EnvM from "@/envMachetero"
 import { PopUpObj } from "@/engine/content";
 
 const envM = EnvM()
-export const Socket = io(envM.hostBack)
+export const Socket = io('envM.hostBack')
 let reqs = []
 export const SocketOn = (props) => {
     const { socketDo = console.log, funtions = { setPopUp: console.log, acept: console.log }, setPopUp = console.log } = props

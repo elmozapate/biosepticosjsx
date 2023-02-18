@@ -592,3 +592,16 @@
 .pointer {
     cursor: pointer;
 }
+.wdt-visor{
+    min-width: getRemSize(300px);
+    width: getRemSize(300px);
+    max-width: getRemSize(300px);
+}
+.transparent{
+    background-color: transparent !important;
+}
+.visor-cont{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

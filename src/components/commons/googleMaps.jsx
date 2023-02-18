@@ -9,7 +9,8 @@ const socket = Socket
 
 
 const GooglMapsComp = (props) => {
-    const { rastreado = false, normal = false, receptor = false, mapCenterGo = { inicio: { lat: 27.672932021393862, lng: 85.31184012689732 }, final: { lat: 27.672932021393862, lng: 85.31184012689732 } }, irALugar = console.log, setMapCenterFuntion = console.log, mapCenter = { lat: 27.672932021393862, lng: 85.31184012689732 }, setMapCenter = console.log } = props
+    let start = false
+    const { visorObj = {}, setEnviar = console.log, enviar = { aReady: false, bReady: false, cReady: false, b: console.log, a: console.log, c: console.log, allReady: false }, rastreado = false, normal = false, receptor = false, mapCenterGo = { inicio: { lat: 27.672932021393862, lng: 85.31184012689732 }, final: { lat: 27.672932021393862, lng: 85.31184012689732 } }, irALugar = console.log, setMapCenterFuntion = console.log, mapCenter = { lat: 27.672932021393862, lng: 85.31184012689732 }, setMapCenter = console.log } = props
     const libraries = useMemo(() => ['places'], []);
     let map = false
     const mapOptions = {
@@ -28,33 +29,39 @@ const GooglMapsComp = (props) => {
         return <p>Loading...</p>;
     }
     const rastrear = () => {
-        socket.on("bioApp", (msg) => {
-            const actionTodo = msg.actionTodo
-            const Data = msg.dataIn
-            switch (actionTodo) {
-                case 'dataRes-userRastreado':
-                    setMapCenter({ lat: Data.lat, lng: Data.lng })
-                    break;
-                default:
-                    break;
-            }
-        })
+        /*   socket.on("bioApp", (msg) => {
+              const actionTodo = msg.actionTodo
+              const Data = msg.dataIn
+              switch (actionTodo) {
+                  case 'dataRes-userRastreado':
+                      console.log('recibes');
+                      if (receptor) {
+                          console.log('recibe');
+                          setMapCenter({ lat: Data.lat, lng: Data.lng })
+                      }
+                      break;
+                  default:
+                      break;
+              }
+          }) */
     }
     const loadDragInfo = (evt) => {
         if (receptor) {
-
+            console.log({ lat: evt.latLng.lat(), lng: evt.latLng.lng() });
         }
         if (rastreado) {
             setMapCenter({ lat: evt.latLng.lat(), lng: evt.latLng.lng() })
 
-            socket.emit('bioSepticos', {
+            socket.emit('bioSepticosMap', {
                 'dataIn': { lat: evt.latLng.lat(), lng: evt.latLng.lng() },
-                actionTodo: "userPosition",
-                reqId: 6875859
+                actionTodo: "userObjLocationMove",
+                type: 'obj',
+                ...visorObj,
+                ip:visorObj.ip,
+                id:visorObj.id,
             });
         }
         if (normal) {
-            console.log({ lat: evt.latLng.lat(), lng: evt.latLng.lng() });
             setMapCenter({ lat: evt.latLng.lat(), lng: evt.latLng.lng() })
         }
 
@@ -116,6 +123,7 @@ const GooglMapsComp = (props) => {
           }
           }); */
     }
+   
 
     return (
         <div className={'styles.homeWrapper'}>
