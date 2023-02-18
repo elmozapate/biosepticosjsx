@@ -2,8 +2,8 @@ import io from "socket.io-client"
 import EnvM from "@/envMachetero"
 import { PopUpObj } from "@/engine/content";
 
-const envM = EnvM()
-export const Socket = io('envM.hostBack')
+/* const envM = EnvM()
+ */export const Socket = io('https://swift-lands-care-191-156-34-228.loca.lt/')
 let reqs = []
 export const SocketOn = (props) => {
     const { socketDo = console.log, funtions = { setPopUp: console.log, acept: console.log }, setPopUp = console.log } = props
