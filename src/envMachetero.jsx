@@ -14,7 +14,7 @@ export const EnvM = () => {
     const envMachete = {
         hostBack: HostBack,
         hostFront: HostFront,
-        hostBackProto:HostBackEnd
+        hostBackProto:HostBackEnd,
     }
     return envMachete
 }
