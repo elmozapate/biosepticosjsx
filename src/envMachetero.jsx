@@ -6,7 +6,7 @@ export const EnvM = () => {
     3 => Devlocal
     4 => DevDev
      */
-    const mode=1  /* COLOCAR EL NUMERO DEL MODO */
+    const mode=2  /* COLOCAR EL NUMERO DEL MODO */
     const ambiente = mode === 1 ? 'locallocal' : mode === 2 ? 'localDev' : mode === 3 ? 'Devlocal' : mode === 4 ? 'DevDev' : 'bad'
     const HostBack = ambiente === 'locallocal' ? 'http://localhost:3002/' : ambiente === 'localDev' ? "https://serverneww.onrender.com/" : ambiente === 'Devlocal' ? 'http://localhost:3002/' : ambiente === 'DevDev' ? "https://serverneww.onrender.com/" : 'bad'
     const HostBackEnd = ambiente === 'locallocal' ? 'http://localhost:3001' : ambiente === 'localDev' ? "https://serverproto.herokuapp.com" : ambiente === 'Devlocal' ? 'http://localhost:3001' : ambiente === 'DevDev' ? "https://serverproto.herokuapp.com" : 'bad'
