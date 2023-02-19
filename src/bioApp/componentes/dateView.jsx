@@ -527,10 +527,10 @@ const DateView = (props) => {
 
                     </div>}
                     <h2>INFORMACION</h2>
-                    <p>  Total Servicios : <span className="bgColor-blue">{modeloBiosepticos.calendario.ano[fecha.mesAentrar].totalServicios}</span></p>
-                    <p> Servicios Activos : <span className="bgColor-yellow">{modeloBiosepticos.calendario.ano[fecha.mesAentrar].serviciosActivos}</span></p>
-                    <p>Servicios Pendientes : <span className="bgColor-red">{modeloBiosepticos.calendario.ano[fecha.mesAentrar].serviciosPendientes}</span></p>
-                    <p>Servicios Realizados : <span className="bgColor-green">{modeloBiosepticos.calendario.ano[fecha.mesAentrar].serviciosRealizados}</span></p>
+                    <p>  Total Servicios : <span className="bgColor-blue">{modeloBiosepticos.calendario&&modeloBiosepticos.calendario.ano&&modeloBiosepticos.calendario.ano[fecha.mesAentar]&&modeloBiosepticos.calendario.ano[fecha.mesAentrar].totalServicios}</span></p>
+                    <p> Servicios Activos : <span className="bgColor-yellow">{modeloBiosepticos.calendario&&modeloBiosepticos.calendario.ano&&modeloBiosepticos.calendario.ano[fecha.mesAentar]&&modeloBiosepticos.calendario.ano[fecha.mesAentrar].serviciosActivos}</span></p>
+                    <p>Servicios Pendientes : <span className="bgColor-red">{modeloBiosepticos.calendario&&modeloBiosepticos.calendario.ano&&modeloBiosepticos.calendario.ano[fecha.mesAentar]&&modeloBiosepticos.calendario.ano[fecha.mesAentrar].serviciosPendientes}</span></p>
+                    <p>Servicios Realizados : <span className="bgColor-green">{modeloBiosepticos.calendario&&modeloBiosepticos.calendario.ano&&modeloBiosepticos.calendario.ano[fecha.mesAentar]&&modeloBiosepticos.calendario.ano[fecha.mesAentrar].serviciosRealizados}</span></p>
                 </div>}
                 <div id={`iddsas`} className='column'>
                     {!calendario && !crearRuta && <div div >
