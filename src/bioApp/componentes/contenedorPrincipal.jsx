@@ -10,7 +10,7 @@ const userStructure = UserObj()
 const objCssInit = StylesObj()
 const objStringsInit = StringsObj()
 const AppContainer = (props) => {
-    const { obras = { array : [ ] }, rutas= { rutas: [ ] },actualizarEstado = console.log, PedirBiosepticos = console.log, modeloBiosepticos = { vehiculos: [], ...ModeloBiosepticos }, servicios = { array: [] }, vehiculos = { array: [] }, sendNewServicio = console.log, creatingObra = false, setCreatingObra = console.log, misObras = { array: [] }, misServicios = { array: [] }, startCreating = false, PedirObras = console.log, pedirMisServicios = console.log, setStartCreating = console.log, userModel = ModeloUsuario(), misEmpresas = {
+    const { obras = { array : [ ] }, rutas= { rutas: [ ] },actualizarEstado = console.log, PedirBiosepticos = console.log, modeloBiosepticos = ModeloBiosepticos , servicios = { array: [] }, vehiculos = { array: [] }, sendNewServicio = console.log, creatingObra = false, setCreatingObra = console.log, misObras = { array: [] }, misServicios = { array: [] }, startCreating = false, PedirObras = console.log, pedirMisServicios = console.log, setStartCreating = console.log, userModel = ModeloUsuario(), misEmpresas = {
         seleccionada: '', empresas: [], itemSelectioned: EmpresaObj()
     }, setMisEmpresas = console.log, usersAll = { array: [] }, pedirEmpresas = console.log, empresas = { array: [] }, users = { array: [] }, userData = userStructure, setPopUp = console.log, objStrings = objStringsInit, objCss = objCssInit, inUse = 'app' } = props
     const [startTransition, setStartTransition] = useState(false)

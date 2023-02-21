@@ -4,7 +4,8 @@ export const ModeloBiosepticos = {
     novedades: [],
     rutas: [],
     rutasIndividuales: [],
-    calendario: { ano: [] }
+    calendario: { ano: [] },
+    vehiculos: []
 }
 export const crearMesPlaneado = (año, nuMes, mes, semana) => {
     return {

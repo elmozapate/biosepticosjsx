@@ -10,7 +10,7 @@ const objStringsInit = StringsObj()
 
 const CentroDeLogistica = (props) => {
 
-    const { obras = { array : [ ] }, rutas= { rutas: [ ] },PedirBiosepticos = console.log, pedirEmpresas = console.log, servicios = { array: [] }, vehiculos = { array: [] }, actualizarEstado = console.log, modeloBiosepticos = { vehiculos: [], ...ModeloBiosepticos }, userData = userStructure, setPopUp = console.log, objStrings = objStringsInit, objCss = objCssInit } = props
+    const { obras = { array : [ ] }, rutas= { rutas: [ ] },PedirBiosepticos = console.log, pedirEmpresas = console.log, servicios = { array: [] }, vehiculos = { array: [] }, actualizarEstado = console.log, modeloBiosepticos = ModeloBiosepticos , userData = userStructure, setPopUp = console.log, objStrings = objStringsInit, objCss = objCssInit } = props
     return (
         <>
             <AppContainer obras={obras} rutas={rutas}PedirBiosepticos={PedirBiosepticos} servicios={servicios} modeloBiosepticos={modeloBiosepticos} actualizarEstado={actualizarEstado} vehiculos={vehiculos} pedirEmpresas={pedirEmpresas} userData={userData} setPopUp={setPopUp} objCss={objCss} objStrings={objStrings} />

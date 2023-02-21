@@ -14,7 +14,7 @@ const objStringsInit = StringsObj()
 const userStructure = UserObj()
 
 const ContenedorServicios = (props) => {
-    const { personalLogistico = false, actualizarEstado = console.log, modeloBiosepticos = { vehiculos: [], ...ModeloBiosepticos }, logistica = false, pedirMisServicios = console.log, sendNewServicio = console.log, creatingObra = console.log, misObras = { array: [] }, misServicios = { array: [] }, vehiculos = { array: [] }, setCreatingObra = console.log, activeEmpresa = EmpresaObj(), userData = userStructure, setPopUp = console.log, sideOpen = false, objStrings = objStringsInit, objCss = objCssInit, showed = 'inicio' } = props
+    const { personalLogistico = false, actualizarEstado = console.log, modeloBiosepticos = ModeloBiosepticos , logistica = false, pedirMisServicios = console.log, sendNewServicio = console.log, creatingObra = console.log, misObras = { array: [] }, misServicios = { array: [] }, vehiculos = { array: [] }, setCreatingObra = console.log, activeEmpresa = EmpresaObj(), userData = userStructure, setPopUp = console.log, sideOpen = false, objStrings = objStringsInit, objCss = objCssInit, showed = 'inicio' } = props
     const [misServiciosSort, setMisServiciosSort] = useState(personalLogistico ? EstadosUsersObj : EstadosServiciosObj)
 
     const countMany = () => {

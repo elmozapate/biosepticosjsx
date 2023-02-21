@@ -8,6 +8,7 @@ let reqs = []
 export const SocketOn = (props) => {
     const { socketDo = console.log, funtions = { setPopUp: console.log, acept: console.log }, setPopUp = console.log } = props
     Socket.on("bioApp", (msg) => {
+        console.log(msg);
         let recibed = false
         reqs.map((key, i) => {
             if (msg.resId === key) {

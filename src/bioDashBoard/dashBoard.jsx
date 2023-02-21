@@ -6,7 +6,7 @@ import { useState } from "react"
 const objCssInit = StylesObj()
 const objStringsInit = StringsObj()
 const DashBoard = (props) => {
-    const { actualizarEstado = console.log, modeloBiosepticos = { vehiculos: [], ...ModeloBiosepticos }, vehiculos = { array: [] }, usersAll = { array: [] }, pedirEmpresas = console.log, users = { array: [] }, empresas = { array: [] }, userData = userStructure, setPopUp = console.log, objStrings = objStringsInit, objCss = objCssInit } = props
+    const { actualizarEstado = console.log, modeloBiosepticos = ModeloBiosepticos , vehiculos = { array: [] }, usersAll = { array: [] }, pedirEmpresas = console.log, users = { array: [] }, empresas = { array: [] }, userData = userStructure, setPopUp = console.log, objStrings = objStringsInit, objCss = objCssInit } = props
     const [selectioned, setSelectioned] = useState('centro rapido')
 
     return (

@@ -10,7 +10,7 @@ const objStringsInit = StringsObj()
 
 const InteractiveTable = (props) => {
 
-    const { actualizarEstado = console.log, modeloBiosepticos = { vehiculos: [], ...ModeloBiosepticos }, usersAll = { array: [] }, users = { array: [] }, empresas = { array: [] }, userData = userStructure, setPopUp = console.log, objStrings = objStringsInit, objCss = objCssInit, willShow = console.log, inShowed = 'inicio' } = props
+    const { actualizarEstado = console.log, modeloBiosepticos = ModeloBiosepticos, usersAll = { array: [] }, users = { array: [] }, empresas = { array: [] }, userData = userStructure, setPopUp = console.log, objStrings = objStringsInit, objCss = objCssInit, willShow = console.log, inShowed = 'inicio' } = props
     const [selectioned, setSelectioned] = useState({
         active: false,
         inSelection: ''
