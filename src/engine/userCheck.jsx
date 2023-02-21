@@ -49,7 +49,7 @@ const UserCheck = (props) => {
     const [inSending, setInSending] = useState(false)
     const [startCreating, setStartCreating] = useState(false)
     const [popUp, setPopUp] = useState(popUpStructure)
-    const [modeloBiosepticos, setModeloBiosepticos] = useState({ vehiculos: [], ...ModeloBiosepticos })
+    const [modeloBiosepticos, setModeloBiosepticos] = useState(ModeloBiosepticos)
     const [objStrings, setObjStrings] = useState(objStringsInit)
     const [misEmpresas, setMisEmpresas] = useState({
         seleccionada: '',

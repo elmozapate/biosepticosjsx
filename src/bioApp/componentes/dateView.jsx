@@ -71,12 +71,14 @@ const DateView = (props) => {
         pais: theDate.extraDate[theDate.extraDate.length - 1],
         date: theDate2
     }
+    let rutasDiarias = []
     let monthArray = []
     let lastday = 1
     const makeMonth = (anoEn, mesEn, diaEn, semanaEn, calendario, newMonth) => {
         if (!calendario) {
             monthArray = []
             lastday = 1
+            rutasDiarias = []
             for (let index = 0; index < 32; index++) {
                 let monthDay = new Date()
                 monthDay.setFullYear(anoEn ? anoEn : fecha.anoAentrar)
@@ -86,7 +88,7 @@ const DateView = (props) => {
                 const theDateMonth = monthDay.toLocaleDateString()
                 const theDateCutedMonth = theDateMonth.split('/')
                 if (parseInt(theDateCutedMonth[1]) === parseInt(mesEn ? mesEn : appDate.mes) + 1 /* && parseInt(theDateCutedMonth[0]) >= lastday */) {
-                    newMonth && CrearRutaDiaria((ObjRutaDia({ mes: mesEn, dia: (index + 1) }, userData.id)))
+                    newMonth && rutasDiarias.push(ObjRutaDia({ mes: mesEn, dia: (index + 1) }, userData.id))
                     lastday = parseInt(theDateCutedMonth[0])
                     monthArray.push(monthDay);
                 }
@@ -120,6 +122,7 @@ const DateView = (props) => {
             añoPlaeando.push(crearMesPlaneado(2023, index, mesNuevo))
 
         }
+        CrearRutaDiaria(rutasDiarias)
         CrearCalendario(añoPlaeando)
     }
 
@@ -380,7 +383,7 @@ const DateView = (props) => {
     }
     useEffect(() => {
         makeMonth(fecha.anoAentrar, fecha.mesAentrar, fecha.diaAentrar, false, calendario)
-    }, [modeloBiosepticos.calendario])
+    }, [modeloBiosepticos.calendario, calendario, rutasIn])
     useEffect(() => {
         !calendario && makeMonth(fecha.anoAentrar, fecha.mesAentrar, fecha.diaAentrar, false, calendario)
     }, [fecha])
@@ -527,10 +530,10 @@ const DateView = (props) => {
 
                     </div>}
                     <h2>INFORMACION</h2>
-                    <p>  Total Servicios : <span className="bgColor-blue">{modeloBiosepticos.calendario&&modeloBiosepticos.calendario.ano&&modeloBiosepticos.calendario.ano[fecha.mesAentar]&&modeloBiosepticos.calendario.ano[fecha.mesAentrar].totalServicios}</span></p>
-                    <p> Servicios Activos : <span className="bgColor-yellow">{modeloBiosepticos.calendario&&modeloBiosepticos.calendario.ano&&modeloBiosepticos.calendario.ano[fecha.mesAentar]&&modeloBiosepticos.calendario.ano[fecha.mesAentrar].serviciosActivos}</span></p>
-                    <p>Servicios Pendientes : <span className="bgColor-red">{modeloBiosepticos.calendario&&modeloBiosepticos.calendario.ano&&modeloBiosepticos.calendario.ano[fecha.mesAentar]&&modeloBiosepticos.calendario.ano[fecha.mesAentrar].serviciosPendientes}</span></p>
-                    <p>Servicios Realizados : <span className="bgColor-green">{modeloBiosepticos.calendario&&modeloBiosepticos.calendario.ano&&modeloBiosepticos.calendario.ano[fecha.mesAentar]&&modeloBiosepticos.calendario.ano[fecha.mesAentrar].serviciosRealizados}</span></p>
+                    <p>  Total Servicios : <span className="bgColor-blue">{modeloBiosepticos.calendario && modeloBiosepticos.calendario.ano && modeloBiosepticos.calendario.ano[fecha.mesAentar] && modeloBiosepticos.calendario.ano[fecha.mesAentrar].totalServicios}</span></p>
+                    <p> Servicios Activos : <span className="bgColor-yellow">{modeloBiosepticos.calendario && modeloBiosepticos.calendario.ano && modeloBiosepticos.calendario.ano[fecha.mesAentar] && modeloBiosepticos.calendario.ano[fecha.mesAentrar].serviciosActivos}</span></p>
+                    <p>Servicios Pendientes : <span className="bgColor-red">{modeloBiosepticos.calendario && modeloBiosepticos.calendario.ano && modeloBiosepticos.calendario.ano[fecha.mesAentar] && modeloBiosepticos.calendario.ano[fecha.mesAentrar].serviciosPendientes}</span></p>
+                    <p>Servicios Realizados : <span className="bgColor-green">{modeloBiosepticos.calendario && modeloBiosepticos.calendario.ano && modeloBiosepticos.calendario.ano[fecha.mesAentar] && modeloBiosepticos.calendario.ano[fecha.mesAentrar].serviciosRealizados}</span></p>
                 </div>}
                 <div id={`iddsas`} className='column'>
                     {!calendario && !crearRuta && <div div >

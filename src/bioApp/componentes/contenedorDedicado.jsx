@@ -14,7 +14,7 @@ const objStringsInit = StringsObj()
 const userStructure = UserObj()
 
 const AppSideContainer = (props) => {
-    const { obras = { array: [] }, rutas = { array: [] }, PedirBiosepticos = console.log, actualizarEstado = console.log, modeloBiosepticos = ModeloBiosepticos , servicios = { array: [] }, vehiculos = { array: [] }, empresas = { array: [] }, sendNewServicio = console.log, PedirObras = console.log, pedirMisServicios = console.log, creatingObra = false, setCreatingObra = console.log, misObras = { array: [] }, misServicios = { array: [] }, userData = userStructure, setPopUp = console.log, activeEmpresa = EmpresaObj(), sideOpen = false, objStrings = objStringsInit, objCss = objCssInit, showed = 'inicio' } = props
+    const { obras = { array: [] }, rutas = { array: [] }, PedirBiosepticos = console.log, actualizarEstado = console.log, modeloBiosepticos = ModeloBiosepticos, servicios = { array: [] }, vehiculos = { array: [] }, empresas = { array: [] }, sendNewServicio = console.log, PedirObras = console.log, pedirMisServicios = console.log, creatingObra = false, setCreatingObra = console.log, misObras = { array: [] }, misServicios = { array: [] }, userData = userStructure, setPopUp = console.log, activeEmpresa = EmpresaObj(), sideOpen = false, objStrings = objStringsInit, objCss = objCssInit, showed = 'inicio' } = props
 
 
     /*         navigator.geolocation.clearWatch(id);
@@ -84,18 +84,16 @@ const AppSideContainer = (props) => {
                                 </>
                             }
                             {userData.type === 'operativeUser' &&
-                                showed === 'calendario' &&
+                                showed === 'calendario' ?
                                 <>
-                                    <DateView obras={obras} rutas={rutas} calendario userData={userData} servicios={servicios} actualizarEstado={actualizarEstado} misServicios={vehiculos} misServiciosSort={vehiculos} modeloBiosepticos={modeloBiosepticos} />
+                                    <DateView showed={showed} obras={obras} rutas={rutas} calendario userData={userData} servicios={servicios} actualizarEstado={actualizarEstado} misServicios={vehiculos} misServiciosSort={vehiculos} modeloBiosepticos={modeloBiosepticos} />
 
-                                </>
+                                </> : showed === 'rutas' ?
+                            <>
+                                <DateView showed={showed} servicios={servicios} rutas={rutas} rutasIn objStrings={objStrings} objCss={objCss} actualizarEstado={actualizarEstado} misServicios={vehiculos} misServiciosSort={vehiculos} modeloBiosepticos={modeloBiosepticos} />
+                            </> : <></>
                             }
-                            {userData.type === 'operativeUser' &&
-                                showed === 'rutas' &&
-                                <>
-                                    <DateView servicios={servicios} rutas={rutas} rutasIn objStrings={objStrings} objCss={objCss} actualizarEstado={actualizarEstado} misServicios={vehiculos} misServiciosSort={vehiculos} modeloBiosepticos={modeloBiosepticos} />
-                                </>
-                            }
+
                             {userData.type === 'operativeUser' &&
                                 showed === 'requerimientos' ?
                                 <>{<ContenedorMaps normal={stateMap.normal} receptor={stateMap.receptor} rastreado={stateMap.rastreado} />}</> : <></>

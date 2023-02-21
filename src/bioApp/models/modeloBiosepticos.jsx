@@ -5,7 +5,7 @@ export const ModeloBiosepticos = {
     rutas: [],
     rutasIndividuales: [],
     calendario: { ano: [] },
-    vehiculos: []
+    vehiculos: [],
 }
 export const crearMesPlaneado = (año, nuMes, mes, semana) => {
     return {
