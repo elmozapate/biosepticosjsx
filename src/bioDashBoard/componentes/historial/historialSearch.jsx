@@ -31,7 +31,7 @@ const HistorialSearch = (props) => {
                 :
                 <>
                     {inShowed === 'usuariosApp' && users.array.map((key, i) => {
-                        return (<li id={`fid-${i}`} onClick={(e) => {
+                        return (<li key={`key-${(parseInt(Math.random() * 9999999999)).toString()}`} id={`fid-${i}`} onClick={(e) => {
                             e.preventDefault(); setSelectioned({
                                 ...selectioned,
                                 active: true, inSelection: key.id
@@ -40,7 +40,7 @@ const HistorialSearch = (props) => {
                         )
                     })}
                     {inShowed === 'empresas' && empresas.array.map((key, i) => {
-                        return (<li id={`iffd-${i}`}>{key}</li>)
+                        return (<li key={`key-${(parseInt(Math.random() * 9999999999)).toString()}`} id={`iffd-${i}`}>{key}</li>)
                     })}
 
                 </>

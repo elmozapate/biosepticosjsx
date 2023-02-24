@@ -38,7 +38,7 @@ const Logistica = (props) => {
                                 {
                                     modeloDependencia.map((key, i) => {
                                         return (
-                                            <div id={`idd-${i}`} onClick={(e) => { e.preventDefault(); setSectionFuntion({ ...sectionFuntion, state: true, function: key }) }} className={objCss.dashBoard.sectionOption}>
+                                            <div key={`key-${(parseInt(Math.random() * 9999999999)).toString()}`} id={`idd-${i}`} onClick={(e) => { e.preventDefault(); setSectionFuntion({ ...sectionFuntion, state: true, function: key }) }} className={objCss.dashBoard.sectionOption}>
                                                 {`${key}  ${showed}`}
                                             </div>
                                         )

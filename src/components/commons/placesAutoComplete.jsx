@@ -1,10 +1,12 @@
+import { ObjContacto } from "@/bioApp/models/modelosUsuario";
+import { useEffect } from "react";
 import usePlacesAutocomplete from "use-places-autocomplete";
 
 const PlacesAutocomplete = (props) => {
-    const { onAddressSelect, setMapCenter = console.log } = props
+    const { fullAdressSearch = false, adressView = { state: false, centre: { ltn: 6.1576585, lgn: -75872710271 }, map: false }, setAdressView = console.log, onAddressSelect, setMapCenter = console.log, inAdressAdd = false, adressData = ObjContacto.direccion } = props
     const {
         ready,
-        value,
+        value = adressData,
         suggestions: { status, data },
         setValue,
         clearSuggestions,
@@ -19,6 +21,11 @@ const PlacesAutocomplete = (props) => {
             .then(({ results }) => {
                 console.log(results[0].geometry.location.lat(), results[0].geometry.location.lng());
                 setMapCenter({ lat: results[0].geometry.location.lat(), lng: results[0].geometry.location.lng() })
+                inAdressAdd && setAdressView({
+                    ...adressView,
+                    centre: { lat: results[0].geometry.location.lat(), lng: results[0].geometry.location.lng() },
+                    map: true,
+                })
                 /*  map.setZoom(11);
                  map.setCenter(results[0].geometry.location);
                  // Set the position of the marker using the place ID and location.
@@ -48,6 +55,7 @@ const PlacesAutocomplete = (props) => {
                 <li
                     key={place_id}
                     onClick={() => {
+                        console.log(suggestion.description.slice());
                         setValue(description, false);
                         clearSuggestions();
                         console.log(description, place_id);
@@ -60,16 +68,18 @@ const PlacesAutocomplete = (props) => {
             );
         });
     };
-
+    inAdressAdd && useEffect(() => {
+        setValue(adressData.otros.length > 3 && !fullAdressSearch ? adressData.otros : `${adressData.departamento} ${adressData.ciudad} ${adressData.barrio} ${adressData.viaSelecionada} ${adressData.numero} ${adressData.letra} ${adressData.primerNumDireccion} ${adressData.primerLetra} ${adressData.segundoNumDireccion} ${adressData.segundaLetra}`)
+    }, [adressData])
     return (
         <div className={''}>
-            <input
+            {!inAdressAdd && <input
                 value={value}
                 className={''}
                 disabled={!ready}
                 onChange={(e) => setValue(e.target.value)}
                 placeholder="INGRESA UNA DIRECCION"
-            />
+            />}
 
             {status === 'OK' && (
                 <ul className={''}>{renderSuggestions()}</ul>

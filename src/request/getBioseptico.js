@@ -19,3 +19,10 @@ export const CrearRutaDiariaReq = (socket, props, res) => {
         reqId: res
     });
 }
+export const GetMisVehiculos = (socket, props, res) => {
+    socket.emit('bioSepticos', {
+        'dataIn': props.data,
+        actionTodo: "askVehiculos",
+        reqId: res
+    });
+}

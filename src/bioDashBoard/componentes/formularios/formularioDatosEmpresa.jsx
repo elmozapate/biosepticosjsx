@@ -19,7 +19,6 @@ const objStringsInit = StringsObj()
 const FormularioDatosEmpresa = (props) => {
 
     const { userFullModel = EmpresaObj(), userData = userStructure, setPopUp = console.log, objStrings = objStringsInit, objCss = objCssInit, sendData = console.log, showed = 'inicio' } = props
-
     const [sending, setSending] = useState(false)
     const [ready, setReady] = useState(false)
     const [personalObj, setPersonalObj] = useState(userFullModel.contact)
@@ -39,7 +38,7 @@ const FormularioDatosEmpresa = (props) => {
         })
     }
     useEffect(() => {
-        if (personalObj.nombre.length > 3 && personalObj.sector.length > 3 && personalObj.correoElectronico !== '' && personalObj.telefonoPrincipal !== '' && personalObj.telefonoSecundario !== '') {
+        if (personalObj && personalObj.nombre && personalObj.nombre.length > 3 && personalObj.sector && personalObj.sector.length > 3 && personalObj.correoElectronico && personalObj.correoElectronico !== '' && personalObj.telefonoPrincipal && personalObj.telefonoPrincipal !== '' && personalObj.telefonoSecundario && personalObj.telefonoSecundario !== '') {
             setReady(true)
         } else {
             setReady(false)
@@ -64,7 +63,7 @@ const FormularioDatosEmpresa = (props) => {
                                     Nombre de la Empresa
                                     <InputComp userData={personalObj} type={'text'} id={'nombre'} value={personalObj.nombre} placeholder={'Nombre de la Empresa'} funtions={handleCreate} required />
                                     Sector
-                                    <SelectComp userData={personalObj} item={'sector'} items={sectores} funtions={handleCreate} id={'sector'} required />
+                                    <SelectComp userData={personalObj} item={'sector'} items={sectores} funtions={handleCreate} ID={'sector'} required />
                                     Correo Electronico
                                     <InputComp userData={personalObj} type={'email'} id={'correoElectronico'} value={personalObj.correoElectronico} placeholder={'correo Electronico'} funtions={handleCreate} required />
                                     telefono Principal
@@ -73,7 +72,7 @@ const FormularioDatosEmpresa = (props) => {
                                     <InputComp userData={personalObj} type={'number'} id={'telefonoSecundario'} value={personalObj.telefonoSecundario} placeholder={'telefono secundario'} funtions={handleCreate} required />
                                 </div>
                                 <div className={objCss.forms.personalData.miniSectionAdress}>
-                                    <AdressAdd inEmpresa userData={userData} setPopUp={setPopUp} objCss={objCss} objStrings={objStrings} send={sendCity} />
+                                    <AdressAdd inEmpresa  userData={userData} setPopUp={setPopUp} objCss={objCss} objStrings={objStrings} send={sendCity} />
                                 </div>
                             </div>
                         </form>

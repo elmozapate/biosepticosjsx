@@ -37,7 +37,6 @@ const AppSideContainer = (props) => {
         actualizarEstado()
     }, [modeloBiosepticos])
     useEffect(() => {
-        PedirBiosepticos()
     }, [])
     useEffect(() => {
         if (showed === 'requerimientos') {
@@ -53,7 +52,7 @@ const AppSideContainer = (props) => {
 
     return (
         <>
-            <div className={sideOpen ? objCss.app.sideContainer : objCss.app.sideContainerOpen}>
+            <div key={`key-${(parseInt(Math.random() * 9999999999)).toString()}`} className={sideOpen ? objCss.app.sideContainer : objCss.app.sideContainerOpen}>
                 {
                     !userData[userData.type === 'operativeUser' ? 'appPermisions' : userData.type === 'vendedor' ? 'sellPermisions' : userData.type === 'clientUser' ? 'companyPermisions' : ''][showed] ?
                         <>
@@ -89,9 +88,9 @@ const AppSideContainer = (props) => {
                                     <DateView showed={showed} obras={obras} rutas={rutas} calendario userData={userData} servicios={servicios} actualizarEstado={actualizarEstado} misServicios={vehiculos} misServiciosSort={vehiculos} modeloBiosepticos={modeloBiosepticos} />
 
                                 </> : showed === 'rutas' ?
-                            <>
-                                <DateView showed={showed} servicios={servicios} rutas={rutas} rutasIn objStrings={objStrings} objCss={objCss} actualizarEstado={actualizarEstado} misServicios={vehiculos} misServiciosSort={vehiculos} modeloBiosepticos={modeloBiosepticos} />
-                            </> : <></>
+                                    <>
+                                        <DateView  showed={showed} servicios={servicios} rutas={rutas} rutasIn objStrings={objStrings} objCss={objCss} actualizarEstado={actualizarEstado} misServicios={vehiculos} misServiciosSort={vehiculos} modeloBiosepticos={modeloBiosepticos} />
+                                    </> : <></>
                             }
 
                             {userData.type === 'operativeUser' &&

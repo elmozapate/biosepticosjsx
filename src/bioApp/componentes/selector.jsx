@@ -23,7 +23,7 @@ const Selector = (props) => {
             {
                 dashBoard ?
                     <>
-                        <div className={selectioned === 'inicio' || selectioned === 'centro rapido' ? objCss.dashBoard.sectionContainer : objCss.dashBoard.sectionContainerLarge}>
+                        <div  className={selectioned === 'inicio' || selectioned === 'centro rapido' ? objCss.dashBoard.sectionContainer : objCss.dashBoard.sectionContainerLarge}>
                             <DashMenu users={users} showed={selectioned} willShow={setSelectioned} sideOpen={sideOpen} objCss={objCss} objStrings={objStrings} />
                             {ArraySection.map((key, i) => {
                                 return (<>

@@ -1,14 +1,18 @@
 import io from "socket.io-client"
 import EnvM from "@/envMachetero"
 import { PopUpObj } from "@/engine/content";
+import { useEffect } from "react";
 
 const envM = EnvM()
 export const Socket = io(envM.hostBack)
 let reqs = []
+export const disconnectSocket = (socket) => {
+    console.log('Disconnecting socket...');
+/*     if (socket) socket.disconnect();
+ */}
 export const SocketOn = (props) => {
     const { socketDo = console.log, funtions = { setPopUp: console.log, acept: console.log }, setPopUp = console.log } = props
     Socket.on("bioApp", (msg) => {
-        console.log(msg);
         let recibed = false
         reqs.map((key, i) => {
             if (msg.resId === key) {
@@ -44,6 +48,7 @@ export const SocketOn = (props) => {
 
         }
     })
+  
     return (<></>)
 
 }

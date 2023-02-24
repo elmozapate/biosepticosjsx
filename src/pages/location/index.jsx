@@ -16,8 +16,6 @@ export default function Home(props) {
         ip: props.ip,
         location: { lat: 6.2476376, lng: -75.56581530000001 }
     })
-
-    console.log(props);
     const sendData = (type) => {
         if (props.type === 'obj' && type === 1) {
             reqId = parseInt(Math.random() * 9999999999)
@@ -55,7 +53,6 @@ export default function Home(props) {
             props.type === 'obj' && reqId === -1 && sendData(1)
             props.type === 'visor' && reqId === -1 && sendData(2)
             props.type === 'obj' && socket.on("bioSepticosMap", (msg) => {
-                console.log('msg', msg);
                 const resId = msg.resId
                 const actionTodo = msg.actionTodo
                 const Data = msg.dataIn
@@ -70,7 +67,6 @@ export default function Home(props) {
                 }
             })
             props.type === 'visor' && socket.on("bioSepticosMapAdmin", (msg) => {
-                console.log('msg', msg);
                 const resId = msg.resId
                 const actionTodo = msg.actionTodo
                 const Data = msg.dataIn
@@ -79,7 +75,6 @@ export default function Home(props) {
                     case 'dataRes-visorObj':
                         if (reqId === resId) {
                             setUsersMap(usersMapRes)
-                            console.log('correcto');
                         }
                         break;
                     case 'dataRes-visorObjNew':
@@ -129,7 +124,7 @@ export default function Home(props) {
                 {
                     props.type === 'obj' &&
                     <>
-                        <div className='colFlex flex-row transparent visor-cont'>
+                        <div key={`key-${(parseInt(Math.random() * 9999999999)).toString()}`} className='colFlex flex-row transparent visor-cont'>
                             {
                                 <><ContenedorMaps getId={getId} rastreado visorObj={visorObj} /></>
                             }
@@ -140,7 +135,7 @@ export default function Home(props) {
                 {
                     props.type === 'visor' &&
                     <>
-                        <div className='flex-row transparent visor-cont'>
+                        <div key={`key-${(parseInt(Math.random() * 9999999999)).toString()}`} className='flex-row transparent visor-cont'>
 
                             {
                                 <>{visorObj.id !== props.id && <ContenedorMaps getId={getId} visorObj={visorObj} normal={visorObj.ip === props.ip ? true : false} receptor={visorObj.ip !== props.ip ? true : false} />}
@@ -161,7 +156,7 @@ export default function Home(props) {
                                     {visorObj.id === props.id && userMap.map((key, i) => {
                                         return (
                                             <>
-                                                <p onClick={(e) => {
+                                                <p key={`key-${(parseInt(Math.random() * 9999999999)).toString()}`} onClick={(e) => {
                                                     e.preventDefault(); setVisorObj({
                                                         ...visorObj,
                                                         id: key.id,

@@ -30,6 +30,7 @@ const userStructure = UserObj()
 let res = 0
 let userActual = userStructure
 let modelActual = plantillaUSuario
+
 const UserCheck = (props) => {
     const { usersArray = [], setUsersArray = [] } = props
     const [userData, setUserName] = useState(userStructure)
@@ -114,6 +115,7 @@ const UserCheck = (props) => {
         res = req
     }
     const sendNewServicio = (servicio) => {
+        console.log('jjjjj',servicio);
         const req = MiddlewareSelector({ ask: 'setServicio', data: servicio })
         res = req
     }
@@ -123,6 +125,10 @@ const UserCheck = (props) => {
     }
     const PedirBiosepticos = (data) => {
         const req = MiddlewareSelector({ ask: 'askBioseptico', data: data })
+        res = req
+    }
+    const PedirVehiculos = (data) => {
+        const req = MiddlewareSelector({ ask: 'askVehiculos', data: data })
         res = req
     }
     const cleanUserData = () => {
@@ -162,7 +168,14 @@ const UserCheck = (props) => {
         const req = MiddlewareSelector({ ask: 'actualizarEstado', data: data })
         res = req
     }
+    const resMisEmpresas = () => {
+        const req = MiddlewareSelector({
+            ask: 'getMisEmpresasVendedor', id: userData.id
+        })
+        res = req
+    }
     const socketDo = (msg) => {
+        console.log(msg);
         const actionTodo = msg.actionTodo
         if (actionTodo === 'pedirEmpresasRes' && parseInt(res) === parseInt(msg.resId)) {
             if (msg.res === 'ok') {
@@ -175,6 +188,12 @@ const UserCheck = (props) => {
                 setModeloBiosepticos({ ...modeloBiosepticos, users: msg.biosepticos })
             }
         }
+        if (actionTodo === 'dataRes-askVehiculos' && parseInt(res) === parseInt(msg.resId)) {
+            if (msg.res === 'ok') {
+                setVehiculos({ ...vehiculos, array: msg.vehiculos })
+            }
+        }
+
         if (actionTodo === 'calendarioRes') {
             if (msg.res === 'ok') {
                 setModeloBiosepticos({ ...modeloBiosepticos, calendario: msg.calendario })
@@ -213,14 +232,25 @@ const UserCheck = (props) => {
                 sendLogin()
             }
         }
-        if (actionTodo === 'dataRes-askEmpresas' && parseInt(res) === parseInt(msg.resId)) {
+        if (actionTodo === 'dataRes-askEmpresas' ) {
             if (msg.res === 'ok') {
                 setMisEmpresasRes({ ...misEmpresasRes, array: msg.empresas })
-                setMisEmpresas({
-                    ...misEmpresas,
-                    empresas: msg.empresas
-                })
-            }
+                if (msg.empresas.length === 1) {
+                    setMisEmpresas({
+                        ...misEmpresas,
+                        seleccionada: msg.empresas[0].contact.nombre,
+                        itemSelectioned: msg.empresas[0],
+                        empresas: msg.empresas
+                    })
+/*                     PedirObras({ id: msg.empresas[0].id, user: userData.id })
+ */                } else {
+                    setMisEmpresas({
+                        ...misEmpresas,
+                        empresas: msg.empresas
+                    })
+                }
+/*                 resMisEmpresas()
+ */            }
         }
         if (actionTodo === 'dataRes-askObras') {
             if (msg.res === 'ok') {
@@ -264,10 +294,17 @@ const UserCheck = (props) => {
                         })
                     }
                 })
+
                 setUsersAll({ ...usersAll, array: msg.users, arrayAppUsers: msg.appUsers })
             }
 
         }
+        if (actionTodo === 'dataRes-askEmpresasVendedor' && parseInt(res) === parseInt(msg.resId)) {
+           /*  if (parseInt(msg.resId) === parseInt(res)) {
+                setMisEmpresas({ ...misEmpresas, array: msg.empresas })
+            } */
+        }
+
         if (actionTodo === 'loginRes' && parseInt(res) === parseInt(msg.resId)) {
             if (msg.res === 'ok') {
                 setInSending(false)
@@ -279,6 +316,7 @@ const UserCheck = (props) => {
                         userComeData = key
                         setUserName({ ...userData, appPermisions: { ...key.userObj.appPermisions } })
                         userActual = { ...userData, appPermisions: { ...key.userObj.appPermisions } }
+                        pedirEmpresas(key.id)
                     }
                 })
                 setUserName({ ...userData, ...msg.body, passwordRepeat: '' })
@@ -288,6 +326,7 @@ const UserCheck = (props) => {
                     ...userData,
                     ...msg.body, passwordRepeat: '', status: 'registered', appPermisions: userComeData.userObj.appPermisions
                 })
+
                 if (msg.body.passwordChange) {
                     const funtions = { setUserData: setUserData, sendData: sendData, setPopUp: setPopUp, sendLogin: sendLogin, changePassword: changePassword }
                     const resPopUp = InterfazRegistro('changePassword', funtions)
@@ -304,6 +343,8 @@ const UserCheck = (props) => {
                     modelActual = {
                         ...userModel, ...modelUser
                     }
+
+
                     /*                     dataEntry()
                      */
                 } else {
@@ -313,7 +354,10 @@ const UserCheck = (props) => {
                         userActual = { ...userData, ...msg.body, passwordRepeat: '', status: 'registered', appPermisions: userComeData.userObj.appPermisions }
                         modelActual = { ...userModel, ...modelUser, ...msg.fullUser }
                         setPopUp(popUpStructure)
-                    }, 500);
+                        /*  PedirBiosepticos()
+                     PedirVehiculos() */
+/*                         pedirEmpresas(msg.fullUser.id)
+ */                    }, 500);
                 }
             }
             else {
@@ -337,6 +381,10 @@ const UserCheck = (props) => {
             })
         }
     }, [userData.type])
+    useEffect(() => {
+        pedirMisServicios(misEmpresas.itemSelectioned.id)
+        PedirObras({ id: misEmpresas.itemSelectioned.id, user: userData.id })
+    }, [misEmpresas.itemSelectioned])
 
 
     return (

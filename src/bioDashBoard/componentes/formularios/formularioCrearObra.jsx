@@ -148,7 +148,7 @@ const FormularioCrearObra = (props) => {
                                 :
                                 <div className={objCss.companies.dataFormContainer}>
                                     {
-                                        formSelected.selected === 'personalData' && <><FormularioDatosObra obrasExistentes={obrasExistentes} sendData={sendData} userData={userData} setPopUp={setPopUp} objCss={objCss} objStrings={objStrings} /></>
+                                        formSelected.selected === 'personalData' && <><FormularioDatosObra obrasExistentes={obrasExistentes} sendData={sendData} userData={userData} setPopUp={setPopUp} objCss={objCss} objStrings={objStrings}  activeEmpresa={activeEmpresa}/></>
 
                                     }
                                     {

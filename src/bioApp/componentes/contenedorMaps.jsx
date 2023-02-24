@@ -28,14 +28,12 @@ const ContenedorMaps = (props) => {
         })
     }
     const irALugar = () => {
-        console.log(mapCenterGo);
         window.open(`http://maps.google.com/maps?saddr=${mapCenterGo.inicio.lat},${mapCenterGo.inicio.lng}&daddr=${mapCenterGo.final.lat},${mapCenterGo.final.lng}`)
     }
 
     useEffect(() => {
         if (receptor) {
             socket.on('bioSepticosMapAdminGet', (msg) => {
-                console.log('msgsss', msg, visorObj.id);
                 let askDone = true
                 asks.map((key, i) => {
                     if (key === msg.ask) {
@@ -68,54 +66,13 @@ const ContenedorMaps = (props) => {
 
 
     }, [visorObj])
-    /*  if (rastreado) {
-         socket.on("bioSepticosMapObj", (msg) => {
-             console.log('msg', msg);
-             const actionTodo = msg.actionTodo
-             switch (actionTodo) {
-                 case 'dataAsk-userObj':
-                     socket.emit('bioSepticosMap', {
-                         'dataIn': mapCenter,
-                         actionTodo: "userObjLocation",
-                         ...visorObj,
-                         type: 'obj',
-                         ip: visorObj.ip,
-                         id: visorObj.id,
-                     });
-                     break;
- 
-                 default:
-                     break;
-             }
-         })
-     } */
-    useEffect(() => {
+  useEffect(() => {
         if (rastreado) {
-           /*  (navigator.geolocation.watchPosition(position => {
-                console.log(position.coords.latitude, position.coords.longitude, 'eoo', {
-                    lat: position.coords.latitude,
-                    lng: position.coords.longitude
-                });
-                socket.emit('bioSepticosMap', {
-                    'dataIn': {
-                        lat: position.coords.latitude,
-                        lng: position.coords.longitude
-                    },
-                    actionTodo: "userObjLocation",
-                    ...visorObj,
-                    type: 'obj',
-                    ip: visorObj.ip,
-                    id: visorObj.id,
-                });
-            })); */
             socket.on(`bioSepticosMapObj`, (msg) => {
-                console.log('msg', msg);
                 const actionTodo = msg.actionTodo
                 switch (actionTodo) {
                     case 'dataAsk-userObj':
-                        console.log('aca');
                         check()
-
                         break;
                     default:
                         break;
@@ -127,7 +84,6 @@ const ContenedorMaps = (props) => {
 const check=()=>{
     navigator.geolocation.getCurrentPosition(
         function (position) { // success cb
-            console.log(position);
             setMapCenter({
                 ...mapCenter,
                 lat: position.coords.latitude,
@@ -143,10 +99,8 @@ const check=()=>{
                 type: 'obj',
                 ip: visorObj.ip,
                 id: visorObj.id,
+                reqId:parseInt(Math.random()*999999)
             });
-        },
-        function () {
-            console.log('msg', 'asas');
         }
     );
 }

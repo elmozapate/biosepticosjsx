@@ -2,36 +2,36 @@ export const ObjDireccion = {
     departamento: '',
     ciudad: '',
     barrio: '',
-    calle: Number(),
-    numeroCalle: Number(),
-    carrera: Number(),
-    numeroCarrera: Number(),
-    transversal: Number(),
-    numeroTransversal: Number(),
-    diagonal: Number(),
-    numeroDiagonal: Number(),
+    primerNumDireccion: Number(),
+    segundoNumDireccion: Number(),
+    viaSelecionada: '',
+    primerLetra: '',
+    segundaLetra: '',
+    numero: Number(),
     otros: '',
     tipoDeZona: '',
     telefono: Number(),
+    letra: '',
+    coordenadas: { lat: Number(), lng: Number() }
 
 }
 export const ObjDireccionFunt = (props = ObjDireccion) => {
 
     return ({
+        departamento: props.departamento,
         ciudad: props.ciudad,
         barrio: props.barrio,
-        calle: props.calle,
-        numeroCalle: props.numeroCalle,
-        carrera: props.carrera,
-        numeroCarrera: props.numeroCarrera,
-        transversal: props.transversal,
-        numeroTransversal: props.numeroTransversal,
-        diagonal: props.diagonal,
-        numeroDiagonal: props.numeroDiagonal,
+        primerNumDireccion: props.primerNumDireccion,
+        segundoNumDireccion: props.segundoNumDireccion,
+        viaSelecionada: props.viaSelecionada,
+        primerLetra: props.primerLetra,
+        segundaLetra: props.segundaLetra,
+        numero: props.numero,
         otros: props.otros,
         tipoDeZona: props.tipoDeZona,
-        telefono: props.telefono
-
+        telefono: props.telefono,
+        letra: props.telefono,
+        coordenadas: props.coordendas
     })
 }
 export default ObjDireccionFunt

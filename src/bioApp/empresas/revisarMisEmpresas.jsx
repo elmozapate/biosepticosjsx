@@ -31,6 +31,7 @@ const RevisarMisEmpresas = (props) => {
         })
     }, [])
     useEffect(() => {
+        console.log('asasassas');
         resMisEmpresas()
     }, [])
     return (

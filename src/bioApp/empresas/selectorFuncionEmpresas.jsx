@@ -11,8 +11,8 @@ const userStructure = UserObj()
 const SelectorFuncionEmpresas = (props) => {
     const { sendNewServicio = console.log, creatingObra = false, PedirObras = console.log, pedirMisServicios = console.log, setCreatingObra = console.log, misObras = { array: [] }, empresas = { array: [] }, misServicios = { array: [] }, activeEmpresa = EmpresaObj(), userData = userStructure, setPopUp = console.log, sideOpen = false, objStrings = objStringsInit, objCss = objCssInit, showed = 'inicio' } = props
     useEffect(() => {
-        PedirObras({ id: activeEmpresa.id, user: userData.id })
-    }, [creatingObra]);
+/*         PedirObras({ id: activeEmpresa.id, user: userData.id })
+ */    }, [creatingObra]);
     return (
         <>
             {

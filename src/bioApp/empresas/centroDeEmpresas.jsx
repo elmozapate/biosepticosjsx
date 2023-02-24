@@ -19,8 +19,9 @@ const CentroDeEmpresas = (props) => {
     }, PedirObras = console.log, pedirMisServicios = console.log, setMisEmpresas = console.log, startCreating = false, setStartCreating = console.log, userModel = ModeloUsuario(), misEmpresasRes = { array: [] }, pedirEmpresas = console.log, userData = userStructure, setPopUp = console.log, objStrings = objStringsInit, objCss = objCssInit } = props
 
     useEffect(() => {
-
-        pedirEmpresas()
+        if (!(misEmpresas.empresas.length > 0)) {
+            pedirEmpresas()
+        }
     }, [])
 
     return (

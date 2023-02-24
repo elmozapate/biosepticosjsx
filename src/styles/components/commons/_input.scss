@@ -2,7 +2,30 @@
     @return ($sizePx / 16px) * 1rem;
 }
 .adress-form {
-    padding: getRemSize(20px) 0 ;
+    padding: getRemSize(20px) 0;
+    .numeroDireccion::-webkit-inner-spin-button,
+    ::-webkit-outer-spin-button {
+        -webkit-appearance: none !important;
+        margin: 0;
+    }
+    .numeroDireccion {
+        border: 0.5px solid white !important;
+        outline: none !important;
+        border-radius: 0 !important;
+        font-size: getRemSize(14px) !important;
+        width: getRemSize(40px) !important;
+        max-width: getRemSize(40px) !important;
+    }
+    .letraDireccion {
+        padding: 0 !important;
+        margin:  0 !important;
+        border: 0.5px solid white !important;
+        outline: none !important;
+        border-radius: 0 !important;
+        font-size: getRemSize(10px) !important;
+        width: getRemSize(30px) !important;
+        max-width: getRemSize(30px) !important;
+    }
     input,
     select {
         padding-left: getRemSize(15px);
@@ -36,31 +59,33 @@
         transform: scale(1.2);
     }
 }
-.form-default ,.form-registro,.absolutedialog_popout{
+.form-default,
+.form-registro,
+.absolutedialog_popout {
     input,
     select,
     button {
         padding-left: getRemSize(15px);
-        width: getRemSize(230px) ;
-        max-width: getRemSize(230px) ;
-        height: getRemSize(30px) ;
-        max-height: getRemSize(30px) ;
-        border: none ;
-        border-bottom: 0.5px solid white ;
-        border-left: 0.5px solid white ;
-        outline: none ;
-        opacity: 0.8 ;
-        background-color: transparent ;
-        border-radius: 14px ;
-        color: beige ;
-        font-weight: 700 ;
-        font-size: getRemSize(18px) ;
+        width: getRemSize(230px);
+        max-width: getRemSize(230px);
+        height: getRemSize(30px);
+        max-height: getRemSize(30px);
+        border: none;
+        border-bottom: 0.5px solid white;
+        border-left: 0.5px solid white;
+        outline: none;
+        opacity: 0.8;
+        background-color: transparent;
+        border-radius: 14px;
+        color: beige;
+        font-weight: 700;
+        font-size: getRemSize(18px);
     }
     select {
-        color: rgb(0, 0, 0) ;
+        color: rgb(0, 0, 0);
     }
     select:valid {
-        color: beige ;
+        color: beige;
     }
     button {
         border: 0.5px solid white !important;
@@ -84,9 +109,37 @@
     font-weight: 700 !important;
     font-size: getRemSize(18px) !important;
 }
+
+.formInput-btn-small {
+    width: fit-content !important;
+    max-width: fit-content !important;
+    height: getRemSize(30px) !important;
+    border: 0.5px solid white !important;
+    outline: none !important;
+    opacity: 0.8 !important;
+    background-color: transparent !important;
+    border-radius: 14px !important;
+    color: beige !important;
+    font-weight: 700 !important;
+    font-size: getRemSize(18px) !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: getRemSize(2px) getRemSize(6px);
+    cursor: pointer;
+}
 button {
     cursor: pointer !important;
 }
+.formInput-btn-small:hover,
 button:hover {
     transform: scale(1.2);
+}
+.min-w {
+    min-width: min-content !important;
+    max-width: min-content !important;
+    width: min-content !important;
+    gap: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
 }

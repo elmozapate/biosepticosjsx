@@ -10,7 +10,7 @@ import { SetObras } from "@/request/sendObra"
 import { SetServicio } from "@/request/sendServicio"
 import { ActualizarEstadoVehiculo, CrearRutaVehiculo, SetVehiculo } from "@/request/sendVehiculo"
 import { GetVendedores } from "@/request/getVendedores"
-import { AskBioseptico, CrearCalendarioReq, CrearRutaDiariaReq } from "@/request/getBioseptico"
+import { AskBioseptico, CrearCalendarioReq, CrearRutaDiariaReq, GetMisVehiculos } from "@/request/getBioseptico"
 
 
 const socket = Socket
@@ -30,7 +30,7 @@ export const MiddlewareSelector = (props) => {
             }
             break;
         case 'crearRutaVehiculo':
-                CrearRutaVehiculo(socket, props, res)
+            CrearRutaVehiculo(socket, props, res)
             break;
         case 'pedirEmpresas':
             GetEmpresas(socket, props, res)
@@ -85,6 +85,9 @@ export const MiddlewareSelector = (props) => {
             break;
         case 'askServicios':
             GetMisServicios(socket, props, res)
+            break;
+        case 'askVehiculos':
+            GetMisVehiculos(socket, props, res)
             break;
         case 'sendData-all-Obra':
             SetObras(socket, props, res)

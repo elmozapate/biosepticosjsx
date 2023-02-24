@@ -14,10 +14,11 @@ const objStringsInit = StringsObj()
 const userStructure = UserObj()
 
 const ContenedorServicios = (props) => {
-    const { personalLogistico = false, actualizarEstado = console.log, modeloBiosepticos = ModeloBiosepticos , logistica = false, pedirMisServicios = console.log, sendNewServicio = console.log, creatingObra = console.log, misObras = { array: [] }, misServicios = { array: [] }, vehiculos = { array: [] }, setCreatingObra = console.log, activeEmpresa = EmpresaObj(), userData = userStructure, setPopUp = console.log, sideOpen = false, objStrings = objStringsInit, objCss = objCssInit, showed = 'inicio' } = props
+    const { personalLogistico = false, actualizarEstado = console.log, modeloBiosepticos = ModeloBiosepticos, logistica = false, pedirMisServicios = console.log, sendNewServicio = console.log, creatingObra = console.log, misObras = { array: [] }, misServicios = { array: [] }, vehiculos = { array: [] }, setCreatingObra = console.log, activeEmpresa = EmpresaObj(), userData = userStructure, setPopUp = console.log, sideOpen = false, objStrings = objStringsInit, objCss = objCssInit, showed = 'inicio' } = props
     const [misServiciosSort, setMisServiciosSort] = useState(personalLogistico ? EstadosUsersObj : EstadosServiciosObj)
 
     const countMany = () => {
+        
         let newSquema = personalLogistico ? EstadosUsersObjShort : EstadosServiciosObjShort
         if (personalLogistico) {
 
@@ -87,12 +88,14 @@ const ContenedorServicios = (props) => {
         })
     }
     useEffect(() => {
-        pedirMisServicios(activeEmpresa.id)
-        countMany()
+        /* !logistica && pedirMisServicios(activeEmpresa.id)
+        !logistica &&console.log('00000'); */
+        /* countMany() */
     }, [])
     useEffect(() => {
         countMany()
         sortBy('reload')
+        console.log('llll');
     }, [misServicios, modeloBiosepticos])
     return (
         <>

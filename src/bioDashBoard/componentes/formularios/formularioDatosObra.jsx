@@ -4,12 +4,13 @@ import StylesObj from "@/styles/stylesObj"
 import { useEffect, useState } from "react"
 import AdressAdd from "@/bioApp/componentes/adressAdd"
 import ObraObj from "@/bioApp/models/modeloObra"
+import { EmpresaObj } from "@/bioApp/models/modelosUsuario"
 const userStructure = UserObj()
 const objCssInit = StylesObj()
 const objStringsInit = StringsObj()
 const FormularioDatosObra = (props) => {
 
-    const { obrasExistentes = [], userData = userStructure, setPopUp = console.log, objStrings = objStringsInit, objCss = objCssInit, sendData = console.log, showed = 'inicio' } = props
+    const { obrasExistentes = [], activeEmpresa = EmpresaObj(), userData = userStructure, setPopUp = console.log, objStrings = objStringsInit, objCss = objCssInit, sendData = console.log, showed = 'inicio' } = props
 
     const [sending, setSending] = useState(false)
     const [ready, setReady] = useState(false)
@@ -70,7 +71,7 @@ const FormularioDatosObra = (props) => {
                                     <InputComp type={'number'} id={'telefonoSecundario'} value={personalObj.telefonoSecundario} placeholder={'telefono secundario'} funtions={handleCreate} required />
                                 </div>
                                 <div className={objCss.forms.personalData.miniSectionAdress}>
-                                    <AdressAdd inEmpresa userData={userData} setPopUp={setPopUp} objCss={objCss} objStrings={objStrings} send={sendCity} />
+                                    <AdressAdd inEmpresa /* empresa={activeEmpresa.contact.nombre} */ userData={userData} setPopUp={setPopUp} objCss={objCss} objStrings={objStrings} send={sendCity} />
                                 </div>
                             </div>
                             <br />

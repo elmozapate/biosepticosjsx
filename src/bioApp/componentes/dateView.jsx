@@ -17,7 +17,7 @@ const objCssInit = StylesObj()
 const objStringsInit = StringsObj()
 const userStructure = UserObj()
 const DateView = (props) => {
-    const { vehiculo = ModeloVehiculo, modo = 'dia', crearRuta = false, rutasIn = false, obras = { array: [] }, rutas = { array: [] }, objStrings = objStringsInit, objCss = objCssInit, userData = userStructure, servicios = { array: [] }, modeloBiosepticos = ModeloBiosepticos, calendario = false } = props
+    const { inTest = false, vehiculo = ModeloVehiculo, modo = 'dia', crearRuta = false, rutasIn = false, obras = { array: [] }, rutas = { array: [] }, objStrings = objStringsInit, objCss = objCssInit, userData = userStructure, servicios = { array: [] }, modeloBiosepticos = ModeloBiosepticos, calendario = false } = props
     const [misServiciosSort, setMisServiciosSort] = useState(EstadosServiciosObj)
     const [rutaSelected, setRutaSelected] = useState({
         modo: modo,
@@ -75,10 +75,9 @@ const DateView = (props) => {
     let monthArray = []
     let lastday = 1
     const makeMonth = (anoEn, mesEn, diaEn, semanaEn, calendario, newMonth) => {
-        if (!calendario) {
+        if (!calendario || (!calendario && !rutasIn)) {
             monthArray = []
             lastday = 1
-            rutasDiarias = []
             for (let index = 0; index < 32; index++) {
                 let monthDay = new Date()
                 monthDay.setFullYear(anoEn ? anoEn : fecha.anoAentrar)
@@ -107,7 +106,7 @@ const DateView = (props) => {
                 })
             }
         }
-        return (!calendario ? MonthShedule(monthArray, mesEn, anoEn, diaEn, semanaEn) : {}
+        return (!calendario || (!calendario && !rutasIn) ? MonthShedule(monthArray, mesEn, anoEn, diaEn, semanaEn) : {}
         )
 
 
@@ -116,6 +115,7 @@ const DateView = (props) => {
     const crearNuevoAno = () => {
         const añoPlaeando = []
         let ultimaSemana = 0
+        rutasDiarias = []
         for (let index = 0; index < 12; index++) {
             const mesNuevo = makeMonth(2023, index, -1, ultimaSemana, false, true)
             ultimaSemana = mesNuevo[mesNuevo.length - 1].dias[mesNuevo[mesNuevo.length - 1].dias.length - 1].dia === 'off' ? (mesNuevo[mesNuevo.length - 1].numSemana) - 1 : (mesNuevo[mesNuevo.length - 1].numSemana);
@@ -125,7 +125,18 @@ const DateView = (props) => {
         CrearRutaDiaria(rutasDiarias)
         CrearCalendario(añoPlaeando)
     }
+    const crearNuevoAnoRutas = () => {
+        const añoPlaeando = []
+        let ultimaSemana = 0
+        rutasDiarias = []
+        for (let index = 0; index < 12; index++) {
+            const mesNuevo = makeMonth(2023, index, -1, ultimaSemana, false, true)
+            ultimaSemana = mesNuevo[mesNuevo.length - 1].dias[mesNuevo[mesNuevo.length - 1].dias.length - 1].dia === 'off' ? (mesNuevo[mesNuevo.length - 1].numSemana) - 1 : (mesNuevo[mesNuevo.length - 1].numSemana);
+            añoPlaeando.push(crearMesPlaneado(2023, index, mesNuevo))
 
+        }
+        CrearRutaDiaria(rutasDiarias)
+    }
     const handle = (e) => {
         e.preventDefault();
         const id = e.target.id
@@ -188,11 +199,12 @@ const DateView = (props) => {
     const checkDiaRuta = (dia) => {
         let makeArray = []
         rutas.array.map((keyRutas, iRutas) => {
+            if (keyRutas.fecha && keyRutas.fecha.split('T') && keyRutas.fecha.split('T')[0]){
             let resDia = keyRutas.fecha.split('T')[0]
             let reqDia = dia
             if (reqDia.dia !== 'off' && parseInt(resDia.split('-')[0]) === parseInt(reqDia['año']) && parseInt(resDia.split('-')[1]) === (parseInt(reqDia.mes) + 1) && parseInt(resDia.split('-')[2]) === (parseInt(reqDia.dia))) {
                 makeArray.push(keyRutas)
-            }
+            }}
         })
 
         setDateSelected({
@@ -267,34 +279,33 @@ const DateView = (props) => {
 
         let haveRutas = false;
         rutas.array.map((keyRutas, iRutas) => {
-            let resDia = keyRutas.fecha.split('T')[0]
-            let reqDia = key.dias[iSemana]
 
-            if (key.dias[iSemana].dia !== 'off' && parseInt(resDia.split('-')[0]) === parseInt(reqDia['año']) && parseInt(resDia.split('-')[1]) === (parseInt(reqDia.mes) + 1) && parseInt(resDia.split('-')[2]) === (parseInt(reqDia.dia))) {
-                haveRutas = 'ready'
-                keyRutas.servicios && keyRutas.servicios.length > 0 ?
-                    keyRutas.servicios.map((keySerRuta, iSerRuta) => {
-                        servicios.array.map((keyServicios, iServicios) => {
-                            if (keySerRuta === keyServicios.id
-                            ) {
-                                if (keyServicios.shedule.estado === "inactivo") {
-                                    haveRutas = 'warning'
-                                    return haveRutas
+            if (keyRutas.fecha && keyRutas.fecha.split('T') && keyRutas.fecha.split('T')[0] && key.dias && key.dias[iSemana]) {
+                let resDia = keyRutas.fecha.split('T')[0]
+                let reqDia = key.dias[iSemana]
+
+                if (key.dias[iSemana].dia !== 'off' && parseInt(resDia.split('-')[0]) === parseInt(reqDia['año']) && parseInt(resDia.split('-')[1]) === (parseInt(reqDia.mes) + 1) && parseInt(resDia.split('-')[2]) === (parseInt(reqDia.dia))) {
+                    haveRutas = 'ready'
+                    keyRutas.servicios && keyRutas.servicios.length > 0 ?
+                        keyRutas.servicios.map((keySerRuta, iSerRuta) => {
+                            servicios.array.map((keyServicios, iServicios) => {
+                                if (keySerRuta === keyServicios.id
+                                ) {
+                                    if (keyServicios.shedule.estado === "inactivo") {
+                                        haveRutas = 'warning'
+                                        return haveRutas
+                                    }
+                                    if (keyServicios.shedule.estado === "programado") {
+                                        haveRutas = 'programado'
+
+                                    }
+
                                 }
-                                if (keyServicios.shedule.estado === "programado") {
-                                    haveRutas = 'programado'
-
-                                }
-                                /* else {
-                                    haveRutas = true
-
-                                } */
-
-                            }
+                            })
                         })
-                    })
 
-                    : haveRutas = false
+                        : haveRutas = false
+                }
             }
         })
         return haveRutas
@@ -347,8 +358,6 @@ const DateView = (props) => {
                     if (parseInt(fechaCuted[0]) === parseInt(fechaCompCuted[2]) && parseInt(fechaCuted[1]) === parseInt(fechaCompCuted[1]) && parseInt(fechaCuted[2]) === parseInt(fechaCompCuted[0])) {
                         modeloBiosepticos.users.map((keyUser, iUser) => {
                             if (keyUser.id === keyInd.encargados.conductor) {
-                                console.log(keyComp, keyInd.encargados.conductor, `${keyUser.id} ${keyUser.datosPersonales.nombre} ${keyUser.datosPersonales.apellido.split(' ')[0]} VEH-${keyComp.datosLegales.placa}`);
-                                console.log(vehiculosDia);
                                 vehiculosDia.push(`${keyUser.id} ${keyUser.datosPersonales.nombre} ${keyUser.datosPersonales.apellido.split(' ')[0]} VEH-${keyComp.datosLegales.placa}`)
                             }
                         })
@@ -382,7 +391,7 @@ const DateView = (props) => {
         return newServices
     }
     useEffect(() => {
-        makeMonth(fecha.anoAentrar, fecha.mesAentrar, fecha.diaAentrar, false, calendario)
+        !rutasIn && makeMonth(fecha.anoAentrar, fecha.mesAentrar, fecha.diaAentrar, false, calendario)
     }, [modeloBiosepticos.calendario, calendario, rutasIn])
     useEffect(() => {
         !calendario && makeMonth(fecha.anoAentrar, fecha.mesAentrar, fecha.diaAentrar, false, calendario)
@@ -399,330 +408,347 @@ const DateView = (props) => {
             sortBy(misServiciosSort.sort)
         }
     }, [modeloBiosepticos.calendario])
+    useEffect(() => {
+        rutasIn && setMes({
+            ...mes,
+            array: modeloBiosepticos.calendario.ano[fecha.mesAentrar].mesObj
+        })
+    }, [fecha])
 
     return (<>
-        <>
-            {dateSelected.active ? <div className='absolutedialog flex-row center'>
-                <div className="flex-column">
-                    {
-                        rutasIn ?
-                            <>
-                                <div className="flex-row just-space service-list column">{
-                                    dateSelected.asignarRuta.state ?
-                                        <>
-                                            ELIGE  EL SERVICIO A ASIGNAR
-                                            <SelectComp item={'servicio'} items={newServices()}/*  funtions={handle} */ id={'servicio'} required />
-                                            <button onClick={(e) => {
-                                                e.preventDefault();
-                                                setDateSelected({
-                                                    ...dateSelected,
-                                                    asignarRuta: { ...dateSelected.asignarRuta, state: false },
-                                                })
-                                            }}>volver</button>
 
-                                        </>
-                                        :
-                                        <>
-                                            <div>
-                                                <p>{'  RUTAS  '} <span> fecha  : {dateSelected.dia.dia} - {dateSelected.dia.mes + 1} - {dateSelected.dia.ano} </span>{
-                                                    dateSelected.servicios.array.map((key, i) => {
-                                                        return (<>
-                                                            <p> <span>ID:{key.id}</span><span>Rutas:{ckekarRutas(dateSelected).state}</span><span>Servicios:{key.servicios && key.servicios.length}</span> </p>
-                                                        </>)
+        {inTest ?
+            <> <button onClick={(e) => { e.preventDefault(); crearNuevoAnoRutas() }}>crear</button></>
+            : <>  {<>
+                {dateSelected.active ? <div className='absolutedialog flex-row center'>
+                    <div className="flex-column">
+                        {
+                            rutasIn ?
+                                <>
+                                    <div className="flex-row just-space service-list column">{
+                                        dateSelected.asignarRuta.state ?
+                                            <>
+                                                ELIGE  EL SERVICIO A ASIGNAR
+                                                <SelectComp item={'servicio'} items={newServices()}/*  funtions={handle} */ id={'servicio'} required />
+                                                <button onClick={(e) => {
+                                                    e.preventDefault();
+                                                    setDateSelected({
+                                                        ...dateSelected,
+                                                        asignarRuta: { ...dateSelected.asignarRuta, state: false },
                                                     })
+                                                }}>volver</button>
 
-                                                }</p>
-                                                <div className="stadisticsLargeRow" >
+                                            </>
+                                            :
+                                            <>
+                                                <div>
+                                                    <p>{'  RUTAS  '} <span> fecha  : {dateSelected.dia.dia} - {dateSelected.dia.mes + 1} - {dateSelected.dia.ano} </span>{
+                                                        dateSelected.servicios.array.map((key, i) => {
+                                                            return (<>
+                                                                <p> <span>ID:{key.id}</span><span>Rutas:{ckekarRutas(dateSelected).state}</span><span>Servicios:{key.servicios && key.servicios.length}</span> </p>
+                                                            </>)
+                                                        })
 
-                                                    <p>Total: <span className="bgColor-blue">{0}</span></p>
-                                                    <p>  Activos: <span className="bgColor-yellow">{0}</span>
-                                                    </p>
-                                                    <p> Pendientes: <span className="bgColor-red">{0}</span></p>
-                                                    <p> En Ruta: <span className="bgColor-orange">{0}</span></p>
-                                                    <p> Ok: <span className="bgColor-green">{0}</span></p>
+                                                    }</p>
+                                                    <div className="stadisticsLargeRow" >
+
+                                                        <p>Total: <span className="bgColor-blue">{0}</span></p>
+                                                        <p>  Activos: <span className="bgColor-yellow">{0}</span>
+                                                        </p>
+                                                        <p> Pendientes: <span className="bgColor-red">{0}</span></p>
+                                                        <p> En Ruta: <span className="bgColor-orange">{0}</span></p>
+                                                        <p> Ok: <span className="bgColor-green">{0}</span></p>
+
+                                                    </div>
+
 
                                                 </div>
+                                                {
+                                                    dateSelected.servicios.array.length > 0 ? <>
 
+                                                        {
+                                                            rutasIn && ckekarRutas(dateSelected).state ? <>
+                                                                {ckekarRutas(dateSelected).array.map((keyRuta, iRuta) => {
+                                                                    return (
+                                                                        <><div className="flex-row">
+                                                                            Id : <spam>{keyRuta.id}</spam>A cargo : <span>{keyRuta.encargados.conductor}</span> Servicios : <span>{keyRuta.servicios && keyRuta.servicios.length}</span><span onClick={(e) => { e.preventDefault(); setDateSelected({ ...dateSelected, asignarRuta: { state: true, data: { id: keyRuta.id, encargado: keyRuta.conductor } } }) }} className="pointer"> ver o dar servicios</span></div>
+                                                                        </>
+                                                                    )
 
-                                            </div>
-                                            {
-                                                dateSelected.servicios.array.length > 0 ? <>
+                                                                })}
+                                                            </> : <>NO TIENES RUTAS INDIVIDUALES PARA ESTE DIA</>
+                                                        }
 
-                                                    {
-                                                        rutasIn && ckekarRutas(dateSelected).state ? <>
-                                                            {ckekarRutas(dateSelected).array.map((keyRuta, iRuta) => {
-                                                                return (
-                                                                    <><div className="flex-row">
-                                                                        Id : <spam>{keyRuta.id}</spam>A cargo : <span>{keyRuta.encargados.conductor}</span> Servicios : <span>{keyRuta.servicios && keyRuta.servicios.length}</span><span onClick={(e) => { e.preventDefault(); setDateSelected({ ...dateSelected, asignarRuta: { state: true, data: { id: keyRuta.id, encargado: keyRuta.conductor } } }) }} className="pointer"> ver o dar servicios</span></div>
-                                                                    </>
-                                                                )
+                                                    </> : <>
+                                                        NO TIENES RUTA PARA HOY
+                                                        <button onClick={(e) => {
+                                                            e.preventDefault();
 
-                                                            })}
-                                                        </> : <>NO TIENES RUTAS INDIVIDUALES PARA ESTE DIA</>
-                                                    }
+                                                        }}>CREAR RUTA DIARIA</button>
+                                                    </>
+                                                }
+                                                <button onClick={(e) => {
+                                                    e.preventDefault();
+                                                    setDateSelected({
+                                                        ...dateSelected,
+                                                        active: false,
+                                                        servicios: { array: [] }
+                                                    })
+                                                }}>volver</button>
+                                            </>}</div>
+                                </> : <>
+                                    <div className="flex-row just-space ">
+                                        <h2>{'SERVICIOS'}</h2>   <button onClick={(e) => {
+                                            e.preventDefault();
+                                            setDateSelected({
+                                                ...dateSelected,
+                                                active: false,
+                                                servicios: { array: [] }
+                                            })
+                                        }}>volver</button>
+                                        <ServiceSelector userSort={false} misServiciosSort={misServiciosSort} sortBy={sortBy} />
 
-                                                </> : <>
-                                                    NO TIENES RUTA PARA HOY
-                                                    <button onClick={(e) => {
-                                                        e.preventDefault();
-
-                                                    }}>CREAR RUTA DIARIA</button>
-                                                </>
-                                            }
-                                            <button onClick={(e) => {
-                                                e.preventDefault();
-                                                setDateSelected({
-                                                    ...dateSelected,
-                                                    active: false,
-                                                    servicios: { array: [] }
-                                                })
-                                            }}>volver</button>
-                                        </>}</div>
-                            </> : <>
-                                <div className="flex-row just-space ">
-                                    <h2>{'SERVICIOS'}</h2>   <button onClick={(e) => {
-                                        e.preventDefault();
-                                        setDateSelected({
-                                            ...dateSelected,
-                                            active: false,
-                                            servicios: { array: [] }
-                                        })
-                                    }}>volver</button>
-                                    <ServiceSelector userSort={false} misServiciosSort={misServiciosSort} sortBy={sortBy} />
-
-                                </div>
-                                <RevisarServicios vehiculosDispo={vehiculosDispo} verDiaVehiculo={verDiaVehiculo} obras={obras} rutas={rutas} inCalendario logistica={false} misServicios={dateSelected.servicios} sortBy={sortBy} misServiciosSort={misServiciosSort} />
-                            </>
-                    }
-
-                </div>
-
-
-
-            </div> : <></>}
-            <div className='flex-row'>
-                {calendario && mes.array && mes.array.length > 0 && <div className="stadistics-column">
-                    {calendario && <div id={`idds-`} className={'row-space'}>
-                        {fecha.mesAentrar > 0 ? <span onClick={(e) => {
-                            e.preventDefault();
-                            const dateOf = fecha.mesAentrar
-                            setMes({
-                                ...mes,
-                                array: modeloBiosepticos.calendario.ano[dateOf - 1].mesObj
-                            })
-                            setfecha({
-                                ...fecha,
-                                mesAentrar: (dateOf) - 1
-                            });
-                        }}>MES ANTERIOR</span> : <div></div>}
-                        {fecha.mesAentrar < 11 && <span onClick={(e) => {
-                            e.preventDefault();
-                            const dateOf = fecha.mesAentrar;
-                            setMes({
-                                ...mes,
-                                array: modeloBiosepticos.calendario.ano[dateOf + 1].mesObj
-                            })
-                            setfecha({
-                                ...fecha,
-                                mesAentrar: dateOf + 1
-                            });
-                        }}>MES SIGUIENTE</span>}
-
-                    </div>}
-                    <h2>INFORMACION</h2>
-                    <p>  Total Servicios : <span className="bgColor-blue">{modeloBiosepticos.calendario && modeloBiosepticos.calendario.ano && modeloBiosepticos.calendario.ano[fecha.mesAentar] && modeloBiosepticos.calendario.ano[fecha.mesAentrar].totalServicios}</span></p>
-                    <p> Servicios Activos : <span className="bgColor-yellow">{modeloBiosepticos.calendario && modeloBiosepticos.calendario.ano && modeloBiosepticos.calendario.ano[fecha.mesAentar] && modeloBiosepticos.calendario.ano[fecha.mesAentrar].serviciosActivos}</span></p>
-                    <p>Servicios Pendientes : <span className="bgColor-red">{modeloBiosepticos.calendario && modeloBiosepticos.calendario.ano && modeloBiosepticos.calendario.ano[fecha.mesAentar] && modeloBiosepticos.calendario.ano[fecha.mesAentrar].serviciosPendientes}</span></p>
-                    <p>Servicios Realizados : <span className="bgColor-green">{modeloBiosepticos.calendario && modeloBiosepticos.calendario.ano && modeloBiosepticos.calendario.ano[fecha.mesAentar] && modeloBiosepticos.calendario.ano[fecha.mesAentrar].serviciosRealizados}</span></p>
-                </div>}
-                <div id={`iddsas`} className='column'>
-                    {!calendario && !crearRuta && <div div >
-                        <p>
-                            SELECCIONE El MES                </p>
-
-                        <SelectComp item={'mesAentrar'} items={[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]} funtions={handle} id={'mesAentrar'} required month />
-                        <p> SELECCIONE El AÑO
-                        </p>
-                        {!calendario && <InputComp type={'number'} id={'anoAentrar'} userData={fecha} value={fecha.anoAentrar} placeholder={'año'} funtions={handle} required />}
-                    </div>}
-                    <div id={`idds-`} className={calendario ? 'rowBig-header rowBig' : 'row'}>
-
-                        {modo === 'mes' &&
-                            <span className={`pointer ${rutaSelected.modo === 'dia' ? 'bgColor-green' : ''}`} onClick={(e) => { e.preventDefault(); crearMesRutaVehiculo() }}> CREAR RUTA MENSUAL</span>
-
-                        }
-
-
-                        {
-                            laSemana.map((keySemana, iSemana) => {
-                                return (
-                                    <>
-                                        {(keySemana === 'servicios' && calendario) || (keySemana !== 'servicios' && calendario) && <div className='day-header' id={`iddssh-${iSemana}`}>
-                                            {keySemana}
-
-                                        </div>}
-                                    </>
-                                )
-                            })
-
+                                    </div>
+                                    <RevisarServicios vehiculosDispo={vehiculosDispo} verDiaVehiculo={verDiaVehiculo} obras={obras} rutas={rutas} inCalendario logistica={false} misServicios={dateSelected.servicios} sortBy={sortBy} misServiciosSort={misServiciosSort} />
+                                </>
                         }
 
                     </div>
-                    {
-                        crearRuta && (rutaSelected.modo === 'dia' || rutaSelected.modo === 'variosDias') &&
-                        <>
-                            <span className={`pointer ${rutaSelected.modo === 'dia' ? 'bgColor-green' : ''}`} onClick={(e) => { e.preventDefault(); setRutaSelected({ ...rutaSelected, modo: 'dia' }) }}> CREAR RUTAs UN DIA </span>
-                            <span className={`pointer ${rutaSelected.modo === 'variosDias' ? 'bgColor-green' : ''}`} onClick={(e) => { e.preventDefault(); setRutaSelected({ ...rutaSelected, modo: 'variosDias' }) }}> CREAR RUTAs VARIOS DIAS </span>
-                        </>
-                    }
-                    {
-                        crearRuta && rutaSelected.dias && rutaSelected.dias.length > 0 ?
-                            rutaSelected.stage == 0 ?
-                                <span className={`pointer`} onClick={(e) => { e.preventDefault(); setRutaSelected({ ...rutaSelected, stage: 1 }) }}> SIGUIENTE </span> :
-                                <>
-                                    <span className={`pointer`} onClick={(e) => { e.preventDefault(); setRutaSelected({ ...rutaSelected, stage: 0 }) }}> atras </span>
-                                    <FormularioCrearRutaVehiculo vehiculo={vehiculo} rutaSelected={rutaSelected} modeloBiosepticos={modeloBiosepticos} />
-                                </>
-                            : <></>
-                    }
-                    {
-                        mes.array && mes.array.length > 0 && rutaSelected.stage == 0 ? mes.array.map((key, i) => {
-                            let activeDays = 0
 
-                            return (
-                                <>
 
-                                    <div id={`idds-`} className={calendario ? 'rowBig' : 'row'}>
 
-                                        {
-                                            laSemana.map((keySemana, iSemana) => {
-                                                if (key && key.dias && key.dias[iSemana] && key.dias[iSemana].dia !== 'off' && (parseInt(key.dias[iSemana].dia) >= parseInt(fecha.diaAentrar))) {
-                                                    activeDays = activeDays + 1
-                                                }
-                                                return (
-                                                    <>
-                                                        {(keySemana !== 'servicios' && !calendario) || (keySemana !== 'servicios' && calendario) ?
-                                                            <div onClick={crearRuta ? rutaSelected.modo !== 'semana' ? (e) => {
-                                                                e.preventDefault(); key && key.dias && key.dias[iSemana] && setDiasRuta(key.dias[iSemana].dia)
+                </div> : <></>}
+                <div className='flex-row'>
+                    {calendario && mes.array && mes.array.length > 0 && <div className="stadistics-column">
+                        {calendario && <div
+                            id={`idds-`} className={'row-space'}>
+                            {fecha.mesAentrar > 0 ? <span onClick={(e) => {
+                                e.preventDefault();
+                                const dateOf = fecha.mesAentrar
+                                setMes({
+                                    ...mes,
+                                    array: modeloBiosepticos.calendario.ano[dateOf - 1].mesObj
+                                })
+                                setfecha({
+                                    ...fecha,
+                                    mesAentrar: (dateOf) - 1
+                                });
+                            }}>MES ANTERIOR</span> : <div></div>}
+                            {fecha.mesAentrar < 11 && <span onClick={(e) => {
+                                e.preventDefault();
+                                const dateOf = fecha.mesAentrar;
+                                setMes({
+                                    ...mes,
+                                    array: modeloBiosepticos.calendario.ano[dateOf + 1].mesObj
+                                })
+                                setfecha({
+                                    ...fecha,
+                                    mesAentrar: dateOf + 1
+                                });
+                            }}>MES SIGUIENTE</span>}
 
-                                                            } : (e) => {
-                                                                e.preventDefault(); console.log
+                        </div>}
+                        <h2>INFORMACION</h2>
+                        <p>  Total Servicios : <span className="bgColor-blue">{modeloBiosepticos.calendario && modeloBiosepticos.calendario.ano && modeloBiosepticos.calendario.ano[fecha.mesAentar] && modeloBiosepticos.calendario.ano[fecha.mesAentrar].totalServicios}</span></p>
+                        <p> Servicios Activos : <span className="bgColor-yellow">{modeloBiosepticos.calendario && modeloBiosepticos.calendario.ano && modeloBiosepticos.calendario.ano[fecha.mesAentar] && modeloBiosepticos.calendario.ano[fecha.mesAentrar].serviciosActivos}</span></p>
+                        <p>Servicios Pendientes : <span className="bgColor-red">{modeloBiosepticos.calendario && modeloBiosepticos.calendario.ano && modeloBiosepticos.calendario.ano[fecha.mesAentar] && modeloBiosepticos.calendario.ano[fecha.mesAentrar].serviciosPendientes}</span></p>
+                        <p>Servicios Realizados : <span className="bgColor-green">{modeloBiosepticos.calendario && modeloBiosepticos.calendario.ano && modeloBiosepticos.calendario.ano[fecha.mesAentar] && modeloBiosepticos.calendario.ano[fecha.mesAentrar].serviciosRealizados}</span></p>
+                    </div>}
+                    <div id={`iddsas`}
+                        className='column'>
+                        {!calendario && !crearRuta && <div div >
+                            <p>
+                                SELECCIONE El MES                </p>
 
-                                                            } : rutasIn ? (e) => {
-                                                                e.preventDefault();
-                                                                key && key.dias && key.dias[iSemana] && key.dias[iSemana].dia !== 'off' ? (checkDiaRuta(key.dias[iSemana])/* , setfecha({
-                                                                ...fecha,
-                                                                diaAentrar: parseInt(key.dias[iSemana].dia)
-                                                            }) */) : console.log('otromes');
+                            <SelectComp item={'mesAentrar'} items={[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]} funtions={handle} id={'mesAentrar'} required month />
+                            <p> SELECCIONE El AÑO
+                            </p>
+                            {!calendario && <InputComp type={'number'} id={'anoAentrar'} userData={fecha} value={fecha.anoAentrar} placeholder={'año'} funtions={handle} required />}
+                        </div>}
+                        <div id={`idds-`}
+                            className={calendario ? 'rowBig-header rowBig' : 'row'}>
 
-                                                            } : calendario ? (e) => {
-                                                                e.preventDefault();
-                                                                key && key.dias && key.dias[iSemana] && key.dias[iSemana].dia !== 'off' ? (checkDia(key.dias[iSemana], iSemana)/* , setfecha({
-                                                                ...fecha,
-                                                                diaAentrar: parseInt(key.dias[iSemana].dia)
-                                                            }) */) : console.log('otromes');
+                            {modo === 'mes' &&
+                                <span className={`pointer ${rutaSelected.modo === 'dia' ? 'bgColor-green' : ''}`} onClick={(e) => { e.preventDefault(); crearMesRutaVehiculo() }}> CREAR RUTA MENSUAL</span>
 
-                                                            } : (e) => {
-                                                                e.preventDefault();
-                                                                key && key.dias && key.dias[iSemana] && key.dias[iSemana].dia !== 'off' ? (setfecha({
-                                                                    ...fecha,
-                                                                    diaAentrar: parseInt(key.dias[iSemana].dia)
-                                                                })) : console.log('otromes');
-
-                                                            }
-                                                            } className={`day ${crearRuta ? key && key.dias && key.dias[iSemana] && (parseInt(key.dias[iSemana].dia) >= parseInt(fecha.diaAentrar)) ? getStateDiaRuta(key.dias[iSemana].dia) ? 'bgColor-green' : 'bgColor-yellow' : 'bgColor-blue' : rutasIn ? (getDayRutas(key, iSemana)) ? (getDayRutas(key, iSemana)) === 'warning' ? 'bgColor-red' : (getDayRutas(key, iSemana)) === 'ready' ? 'bgColor-green' : 'bgColor-yellow' : 'bgColor-blue' : (key.dias && key.dias[iSemana] && key.dias[iSemana].hoy ? 'bgColor-yellow' : '')}`} id={`iddss-${iSemana}-${i}`}>
-                                                                {key.dias && key.dias[iSemana] && key.dias[iSemana].dia !== 'off' ?
-                                                                    <>
-                                                                        {key.dias[iSemana].dia}
-                                                                        {calendario &&
-                                                                            <div className="stadistics">
-                                                                                <span className="bgColor-blue">{key.dias && key.dias[iSemana] && key.dias[iSemana].totalServicios}</span>
-                                                                                <span className="bgColor-yellow">{key.dias && key.dias[iSemana] && key.dias[iSemana].serviciosActivos}</span>
-                                                                                <span className="bgColor-red">{key.dias && key.dias[iSemana] && key.dias[iSemana].serviciosPendientes}</span>
-                                                                                <span className="bgColor-green">{key.dias && key.dias[iSemana] && key.dias[iSemana].serviciosRealizados}</span>
-                                                                            </div>
-
-                                                                        }
-
-                                                                    </> : '.'}
-                                                            </div> : calendario ?
-                                                                <div className="stadisticsLarge" >
-
-                                                                    <p>totalServicios: <span className="bgColor-blue">{key.totalServicios && key.totalServicios}</span></p>
-                                                                    <br />
-                                                                    <p>serviciosActivos: <span className="bgColor-yellow">{key.serviciosActivos && key.serviciosActivos}</span></p>
-                                                                    <br />
-                                                                    <p>serviciosPendientes: <span className="bgColor-red">{key.serviciosPendientes && key.serviciosPendientes}</span></p>
-                                                                    <br />
-                                                                    <p>serviciosRealizados: <span className="bgColor-green">{key.serviciosRealizados && key.serviciosRealizados}</span></p>
-                                                                </div> : crearRuta && rutaSelected.modo === 'semana' && activeDays > 0 && rutaSelected.semana !== i ? <span className="pointer" onClick={(e) => { e.preventDefault(); crearSemanaRuta(i, iSemana) }}>
-                                                                    SELECCIONAR </span> : <></>
-                                                        }
-                                                    </>
-                                                )
-                                            })
-
-                                        }
-
-                                    </div>
-                                    {crearRuta && rutaSelected.semana === i ?
-                                        <div className="flex-row center">
-                                            <span onClick={(e) => { e.preventDefault; setRutaSelected({ ...rutaSelected, dias: [], semana: -1 }) }} className="pointer">Eliminar</span>
-                                            <span className="pointer">Seleccionar Dias</span>
-                                        </div> : <></>}
-                                </>
-                            )
-
-                        }) :
-                            <>
-                                {calendario && <button onClick={(e) => { e.preventDefault(); crearNuevoAno() }}>
-                                    CREAR PRIMER AÑO
-                                </button>}
-                            </>
-                    }
-                    {modo === 'mes' &&
-                        <>
-                            {<>
-                                <div id={`idds-`} className={'row-space'}>
-                                    {fecha.mesAentrar > mesMaximo ? <span onClick={(e) => {
-                                        e.preventDefault();
-                                        const dateOf = fecha.mesAentrar
-                                        setfecha({
-                                            ...fecha,
-                                            diaAentrar: parseInt(new Date().toLocaleDateString().split('/')[0]),
-                                            mesAentrar: (dateOf) - 1
-                                        });
-                                        makeMonth(fecha.anoAentrar, (dateOf) - 1, fecha.diaAentrar, false, calendario)
-                                        setRutaSelected({
-                                            ...rutaSelected,
-                                            mes: (dateOf) - 1
-                                        });
-                                    }}>MES ANTERIOR</span> : <></>}
-                                    {fecha.mesAentrar === mesMaximo ? <span onClick={(e) => {
-                                        e.preventDefault();
-                                        const dateOf = fecha.mesAentrar
-                                        setfecha({
-                                            ...fecha,
-                                            mesAentrar: (dateOf) + 1,
-                                            diaAentrar: 1
-                                        });
-                                        setRutaSelected({
-                                            ...rutaSelected,
-                                            mes: (dateOf) + 1
-                                        });
-                                        makeMonth(fecha.anoAentrar, (dateOf) - 1, fecha.diaAentrar, false, calendario)
-                                    }}>MES SIGUIENTE</span> : <></>}
-                                </div>
-
-                            </>
                             }
-                        </>
-                    }
+
+
+                            {
+                                laSemana.map((keySemana, iSemana) => {
+                                    return (
+                                        <>
+                                            {(keySemana === 'servicios' && calendario) || (keySemana !== 'servicios' && calendario) && <div
+                                                className='day-header' id={`iddssh-${iSemana}`}>
+                                                {keySemana}
+
+                                            </div>}
+                                        </>
+                                    )
+                                })
+
+                            }
+
+                        </div>
+                        {
+                            crearRuta && (rutaSelected.modo === 'dia' || rutaSelected.modo === 'variosDias') &&
+                            <>
+                                <span className={`pointer ${rutaSelected.modo === 'dia' ? 'bgColor-green' : ''}`} onClick={(e) => { e.preventDefault(); setRutaSelected({ ...rutaSelected, modo: 'dia' }) }}> CREAR RUTAs UN DIA </span>
+                                <span className={`pointer ${rutaSelected.modo === 'variosDias' ? 'bgColor-green' : ''}`} onClick={(e) => { e.preventDefault(); setRutaSelected({ ...rutaSelected, modo: 'variosDias' }) }}> CREAR RUTAs VARIOS DIAS </span>
+                            </>
+                        }
+                        {
+                            crearRuta && rutaSelected.dias && rutaSelected.dias.length > 0 ?
+                                rutaSelected.stage == 0 ?
+                                    <span className={`pointer`} onClick={(e) => { e.preventDefault(); setRutaSelected({ ...rutaSelected, stage: 1 }) }}> SIGUIENTE </span> :
+                                    <>
+                                        <span className={`pointer`} onClick={(e) => { e.preventDefault(); setRutaSelected({ ...rutaSelected, stage: 0 }) }}> atras </span>
+                                        <FormularioCrearRutaVehiculo vehiculo={vehiculo} rutaSelected={rutaSelected} modeloBiosepticos={modeloBiosepticos} />
+                                    </>
+                                : <></>
+                        }
+                        {
+                            mes.array && mes.array.length > 0 && rutaSelected.stage == 0 ? mes.array.map((key, i) => {
+                                let activeDays = 0
+
+                                return (
+                                    <>
+
+                                        <div id={`idds-`}
+                                            className={calendario ? 'rowBig' : 'row'}>
+
+                                            {
+                                                laSemana.map((keySemana, iSemana) => {
+                                                    if (key && key.dias && key.dias[iSemana] && key.dias[iSemana].dia !== 'off' && (parseInt(key.dias[iSemana].dia) >= parseInt(fecha.diaAentrar))) {
+                                                        activeDays = activeDays + 1
+                                                    }
+                                                    return (
+                                                        <>
+                                                            {(keySemana !== 'servicios' && !calendario) || (keySemana !== 'servicios' && calendario) ?
+                                                                <div onClick={crearRuta ? rutaSelected.modo !== 'semana' ? (e) => {
+                                                                    e.preventDefault(); key && key.dias && key.dias[iSemana] && setDiasRuta(key.dias[iSemana].dia)
+
+                                                                } : (e) => {
+                                                                    e.preventDefault(); console.log
+
+                                                                } : rutasIn ? (e) => {
+                                                                    e.preventDefault();
+                                                                    key && key.dias && key.dias[iSemana] && key.dias[iSemana].dia !== 'off' ? (checkDiaRuta(key.dias[iSemana])/* , setfecha({
+                                                                ...fecha,
+                                                                diaAentrar: parseInt(key.dias[iSemana].dia)
+                                                            }) */) : console.log('otromes');
+
+                                                                } : calendario ? (e) => {
+                                                                    e.preventDefault();
+                                                                    key && key.dias && key.dias[iSemana] && key.dias[iSemana].dia !== 'off' ? (checkDia(key.dias[iSemana], iSemana)/* , setfecha({
+                                                                ...fecha,
+                                                                diaAentrar: parseInt(key.dias[iSemana].dia)
+                                                            }) */) : console.log('otromes');
+
+                                                                } : (e) => {
+                                                                    e.preventDefault();
+                                                                    key && key.dias && key.dias[iSemana] && key.dias[iSemana].dia !== 'off' ? (setfecha({
+                                                                        ...fecha,
+                                                                        diaAentrar: parseInt(key.dias[iSemana].dia)
+                                                                    })) : console.log('otromes');
+
+                                                                }
+                                                                } className={`day ${crearRuta ? key && key.dias && key.dias[iSemana] && (parseInt(key.dias[iSemana].dia) >= parseInt(fecha.diaAentrar)) ? getStateDiaRuta(key.dias[iSemana].dia) ? 'bgColor-green' : 'bgColor-yellow' : 'bgColor-blue' : rutasIn ? (getDayRutas(key, iSemana)) ? (getDayRutas(key, iSemana)) === 'warning' ? 'bgColor-red' : (getDayRutas(key, iSemana)) === 'ready' ? 'bgColor-green' : 'bgColor-yellow' : 'bgColor-blue' : (key.dias && key.dias[iSemana] && key.dias[iSemana].hoy ? 'bgColor-yellow' : '')}`}
+                                                                    id={`iddss-${iSemana}-${i}`}>
+                                                                    {key.dias && key.dias[iSemana] && key.dias[iSemana].dia !== 'off' ?
+                                                                        <>
+                                                                            {key.dias[iSemana].dia}
+                                                                            {calendario &&
+                                                                                <div className="stadistics">
+                                                                                    <span className="bgColor-blue">{key.dias && key.dias[iSemana] && key.dias[iSemana].totalServicios}</span>
+                                                                                    <span className="bgColor-yellow">{key.dias && key.dias[iSemana] && key.dias[iSemana].serviciosActivos}</span>
+                                                                                    <span className="bgColor-red">{key.dias && key.dias[iSemana] && key.dias[iSemana].serviciosPendientes}</span>
+                                                                                    <span className="bgColor-green">{key.dias && key.dias[iSemana] && key.dias[iSemana].serviciosRealizados}</span>
+                                                                                </div>
+
+                                                                            }
+
+                                                                        </> : '.'}
+                                                                </div> : calendario ?
+                                                                    <div className="stadisticsLarge" >
+
+                                                                        <p>totalServicios: <span className="bgColor-blue">{key.totalServicios && key.totalServicios}</span></p>
+                                                                        <br />
+                                                                        <p>serviciosActivos: <span className="bgColor-yellow">{key.serviciosActivos && key.serviciosActivos}</span></p>
+                                                                        <br />
+                                                                        <p>serviciosPendientes: <span className="bgColor-red">{key.serviciosPendientes && key.serviciosPendientes}</span></p>
+                                                                        <br />
+                                                                        <p>serviciosRealizados: <span className="bgColor-green">{key.serviciosRealizados && key.serviciosRealizados}</span></p>
+                                                                    </div> : crearRuta && rutaSelected.modo === 'semana' && activeDays > 0 && rutaSelected.semana !== i ? <span className="pointer" onClick={(e) => { e.preventDefault(); crearSemanaRuta(i, iSemana) }}>
+                                                                        SELECCIONAR </span> : <></>
+                                                            }
+                                                        </>
+                                                    )
+                                                })
+
+                                            }
+
+                                        </div>
+                                        {crearRuta && rutaSelected.semana === i ?
+                                            <div className="flex-row center">
+                                                <span onClick={(e) => { e.preventDefault; setRutaSelected({ ...rutaSelected, dias: [], semana: -1 }) }} className="pointer">Eliminar</span>
+                                                <span className="pointer">Seleccionar Dias</span>
+                                            </div> : <></>}
+                                    </>
+                                )
+
+                            }) :
+                                <>
+                                    {calendario && <button onClick={(e) => { e.preventDefault(); crearNuevoAno() }}>
+                                        CREAR PRIMER AÑO
+                                    </button>}
+                                </>
+                        }
+                        {modo === 'mes' &&
+                            <>
+                                {<>
+                                    <div id={`idds-`}
+                                        className={'row-space'}>
+                                        {fecha.mesAentrar > mesMaximo ? <span onClick={(e) => {
+                                            e.preventDefault();
+                                            const dateOf = fecha.mesAentrar
+                                            setfecha({
+                                                ...fecha,
+                                                diaAentrar: parseInt(new Date().toLocaleDateString().split('/')[0]),
+                                                mesAentrar: (dateOf) - 1
+                                            });
+                                            makeMonth(fecha.anoAentrar, (dateOf) - 1, fecha.diaAentrar, false, calendario)
+                                            setRutaSelected({
+                                                ...rutaSelected,
+                                                mes: (dateOf) - 1
+                                            });
+                                        }}>MES ANTERIOR</span> : <></>}
+                                        {fecha.mesAentrar === mesMaximo ? <span onClick={(e) => {
+                                            e.preventDefault();
+                                            const dateOf = fecha.mesAentrar
+                                            setfecha({
+                                                ...fecha,
+                                                mesAentrar: (dateOf) + 1,
+                                                diaAentrar: 1
+                                            });
+                                            setRutaSelected({
+                                                ...rutaSelected,
+                                                mes: (dateOf) + 1
+                                            });
+                                            makeMonth(fecha.anoAentrar, (dateOf) - 1, fecha.diaAentrar, false, calendario)
+                                        }}>MES SIGUIENTE</span> : <></>}
+                                    </div>
+
+                                </>
+                                }
+                            </>
+                        }
+                    </div>
+
                 </div>
+            </>}</>}
 
-            </div>
-        </>
-
-    </>)
+    </>
+    )
 }
 export default DateView

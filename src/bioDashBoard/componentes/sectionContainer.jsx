@@ -12,7 +12,7 @@ const objCssInit = StylesObj()
 const objStringsInit = StringsObj()
 
 const SectionContainer = (props) => {
-    const { actualizarEstado = console.log, setPopUp = console.log, modeloBiosepticos = ModeloBiosepticos , userData = { userData }, usersAll = { array: [] }, vehiculos = { array: [] }, users = { array: [] }, pedirEmpresas = console.log, empresas = { array: [] }, sideOpen = false, objStrings = objStringsInit, objCss = objCssInit, showed = 'inicio' } = props
+    const { actualizarEstado = console.log, setPopUp = console.log, modeloBiosepticos = { vehiculos: [], ...ModeloBiosepticos }, userData = { userData }, usersAll = { array: [] }, vehiculos = { array: [] }, users = { array: [] }, pedirEmpresas = console.log, empresas = { array: [] }, sideOpen = false, objStrings = objStringsInit, objCss = objCssInit, showed = 'inicio' } = props
     return (
         <div id={(parseInt(Math.random() * 9999999999)).toString()} className={showed === 'inicio' || showed === 'centro rapido' ? objCss.dashBoard.sectionContainerCard : objCss.dashBoard.sectionContainerCardLarge}>
             {

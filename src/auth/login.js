@@ -12,14 +12,7 @@ export const LoginAuth = (userData) => {
         actionTodo: "login",
         reqId: res
     });
-    /* 
-    
-    console.log(users);
-    users.array.map((key, i) => {
-        if (key.nombre === userData.nombre && key.password === userData.password) {
-            found = { status: 'found', data: key }
-        }
-    }) */
+   
     return res
 
 

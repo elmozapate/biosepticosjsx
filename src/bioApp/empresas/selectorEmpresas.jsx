@@ -17,16 +17,7 @@ const SelectorEmpresas = (props) => {
         })
         PedirObras({ id: empresa.id, user: userData.id })
     }
-    useEffect(() => {
-        if (misEmpresas.empresas.length === 1 && !startCreating) {
-            setMisEmpresas({
-                ...misEmpresas,
-                seleccionada: misEmpresas.empresas[0].contact.nombre,
-                itemSelectioned: misEmpresas.empresas[0]
-            })
-            PedirObras({ id: misEmpresas.empresas[0].id, user: userData.id })
-        }
-    })
+   
     return (
         <>
             {
