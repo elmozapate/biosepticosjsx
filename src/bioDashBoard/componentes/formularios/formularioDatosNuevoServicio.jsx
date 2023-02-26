@@ -16,14 +16,19 @@ const objCssInit = StylesObj()
 const objStringsInit = StringsObj()
 const FormularioDatosNuevoServicio = (props) => {
 
-    const { misObras = { array: [] }, userData = userStructure, setCreatingObra = console.log, setPopUp = console.log, objStrings = objStringsInit, objCss = objCssInit, sendData = console.log, showed = 'inicio', activeEmpresa = EmpresaObj() } = props
+    const {serviceStep={ data: {}, step: 0 }, seServiceStep=console.log, misObras = { array: [] }, userData = userStructure, setCreatingObra = console.log, setPopUp = console.log, objStrings = objStringsInit, objCss = objCssInit, sendData = console.log, showed = 'inicio', activeEmpresa = EmpresaObj() } = props
     const [obrasExistentes, setObrasExistentes] = useState([])
-    const [serviceStep, seServiceStep] = useState({ data: {}, step: 0 })
     const [endDate, setEndDate] = useState({ state: false })
 
     const [sending, setSending] = useState(false)
     const [ready, setReady] = useState(false)
-    const [personalObj, setPersonalObj] = useState({ servicio: TarjetaDeServicio() })
+    const [personalObj, setPersonalObj] = useState({
+        servicio: {
+            ...TarjetaDeServicio(),
+            cliente: userData.id ? userData.id : '',
+            empresa: activeEmpresa.id ? activeEmpresa.id : ''
+        }
+    })
     const handleCreateCant = (e) => {
         e.preventDefault()
         const value = e.target.value
@@ -129,7 +134,7 @@ const FormularioDatosNuevoServicio = (props) => {
                 empresa: activeEmpresa.id
             }
         })
-    }, [])
+    }, [userData.id, activeEmpresa.id])
     useEffect(() => {
         let getObrasArray = ['NUEVA OBRA']
         misObras.array.map((key, i) => {

@@ -115,8 +115,7 @@ const UserCheck = (props) => {
         res = req
     }
     const sendNewServicio = (servicio) => {
-        console.log('jjjjj',servicio);
-        const req = MiddlewareSelector({ ask: 'setServicio', data: servicio })
+        const req = MiddlewareSelector({ ask: 'setServicio', data: servicio, id: userData.id })
         res = req
     }
     const PedirObras = (data) => {
@@ -175,7 +174,6 @@ const UserCheck = (props) => {
         res = req
     }
     const socketDo = (msg) => {
-        console.log(msg);
         const actionTodo = msg.actionTodo
         if (actionTodo === 'pedirEmpresasRes' && parseInt(res) === parseInt(msg.resId)) {
             if (msg.res === 'ok') {
@@ -232,7 +230,7 @@ const UserCheck = (props) => {
                 sendLogin()
             }
         }
-        if (actionTodo === 'dataRes-askEmpresas' ) {
+        if (actionTodo === 'dataRes-askEmpresas') {
             if (msg.res === 'ok') {
                 setMisEmpresasRes({ ...misEmpresasRes, array: msg.empresas })
                 if (msg.empresas.length === 1) {
@@ -242,15 +240,16 @@ const UserCheck = (props) => {
                         itemSelectioned: msg.empresas[0],
                         empresas: msg.empresas
                     })
-/*                     PedirObras({ id: msg.empresas[0].id, user: userData.id })
- */                } else {
+                } else {
                     setMisEmpresas({
                         ...misEmpresas,
                         empresas: msg.empresas
                     })
                 }
-/*                 resMisEmpresas()
- */            }
+                if (userData.type === 'vendedor') {
+                    resMisEmpresas()
+                }
+            }
         }
         if (actionTodo === 'dataRes-askObras') {
             if (msg.res === 'ok') {
@@ -300,9 +299,9 @@ const UserCheck = (props) => {
 
         }
         if (actionTodo === 'dataRes-askEmpresasVendedor' && parseInt(res) === parseInt(msg.resId)) {
-           /*  if (parseInt(msg.resId) === parseInt(res)) {
-                setMisEmpresas({ ...misEmpresas, array: msg.empresas })
-            } */
+            /*  if (parseInt(msg.resId) === parseInt(res)) {
+                 setMisEmpresas({ ...misEmpresas, array: msg.empresas })
+             } */
         }
 
         if (actionTodo === 'loginRes' && parseInt(res) === parseInt(msg.resId)) {

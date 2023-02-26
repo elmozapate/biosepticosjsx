@@ -6,7 +6,6 @@ const RevisarServicios = (props) => {
     const { vehiculosDispo = [], verDiaVehiculo = console.log, obras = { array: [] }, rutas = { rutas: [] }, inCalendario = false, logistica = false, misServiciosSort = EstadosServiciosObj, actualizarEstado = console.log, sortBy = console.log, misServicios = { array: [] } } = props
     const [inAsign, setInAsign] = useState({ state: false, obj: { id: '', value: {}, ready: false } })
     const getDireccion = (key, typo) => {
-        console.log('asdaasas');
         let direccion = 'SIN DATOS'
         obras.array.map((keyObra, iObra) => {
             if (keyObra.id === key.obra) {

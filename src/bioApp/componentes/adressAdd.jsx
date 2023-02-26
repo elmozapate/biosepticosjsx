@@ -132,9 +132,7 @@ const AdressAdd = (props) => {
                 sending ? <>ENVIANDO::::::</> :
                     <>{adressSend ?
                         <>
-                            {console.log(personalObj.direccion)}
                             direccion ={`${personalObj.direccion.departamento} ${personalObj.direccion.ciudad} ${personalObj.direccion.barrio} ${personalObj.direccion.viaSelecionada} ${personalObj.direccion.numero} ${personalObj.direccion.letra} ${personalObj.direccion.primerNumDireccion} ${personalObj.direccion.primerLetra} ${personalObj.direccion.segundoNumDireccion} ${personalObj.direccion.segundaLetra}`}
-
                         </> : <>
                             {adressView.map ? <>
                                 <div className="flex-row">
@@ -152,13 +150,6 @@ const AdressAdd = (props) => {
                                     }}>VOLVER ACA NO ES</span>
                                     <span onClick={(e) => {
                                         e.preventDefault(); setPersonalObj({
-                                            ...personalObj,
-                                            direccion: {
-                                                ...personalObj.direccion,
-                                                coordenadas: adressView.centre
-                                            }
-                                        });
-                                        console.log({
                                             ...personalObj,
                                             direccion: {
                                                 ...personalObj.direccion,

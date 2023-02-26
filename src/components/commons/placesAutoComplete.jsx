@@ -19,7 +19,6 @@ const PlacesAutocomplete = (props) => {
     const getLocation = (place_id) => {
         geocoder.geocode({ placeId: place_id })
             .then(({ results }) => {
-                console.log(results[0].geometry.location.lat(), results[0].geometry.location.lng());
                 setMapCenter({ lat: results[0].geometry.location.lat(), lng: results[0].geometry.location.lng() })
                 inAdressAdd && setAdressView({
                     ...adressView,
@@ -55,10 +54,8 @@ const PlacesAutocomplete = (props) => {
                 <li
                     key={place_id}
                     onClick={() => {
-                        console.log(suggestion.description.slice());
                         setValue(description, false);
                         clearSuggestions();
-                        console.log(description, place_id);
                         onAddressSelect && onAddressSelect(description);
                         getLocation(place_id)
                     }}

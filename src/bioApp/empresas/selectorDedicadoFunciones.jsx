@@ -8,7 +8,7 @@ const objStringsInit = StringsObj()
 const userStructure = UserObj()
 
 const SelectorDedicadoFunciones = (props) => {
-    const { sendNewServicio = console.log, pedirMisServicios = console.log, creatingObra = console.log, misObras = { array: [] }, misServicios = { array: [] }, vehiculos = { array: [] }, setCreatingObra = console.log, activeEmpresa = EmpresaObj(), userData = userStructure, setPopUp = console.log, sideOpen = false, objStrings = objStringsInit, objCss = objCssInit, showed = 'inicio' } = props
+    const { serviceStep={ data: {}, step: 0 }, seServiceStep=console.log, sendNewServicio = console.log, pedirMisServicios = console.log, creatingObra = console.log, misObras = { array: [] }, misServicios = { array: [] }, vehiculos = { array: [] }, setCreatingObra = console.log, activeEmpresa = EmpresaObj(), userData = userStructure, setPopUp = console.log, sideOpen = false, objStrings = objStringsInit, objCss = objCssInit, showed = 'inicio' } = props
     return (
         <>
             {showed === 'obras' &&
@@ -17,7 +17,7 @@ const SelectorDedicadoFunciones = (props) => {
                 </>}
             {showed === 'servicios' &&
                 <>
-                    <ContenedorServicios pedirMisServicios={pedirMisServicios} sendNewServicio={sendNewServicio} creatingObra={creatingObra} misObras={misObras} misServicios={misServicios} setCreatingObra={setCreatingObra} activeEmpresa={activeEmpresa} userData={userData} setPopUp={setPopUp} sideOpen={sideOpen} objStrings={objStrings} objCss={objCss} showed={showed} />
+                    <ContenedorServicios serviceStep={serviceStep} seServiceStep={seServiceStep} pedirMisServicios={pedirMisServicios} sendNewServicio={sendNewServicio} creatingObra={creatingObra} misObras={misObras} misServicios={misServicios} setCreatingObra={setCreatingObra} activeEmpresa={activeEmpresa} userData={userData} setPopUp={setPopUp} sideOpen={sideOpen} objStrings={objStrings} objCss={objCss} showed={showed} />
                 </>}
         </>
     )

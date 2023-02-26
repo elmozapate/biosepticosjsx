@@ -113,6 +113,7 @@ const FormularioCrearObra = (props) => {
                             ...msg.body
                         })
                         setSending(false)
+                        PedirObras({ id: activeEmpresa.id, user: userFullModel.id })
                     }
                     break;
                 default:

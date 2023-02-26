@@ -15,6 +15,7 @@ const userStructure = UserObj()
 
 const AppSideContainer = (props) => {
     const { obras = { array: [] }, rutas = { array: [] }, PedirBiosepticos = console.log, actualizarEstado = console.log, modeloBiosepticos = ModeloBiosepticos, servicios = { array: [] }, vehiculos = { array: [] }, empresas = { array: [] }, sendNewServicio = console.log, PedirObras = console.log, pedirMisServicios = console.log, creatingObra = false, setCreatingObra = console.log, misObras = { array: [] }, misServicios = { array: [] }, userData = userStructure, setPopUp = console.log, activeEmpresa = EmpresaObj(), sideOpen = false, objStrings = objStringsInit, objCss = objCssInit, showed = 'inicio' } = props
+    const [serviceStep, seServiceStep] = useState({ data: {}, step: 0 })
 
 
     /*         navigator.geolocation.clearWatch(id);
@@ -33,11 +34,7 @@ const AppSideContainer = (props) => {
         return true
     }
 
-    useEffect(() => {
-        actualizarEstado()
-    }, [modeloBiosepticos])
-    useEffect(() => {
-    }, [])
+
     useEffect(() => {
         if (showed === 'requerimientos') {
             hacerUsuario('normal')
@@ -52,25 +49,25 @@ const AppSideContainer = (props) => {
 
     return (
         <>
-            <div key={`key-${(parseInt(Math.random() * 9999999999)).toString()}`} className={sideOpen ? objCss.app.sideContainer : objCss.app.sideContainerOpen}>
+            <div className={sideOpen ? objCss.app.sideContainer : objCss.app.sideContainerOpen}>
                 {
                     !userData[userData.type === 'operativeUser' ? 'appPermisions' : userData.type === 'vendedor' ? 'sellPermisions' : userData.type === 'clientUser' ? 'companyPermisions' : ''][showed] ?
                         <>
                             <h1 className={objCss.app.sectionTitle}>NO DISPONIBLE </h1></> :
                         <div className="flex-column max-h">
 
-                            {userData.type === 'clientUser' && <SelectorFuncionEmpresas sendNewServicio={sendNewServicio} PedirObras={PedirObras} empresas={empresas}
+                            {userData.type === 'clientUser' && <SelectorFuncionEmpresas   serviceStep={serviceStep} seServiceStep={seServiceStep} sendNewServicio={sendNewServicio} PedirObras={PedirObras} empresas={empresas}
                                 pedirMisServicios={pedirMisServicios} creatingObra={creatingObra} setCreatingObra={setCreatingObra} misObras={misObras} misServicios={misServicios} userData={userData} setPopUp={setPopUp} sideOpen={sideOpen} activeEmpresa={activeEmpresa} objCss={objCss} objStrings={objStrings} showed={showed} />}
                             {userData.type === 'operativeUser' &&
                                 <>
                                     {showed === 'servicios' &&
                                         <><h1> {showed}</h1>
-                                            <ContenedorServicios logistica pedirMisServicios={pedirMisServicios} sendNewServicio={sendNewServicio} creatingObra={creatingObra} misObras={misObras} misServicios={servicios} setCreatingObra={setCreatingObra} activeEmpresa={activeEmpresa} userData={userData} setPopUp={setPopUp} sideOpen={sideOpen} objStrings={objStrings} objCss={objCss} showed={showed} />
+                                            <ContenedorServicios serviceStep={serviceStep} seServiceStep={seServiceStep} logistica pedirMisServicios={pedirMisServicios} sendNewServicio={sendNewServicio} creatingObra={creatingObra} misObras={misObras} misServicios={servicios} setCreatingObra={setCreatingObra} activeEmpresa={activeEmpresa} userData={userData} setPopUp={setPopUp} sideOpen={sideOpen} objStrings={objStrings} objCss={objCss} showed={showed} />
 
                                         </>}
                                     {showed === 'personalLogistico' &&
                                         <><h1> {showed}</h1>
-                                            <ContenedorServicios personalLogistico modeloBiosepticos={modeloBiosepticos} actualizarEstado={actualizarEstado} logistica pedirMisServicios={pedirMisServicios} sendNewServicio={sendNewServicio} creatingObra={creatingObra} misObras={misObras} misServicios={servicios} setCreatingObra={setCreatingObra} activeEmpresa={activeEmpresa} userData={userData} setPopUp={setPopUp} sideOpen={sideOpen} objStrings={objStrings} objCss={objCss} showed={showed} />
+                                            <ContenedorServicios  serviceStep={serviceStep} seServiceStep={seServiceStep} personalLogistico modeloBiosepticos={modeloBiosepticos} actualizarEstado={actualizarEstado} logistica pedirMisServicios={pedirMisServicios} sendNewServicio={sendNewServicio} creatingObra={creatingObra} misObras={misObras} misServicios={servicios} setCreatingObra={setCreatingObra} activeEmpresa={activeEmpresa} userData={userData} setPopUp={setPopUp} sideOpen={sideOpen} objStrings={objStrings} objCss={objCss} showed={showed} />
 
                                         </>}
                                 </>
@@ -89,7 +86,7 @@ const AppSideContainer = (props) => {
 
                                 </> : showed === 'rutas' ?
                                     <>
-                                        <DateView  showed={showed} servicios={servicios} rutas={rutas} rutasIn objStrings={objStrings} objCss={objCss} actualizarEstado={actualizarEstado} misServicios={vehiculos} misServiciosSort={vehiculos} modeloBiosepticos={modeloBiosepticos} />
+                                        <DateView showed={showed} servicios={servicios} rutas={rutas} rutasIn objStrings={objStrings} objCss={objCss} actualizarEstado={actualizarEstado} misServicios={vehiculos} misServiciosSort={vehiculos} modeloBiosepticos={modeloBiosepticos} />
                                     </> : <></>
                             }
 
