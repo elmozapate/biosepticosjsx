@@ -68,6 +68,27 @@ const ContenedorMaps = (props) => {
     }, [visorObj])
   useEffect(() => {
         if (rastreado) {
+            navigator.geolocation.watchPosition (
+                function (position) { // success cb
+                    setMapCenter({
+                        ...mapCenter,
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    })
+                    socket.emit('bioSepticosMap', {
+                        'dataIn': {
+                            lat: position.coords.latitude,
+                            lng: position.coords.longitude
+                        },
+                        actionTodo: "userObjLocation",
+                        ...visorObj,
+                        type: 'obj',
+                        ip: visorObj.ip,
+                        id: visorObj.id,
+                        reqId:parseInt(Math.random()*999999)
+                    });
+                }
+            );
             socket.on(`bioSepticosMapObj`, (msg) => {
                 const actionTodo = msg.actionTodo
                 switch (actionTodo) {
