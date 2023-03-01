@@ -11,7 +11,7 @@ const objStringsInit = StringsObj()
 const Logistica = (props) => {
     const modeloDependencia = ModeloDependencia()
 
-    const { setPopUp = console.log, actualizarEstado = console.log, modeloBiosepticos = ModeloBiosepticos , userData = UserObj(), objStrings = objStringsInit, vehiculos = { array: [] }, objCss = objCssInit, showed = 'centro rapido' } = props
+    const { setReqState = console.log, reqState = { reqId: Number(), state: false, peticion: '', type: ''  ,inList: [] }, setPopUp = console.log, actualizarEstado = console.log, modeloBiosepticos = ModeloBiosepticos , userData = UserObj(), objStrings = objStringsInit, vehiculos = { array: [] }, objCss = objCssInit, showed = 'centro rapido' } = props
     const [sectionFuntion, setSectionFuntion] = useState({
         state: false,
         function: ''
