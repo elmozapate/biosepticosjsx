@@ -70,7 +70,7 @@ const ReqComponent = (props) => {
             {
                 reqState.state ?
                     <div /* onClick={(e) => { e.preventDefault(); const popNew = PopUpObj(); reqState.funtions.setPopUp(popNew) }} */
-                        className={objCss.absoluteBox.main}>
+                        className={`${objCss.absoluteBox.main} zmayor`}>
                         <div className={objCss.absoluteBox.reqBox}>
                             <div className="flex-column">
                                 <h1>
