@@ -74,7 +74,7 @@ const ReqComponent = (props) => {
                         <div className={objCss.absoluteBox.reqBox}>
                             <div className="flex-column">
                                 <h1>
-                                    ENVIANDO::::
+                                    CARGANDO INFORMACION
                                     <br />{reqState.peticion}
                                 </h1>
                             </div>
