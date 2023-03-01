@@ -26,21 +26,62 @@ const RevisarServicios = (props) => {
         })
         return direccion
     }
-    const editarSevicio = (value) => {
-        let props = {
-            servicio: value,
-            rutaIndividual: vehiculosDispo.arrayAll[0].id,
-            conductor: inAsign.obj.value.split(' ')[0],
-            auxiliar: vehiculosDispo.arrayAll[0].encargados.auxiliar,
-            ruta: rutaDia,
-            vehiculo: vehiculosDispo.arrayAll[0].vehiculo,
-        }
+    const editarSevicio = (value, state) => {
+        if (!state) {
+            let props = {}
+            let sended = false
+            modeloBiosepticos.vehiculos.map((key, i) => {
+                if (key.datosLegales.placa === (inAsign.obj.value.split(' ')[inAsign.obj.value.split(' ').length - 1]).split('-')[1]) {
+                    vehiculosDispo.arrayAll.map((keyV, iV) => {
+                        console.log(keyV.vehiculo, key.id);
+                        if (keyV.vehiculo === key.id && !sended) {
+                            props = {
+                                servicio: value,
+                                rutaIndividual: vehiculosDispo.arrayAll[iV].id,
+                                conductor: vehiculosDispo.arrayAll[iV].encargados.conductor,
+                                auxiliar: vehiculosDispo.arrayAll[iV].encargados.auxiliar,
+                                ruta: rutaDia,
+                                vehiculo: vehiculosDispo.arrayAll[iV].vehiculo,
+                            }
+                            sended = true
+                        }
+                    })
+                }
+            })
+            asignarlaRuta(props)
 
-        asignarlaRuta(props)
+        } else {
+            let props = {}
+            modeloBiosepticos.rutas.map((key, i) => {
+                if (key.id === value.encargadosDeRuta.rutaDia) {
+                    console.log(key);
+                };
+            })
+            modeloBiosepticos.rutasIndividuales.map((key, i) => {
+                if (key.id === value.ruta) {
+                    console.log(value);
+                    props = {
+                        servicio: value,
+                        rutaIndividual: value.ruta,
+                        conductor: value.encargadosDeRuta.encargados.conductor,
+                        auxiliar: value.encargadosDeRuta.encargados.auxiliar,
+                        ruta: value.encargadosDeRuta.rutaDia,
+                        vehiculo: key.vehiculo,
+                    }
+                }
+            })
+            desAsignarlaRuta(props);
+        }
     }
     const asignarlaRuta = (props) => {
         const res = MiddlewareSelector({
             ask: 'edit-servicios', data: props
+        })
+        resId = res
+    }
+    const desAsignarlaRuta = (props) => {
+        const res = MiddlewareSelector({
+            ask: 'edit-servicios-delete', data: props
         })
         resId = res
     }
@@ -52,7 +93,7 @@ const RevisarServicios = (props) => {
                 case 'dataRes-editServicios':
                     if (parseInt(msg.resId) === parseInt(resId)) {
                         setInAsign({ state: false, obj: { value: {}, ready: false, id: '' } })
-                                            }
+                    }
                     break;
                 default:
                     break;
@@ -101,7 +142,9 @@ const RevisarServicios = (props) => {
                                                 getDireccion(key, 'barrio')
 
                                             }</td> : <></>}
-                                            {inCalendario ? <td className={inCalendario ? 'medium' : ""}>{key.ruta !== '' ? key.ruta : !inAsign.state ? <span className="pointer" onClick={(e) => { e.preventDefault(); verDiaVehiculo(key); setInAsign({ ...inAsign, state: true, obj: { ...inAsign.obj, id: key.id } }) }}>ASIGNAR</span> : <>{key.id === inAsign.obj.id && < SelectComp item={'encargado'} items={vehiculosDispo.array} funtions={(e) => {
+                                            {inCalendario ? <td className={inCalendario ? 'medium' : ""}>{key.ruta !== '' ? <>{key.ruta}<span className="pointer" onClick={(e) => {
+                                                e.preventDefault(); editarSevicio(key, true)
+                                            }}>DESASIGNAR</span></> : !inAsign.state ? <span className="pointer" onClick={(e) => { e.preventDefault(); verDiaVehiculo(key); setInAsign({ ...inAsign, state: true, obj: { ...inAsign.obj, id: key.id } }) }}>ASIGNAR</span> : <>{key.id === inAsign.obj.id && < SelectComp item={'encargado'} items={vehiculosDispo.array} funtions={(e) => {
                                                 e.preventDefault();
                                                 setInAsign({ ...inAsign, obj: { ...inAsign.obj, ready: true, value: e.target.value } })
 

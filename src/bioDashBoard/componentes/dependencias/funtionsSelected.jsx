@@ -9,7 +9,7 @@ import InteractiveTable from "../interactiveTable/interactiveTable"
 const objCssInit = StylesObj()
 const objStringsInit = StringsObj()
 const FuntionsSelected = (props) => {
-    const { actualizarEstado = console.log, setPopUp = console.log, modeloBiosepticos = ModeloBiosepticos , usersAll = { array: [] }, empresas = { array: [] }, vehiculos = { array: [] }, users = { array: [] }, inShowed = '', inSection = '', objStrings = objStringsInit, objCss = objCssInit, showed = { state: false, function: 'centro rapido' }, userData = UserObj() } = props
+    const { setReqState = console.log, reqState = { reqId: Number(), state: false, peticion: '', type: '', inList: [] },actualizarEstado = console.log, setPopUp = console.log, modeloBiosepticos = ModeloBiosepticos , usersAll = { array: [] }, empresas = { array: [] }, vehiculos = { array: [] }, users = { array: [] }, inShowed = '', inSection = '', objStrings = objStringsInit, objCss = objCssInit, showed = { state: false, function: 'centro rapido' }, userData = UserObj() } = props
     const [inProcess, setInprocess] = useState({
         state: true,
         process: ''

@@ -22,7 +22,7 @@ const SelectorTipoBioseptico = (props) => {
                 willShows === '' && ArraySelectorBiosepticos.map((key, i) => {
                     return (
                         <div>
-                            <CardView willShow={setWillShow} objCss={objCss} objStrings={objStrings} showed={key} />
+                            <CardView setReqState={setReqState} reqState={reqState} willShow={setWillShow} objCss={objCss} objStrings={objStrings} showed={key} />
                         </div>
                     )
                 })

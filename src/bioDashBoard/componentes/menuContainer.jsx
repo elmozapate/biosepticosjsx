@@ -15,7 +15,7 @@ const MenuContainer = (props) => {
             {
                 ArraySection.map((key, i) => {
                     return (
-                        <MenuCard showed={key} objCss={objCss} objStrings={objStrings} isShowed={showed} willShow={willShow} />
+                        <MenuCard setReqState={setReqState} reqState={reqState} showed={key} objCss={objCss} objStrings={objStrings} isShowed={showed} willShow={willShow} />
                     )
                 })
             }

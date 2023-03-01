@@ -10,7 +10,7 @@ import ServiceSelector from "../empresas/serviceSelector"
 import { crearMesPlaneado, ModeloBiosepticos } from "../models/modeloBiosepticos"
 import { ObjRutaDia } from "../models/modeloRutaIndividual"
 import { ModeloVehiculo } from "../models/modeloVehiculo"
-import { EstadosServicios, EstadosServiciosObj, EstadosUsersObj } from "../models/selectores"
+import { EstadosServicios, EstadosServiciosObj, EstadosUsersObj, Meses } from "../models/selectores"
 const objCssInit = StylesObj()
 const objStringsInit = StringsObj()
 const userStructure = UserObj()
@@ -210,7 +210,7 @@ const DateView = (props) => {
             })
             if (!stateOf) {
                 testarray.push(keyPp)
-            } 
+            }
 
         })
         testarray.map((keyPp, iPp) => {
@@ -528,7 +528,7 @@ const DateView = (props) => {
         modeloBiosepticos.calendario.ano.map((key, i) => {
             key.mesObj.map((keyS, iS) => {
                 keyS.dias.map((keyDiD) => {
-                    if (parseInt(keyDiD.dia) === parseInt(dateSelected.dia.dia) && (parseInt(keyDiD['año']) === parseInt(dateSelected.dia['año'])||parseInt(keyDiD['año']) === parseInt(dateSelected.dia.ano)) && parseInt(keyDiD.mes) === parseInt(dateSelected.dia.mes)) {
+                    if (parseInt(keyDiD.dia) === parseInt(dateSelected.dia.dia) && (parseInt(keyDiD['año']) === parseInt(dateSelected.dia['año']) || parseInt(keyDiD['año']) === parseInt(dateSelected.dia.ano)) && parseInt(keyDiD.mes) === parseInt(dateSelected.dia.mes)) {
                         resL = keyDiD.servicios.length
                     }
                 })
@@ -547,6 +547,13 @@ const DateView = (props) => {
         newDias()
 
     }, [dateSelected, fecha, modeloBiosepticos, mes])
+    useEffect(() => {
+        setfecha({
+            diaAentrar: parseInt(new Date().toLocaleDateString().split('/')[0]),
+            mesAentrar: parseInt(new Date().toLocaleDateString().split('/')[1]) - 1,
+            anoAentrar: parseInt(new Date().toLocaleDateString().split('/')[2]),
+        })
+    }, [rutasIn, calendario])
     useEffect(() => {
         crearRuta && newDiasReq()
     }, [fecha])
@@ -597,7 +604,7 @@ const DateView = (props) => {
 
     useEffect(() => {
 
-        rutasIn && setelmes()
+        rutasIn && modeloBiosepticos.calendario.ano[fecha.mesAentrar] && modeloBiosepticos.calendario.ano[fecha.mesAentrar].mesObj && setelmes()
     }, [fecha])
     useEffect(() => {
         calendario && setelmesvar()
@@ -707,7 +714,7 @@ const DateView = (props) => {
                                         <ServiceSelector userSort={false} misServiciosSort={misServiciosSort} sortBy={sortBy} />
 
                                     </div>
-                                    <RevisarServicios dateSelected={dateSelected} setDateSelected={setDateSelected} setReqState={setReqState} reqState={reqState} rutaDia={rutaDia} vehiculosDispo={vehiculosDispo} verDiaVehiculo={verDiaVehiculo} obras={obras} rutas={rutas} inCalendario logistica={false} misServicios={dateSelected.servicios} sortBy={sortBy} misServiciosSort={misServiciosSort} />
+                                    <RevisarServicios modeloBiosepticos={modeloBiosepticos} dateSelected={dateSelected} setDateSelected={setDateSelected} setReqState={setReqState} reqState={reqState} rutaDia={rutaDia} vehiculosDispo={vehiculosDispo} verDiaVehiculo={verDiaVehiculo} obras={obras} rutas={rutas} inCalendario logistica={false} misServicios={dateSelected.servicios} sortBy={sortBy} misServiciosSort={misServiciosSort} />
                                 </>
                         }
 
@@ -747,6 +754,8 @@ const DateView = (props) => {
 
                         </div>}
                         <h2>INFORMACION</h2>
+                        <h2>MES : {Meses[fecha.mesAentrar]}</h2>
+
                         <p>  Total Servicios : <span className="bgColor-blue">{allmes.totalServicios}</span></p>
                         <p> Servicios Activos : <span className="bgColor-yellow">{allmes.serviciosActivos}</span></p>
                         <p>Servicios Pendientes : <span className="bgColor-red">{allmes.serviciosPendientes}</span></p>
@@ -762,6 +771,8 @@ const DateView = (props) => {
                             <p> SELECCIONE El AÑO
                             </p>
                             {!calendario && <InputComp type={'number'} id={'anoAentrar'} userData={fecha} value={fecha.anoAentrar} placeholder={'año'} funtions={handle} required />}
+                            {!calendario && <h2>MES : {Meses[fecha.mesAentrar]}</h2>}
+
                         </div>}
                         <div id={`idds-`}
                             className={calendario ? 'rowBig-header rowBig' : 'row'}>
@@ -796,7 +807,7 @@ const DateView = (props) => {
                             </>
                         }
                         {
-                            crearRuta && !verRuta && rutaSelected.dias && rutaSelected.dias.length > 0 ?
+                            crearRuta && !verRuta && rutaSelected.dias && rutaSelected.dias.length !== diasDeVehiculoMes.length && rutaSelected.dias.length > 0 ?
                                 rutaSelected.stage == 0 ?
                                     <span className={`pointer`} onClick={(e) => { e.preventDefault(); setRutaSelected({ ...rutaSelected, stage: 1 }) }}> SIGUIENTE </span> :
                                     <>

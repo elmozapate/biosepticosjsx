@@ -10,7 +10,7 @@ const objStringsInit = StringsObj()
 const UsuariosApp = (props) => {
     const modeloDependencia = ModeloDependencia()
 
-    const { setPopUp = console.log, userData = UserObj(), usersAll = { array: [] }, users = { array: [] }, objStrings = objStringsInit, objCss = objCssInit, showed = 'centro rapido' } = props
+    const { setPopUp = console.log, userData = UserObj(),setReqState = console.log, reqState = { reqId: Number(), state: false, peticion: '', type: '', inList: [] }, usersAll = { array: [] }, users = { array: [] }, objStrings = objStringsInit, objCss = objCssInit, showed = 'centro rapido' } = props
     const [sectionFuntion, setSectionFuntion] = useState({
         state: false,
         function: ''

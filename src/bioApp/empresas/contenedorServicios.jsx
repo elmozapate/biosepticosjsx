@@ -99,7 +99,7 @@ const ContenedorServicios = (props) => {
                 !creatingObra && (!personalLogistico ? misServicios.array : modeloBiosepticos.users).length > 0 ?
                     <>
 
-                        <RevisarServicios logistica={personalLogistico} misServicios={!personalLogistico ? misServicios.array : modeloBiosepticos.users} misServiciosSort={misServiciosSort} sortBy={sortBy} />
+                        <RevisarServicios modeloBiosepticos={modeloBiosepticos} logistica={personalLogistico} misServicios={!personalLogistico ? misServicios.array : modeloBiosepticos.users} misServiciosSort={misServiciosSort} sortBy={sortBy} />
 
                     </> :
                     <>{!logistica ?

@@ -56,13 +56,13 @@ const AppSideContainer = (props) => {
                             <h1 className={objCss.app.sectionTitle}>NO DISPONIBLE </h1></> :
                         <div className="flex-column max-h">
 
-                            {userData.type === 'clientUser' && <SelectorFuncionEmpresas   userModel={userModel} serviceStep={serviceStep} seServiceStep={seServiceStep} sendNewServicio={sendNewServicio} PedirObras={PedirObras} empresas={empresas}
+                            {userData.type === 'clientUser' && <SelectorFuncionEmpresas   modeloBiosepticos={modeloBiosepticos} userModel={userModel} serviceStep={serviceStep} seServiceStep={seServiceStep} sendNewServicio={sendNewServicio} PedirObras={PedirObras} empresas={empresas}
                                 pedirMisServicios={pedirMisServicios} creatingObra={creatingObra} setCreatingObra={setCreatingObra} misObras={misObras} misServicios={misServicios} userData={userData} setReqState={setReqState} reqState={reqState} setPopUp={setPopUp} sideOpen={sideOpen} activeEmpresa={activeEmpresa} objCss={objCss} objStrings={objStrings} showed={showed} />}
                             {userData.type === 'operativeUser' &&
                                 <>
                                     {showed === 'servicios' &&
                                         <><h1> {showed}</h1>
-                                            <ContenedorServicios serviceStep={serviceStep} seServiceStep={seServiceStep} logistica pedirMisServicios={pedirMisServicios} sendNewServicio={sendNewServicio} creatingObra={creatingObra} misObras={misObras} misServicios={servicios} setCreatingObra={setCreatingObra} activeEmpresa={activeEmpresa} userData={userData} setReqState={setReqState} reqState={reqState} setPopUp={setPopUp} sideOpen={sideOpen} objStrings={objStrings} objCss={objCss} showed={showed} />
+                                            <ContenedorServicios modeloBiosepticos={modeloBiosepticos} serviceStep={serviceStep} seServiceStep={seServiceStep} logistica pedirMisServicios={pedirMisServicios} sendNewServicio={sendNewServicio} creatingObra={creatingObra} misObras={misObras} misServicios={servicios} setCreatingObra={setCreatingObra} activeEmpresa={activeEmpresa} userData={userData} setReqState={setReqState} reqState={reqState} setPopUp={setPopUp} sideOpen={sideOpen} objStrings={objStrings} objCss={objCss} showed={showed} />
 
                                         </>}
                                     {showed === 'personalLogistico' &&
