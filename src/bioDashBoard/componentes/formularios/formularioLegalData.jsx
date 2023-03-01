@@ -13,7 +13,7 @@ const objCssInit = StylesObj()
 const objStringsInit = StringsObj()
 const FormularioLegalData = (props) => {
 
-    const { userFullModel = EmpresaObj(), userData = userStructure, setPopUp = console.log, objStrings = objStringsInit, objCss = objCssInit, sendData = console.log, showed = 'inicio' } = props
+    const { userFullModel = EmpresaObj(), userData = userStructure, setReqState = console.log, reqState = { reqId: Number(), state: false, peticion: '', type: ''  ,inList: [] }, setPopUp = console.log, objStrings = objStringsInit, objCss = objCssInit, sendData = console.log, showed = 'inicio' } = props
     const [vendedores, setVendedores] = useState({ array: [] })
 
     const [sending, setSending] = useState(false)

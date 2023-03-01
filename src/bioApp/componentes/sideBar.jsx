@@ -10,7 +10,7 @@ const emptyArray = []
 const objCssInit = StylesObj()
 const objStringsInit = StringsObj()
 const SideBar = (props) => {
-    const { userData = userStructure, setPopUp = console.log, objStrings = objStringsInit, sideOpen = false, setSideOpen = console.log, objCss = objCssInit, willShow = console.log, showed = 'inicio' } = props
+    const { userData = userStructure, setReqState = console.log, reqState = { reqId: Number(), state: false, peticion: '', type: ''  ,inList: [] }, setPopUp = console.log, objStrings = objStringsInit, sideOpen = false, setSideOpen = console.log, objCss = objCssInit, willShow = console.log, showed = 'inicio' } = props
 
     let listener = false
     let listenerExit = false

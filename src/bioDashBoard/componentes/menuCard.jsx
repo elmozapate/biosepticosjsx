@@ -8,7 +8,7 @@ const objStringsInit = StringsObj()
 
 const MenuCard = (props) => {
 
-    const { userData = userStructure, setPopUp = console.log, objStrings = objStringsInit, objCss = objCssInit, willShow = console.log, showed = '', isShowed = 'inicio', selectioned = 'inicio' } = props
+    const { userData = userStructure, setReqState = console.log, reqState = { reqId: Number(), state: false, peticion: '', type: ''  ,inList: [] }, setPopUp = console.log, objStrings = objStringsInit, objCss = objCssInit, willShow = console.log, showed = '', isShowed = 'inicio', selectioned = 'inicio' } = props
     return (
         <div
             id={(parseInt(Math.random() * 9999999999)).toString()}

@@ -15,7 +15,7 @@ let resId = 0
 
 const FormularioAppUser = (props) => {
 
-    const { userModel = ModeloUsuario(), setWillShow = console.log, inAsk = 'newUser', userType = '', willShows = '', onlyAccess = [{ type: '', perms: {} }], sinPermisos = false, userData = userStructure, setPopUp = console.log, objStrings = objStringsInit, objCss = objCssInit, willShow = console.log, showed = 'inicio' } = props
+    const { userModel = ModeloUsuario(), setWillShow = console.log, inAsk = 'newUser', userType = '', willShows = '', onlyAccess = [{ type: '', perms: {} }], sinPermisos = false, userData = userStructure, setReqState = console.log, reqState = { reqId: Number(), state: false, peticion: '', type: ''  ,inList: [] }, setPopUp = console.log, objStrings = objStringsInit, objCss = objCssInit, willShow = console.log, showed = 'inicio' } = props
     const [inPerms, setInperms] = useState(ObjPermisions)
     const [sending, setSending] = useState(false)
     const [ready, setReady] = useState(false)

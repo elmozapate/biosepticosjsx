@@ -7,7 +7,7 @@ import { useEffect } from "react";
 const objCssInit = StylesObj()
 const AbsoluteBox = (props) => {
     const userStructure = UserObj()
-    const { setPopUp = console.log, inSending = false, popUp = { active: false, type: '' }, objCss = objCssInit, userData = userStructure } = props
+    const { setReqState = console.log, reqState = { reqId: Number(), state: false, peticion: '', type: ''  ,inList: [] }, setPopUp = console.log, inSending = false, popUp = { active: false, type: '' }, objCss = objCssInit, userData = userStructure } = props
     useEffect(() => {
         /*   if (userData.nombre.length > 2 && userData.password.length > 3 && userData.passwordRepeat.length > 3) {
               setTrueData(true)
@@ -29,13 +29,13 @@ const AbsoluteBox = (props) => {
                                     <button onClick={(e) => { e.preventDefault(); popUp.funtions.setPopUp(PopUpObj()); popUp.funtions.setUserData({ ...userData, type: 'newUser' }) }}>ACEPTAR </button></>
                             }
                             {
-                                popUp.type === 'register' && <RegisterComponent popUp={popUp} objCss={objCss} userData={userData} setPopUp={setPopUp} />
+                                popUp.type === 'register' && <RegisterComponent popUp={popUp} objCss={objCss} userData={userData} setReqState={setReqState} reqState={reqState} setPopUp={setPopUp} />
                             }
                             {
-                                popUp.type === 'changePassword' && <RegisterComponent popUp={popUp} objCss={objCss} userData={userData} setPopUp={setPopUp} changePassword />
+                                popUp.type === 'changePassword' && <RegisterComponent popUp={popUp} objCss={objCss} userData={userData} setReqState={setReqState} reqState={reqState} setPopUp={setPopUp} changePassword />
                             }
                             {
-                                popUp.type === 'login' && <LoginComponent inSending={inSending} popUp={popUp} objCss={objCss} userData={userData} setPopUp={setPopUp} />
+                                popUp.type === 'login' && <LoginComponent inSending={inSending} popUp={popUp} objCss={objCss} userData={userData} setReqState={setReqState} reqState={reqState} setPopUp={setPopUp} />
                             }
                             {
                                 popUp.type === 'acceptBox' &&

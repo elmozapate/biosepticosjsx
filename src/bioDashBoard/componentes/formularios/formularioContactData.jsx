@@ -10,7 +10,7 @@ const objCssInit = StylesObj()
 const objStringsInit = StringsObj()
 const FormularioContactData = (props) => {
 
-    const { userData = userStructure, setPopUp = console.log, objStrings = objStringsInit, objCss = objCssInit, sendData = console.log, showed = 'inicio' } = props
+    const { userData = userStructure, setReqState = console.log, reqState = { reqId: Number(), state: false, peticion: '', type: ''  ,inList: [] }, setPopUp = console.log, objStrings = objStringsInit, objCss = objCssInit, sendData = console.log, showed = 'inicio' } = props
 
     const [sending, setSending] = useState(false)
     const [ready, setReady] = useState(false)
@@ -65,7 +65,7 @@ const FormularioContactData = (props) => {
                                     <InputComp type={'number'} id={'telefonoSecundario'} value={personalObj.telefonoSecundario} placeholder={'telefono secundario'} funtions={handleCreate} required />
                                 </div>
                                 <div className={objCss.forms.personalData.miniSectionAdress}>
-                                    <AdressAdd userData={userData} setPopUp={setPopUp} objCss={objCss} objStrings={objStrings} send={sendCity} />                                </div>
+                                    <AdressAdd userData={userData} setReqState={setReqState} reqState={reqState} setPopUp={setPopUp} objCss={objCss} objStrings={objStrings} send={sendCity} />                                </div>
 
                             </div>
                             <br />

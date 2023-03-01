@@ -9,10 +9,10 @@ const objStringsInit = StringsObj()
 
 const CentroDeVendedores = (props) => {
 
-    const { setPopUp = console.log, pedirEmpresas = console.log, userData = userStructure, objStrings = objStringsInit, objCss = objCssInit } = props
+    const { setPopUp = console.log, pedirEmpresas = console.log, userData = userStructure, setReqState = console.log, reqState = { reqId: Number(), state: false, peticion: '', type: ''  ,inList: [] }, objStrings = objStringsInit, objCss = objCssInit } = props
     return (
         <>
-            <AppContainer pedirEmpresas={pedirEmpresas} userData={userData} setPopUp={setPopUp} objCss={objCss} objStrings={objStrings} />
+            <AppContainer pedirEmpresas={pedirEmpresas} userData={userData} setReqState={setReqState} reqState={reqState} setPopUp={setPopUp} objCss={objCss} objStrings={objStrings} />
 
         </>
     )

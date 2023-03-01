@@ -8,7 +8,7 @@ const objStringsInit = StringsObj()
 
 const DashMenu = (props) => {
 
-    const { userData = userStructure, setPopUp = console.log, objStrings = objStringsInit, objCss = objCssInit, willShow = console.log, showed = 'inicio' } = props
+    const { userData = userStructure, setReqState = console.log, reqState = { reqId: Number(), state: false, peticion: '', type: ''  ,inList: [] }, setPopUp = console.log, objStrings = objStringsInit, objCss = objCssInit, willShow = console.log, showed = 'inicio' } = props
     return (
 <>
 <MenuContainer objCss={objCss} objStrings={objStrings} showed={showed} willShow={willShow} />

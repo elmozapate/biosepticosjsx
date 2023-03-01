@@ -1,19 +1,12 @@
-import ModeloUsuario, { ObjPermisions } from "@/bioApp/models/modelosUsuario"
-import InputComp from "@/components/commons/input"
 import StringsObj, { UserObj } from "@/engine/content"
 import MiddlewareSelector from "@/middleware/askSelector"
 import StylesObj from "@/styles/stylesObj"
 import { useEffect, useState } from "react"
-import EnvM from "@/envMachetero"
-import io from "socket.io-client"
-import FormularioPersonalData from "./formularioPersonalData"
-import FormularioContactData from "./formularioContactData"
 import { Socket } from "@/middleware/routes/connect/socket/socketOn"
 import { ModeloVehiculo } from "@/bioApp/models/modeloVehiculo"
 import FormularioVehiculoData from "./formularioVehiculoData"
 import FormularioVehiculoOperativeData from "./formularioVehiculoOperativeData"
 
-const envM = EnvM()
 
 const socket = Socket
 const userStructure = UserObj()
@@ -23,7 +16,7 @@ let resId = 0
 
 const FormularioVehiculo = (props) => {
 
-    const { setWillShow = console.log, userModel = ModeloVehiculo, setUserData = console.log, userData = userStructure, setPopUp = console.log, objStrings = objStringsInit, objCss = objCssInit, willShow = console.log, showed = 'inicio' } = props
+    const { setWillShow = console.log, userModel = ModeloVehiculo, setUserData = console.log, userData = userStructure, setReqState = console.log, reqState = { reqId: Number(), state: false, peticion: '', type: ''  ,inList: [] }, setPopUp = console.log, objStrings = objStringsInit, objCss = objCssInit, willShow = console.log, showed = 'inicio' } = props
     const [formSelected, setFormSelected] = useState({ selected: 'none', })
     const [userFullModel, setuserFullModel] = useState(userModel)
     const [sending, setSending] = useState(false)
@@ -114,11 +107,11 @@ const FormularioVehiculo = (props) => {
                         :
                         <div >
                             {
-                                formSelected.selected === 'personalData' && <><FormularioVehiculoData sendData={sendData} userData={userData} setPopUp={setPopUp} userFullModel={userFullModel} objCss={objCss} objStrings={objStrings} /></>
+                                formSelected.selected === 'personalData' && <><FormularioVehiculoData sendData={sendData} userData={userData} setReqState={setReqState} reqState={reqState} setPopUp={setPopUp} userFullModel={userFullModel} objCss={objCss} objStrings={objStrings} /></>
 
                             }
                             {
-                                formSelected.selected === 'contactData' && <><FormularioVehiculoOperativeData userFullModel={userFullModel} sendData={sendData} userData={userData} setPopUp={setPopUp} objCss={objCss} objStrings={objStrings} /> </>
+                                formSelected.selected === 'contactData' && <><FormularioVehiculoOperativeData userFullModel={userFullModel} sendData={sendData} userData={userData} setReqState={setReqState} reqState={reqState} setPopUp={setPopUp} objCss={objCss} objStrings={objStrings} /> </>
                             }
                             <br />
 

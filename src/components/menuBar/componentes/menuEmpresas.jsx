@@ -9,7 +9,7 @@ const userStructure = UserObj()
 const NavMenuEmpresas = (props) => {
     const { misEmpresas = {
         seleccionada: '', empresas: [], itemSelectioned: EmpresaObj()
-    }, setMisEmpresas = console.log, startCreating = false, setStartCreating = console.log, misEmpresasRes = { array: [] }, objStrings = objStringsInit, userData = userStructure, setPopUp = console.log, PedirObras = console.log, pedirMisServicios = console.log, setMenuOpen = console.log, objCss = objCssInit, cleanUserData = console.log } = props
+    }, setMisEmpresas = console.log, startCreating = false, setStartCreating = console.log, misEmpresasRes = { array: [] }, objStrings = objStringsInit, userData = userStructure, setReqState = console.log, reqState = { reqId: Number(), state: false, peticion: '', type: ''  ,inList: [] }, setPopUp = console.log, PedirObras = console.log, pedirMisServicios = console.log, setMenuOpen = console.log, objCss = objCssInit, cleanUserData = console.log } = props
     const [selectingEmpresas, setSelectingEmpresas] = useState(false)
     return (
         <div id="navEmpresas-menu-div">

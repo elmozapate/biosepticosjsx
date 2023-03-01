@@ -12,7 +12,7 @@ export const crearEmpresas = (userData = userData, misEmpresas = misEmpresas.emp
 }
 /* ingresarEmpresas(userData, misEmpresas.empresas)
  */const CrearEmpresa = (props) => {
-    const { back = console.log, userModel = ModeloUsuario(), firstTime = false, misEmpresas = { seleccionada: '', empresas: [] }, pedirEmpresas = console.log, userData = userStructure, setPopUp = console.log, objStrings = objStringsInit, objCss = objCssInit } = props
+    const { back = console.log, userModel = ModeloUsuario(), firstTime = false, misEmpresas = { seleccionada: '', empresas: [] }, pedirEmpresas = console.log, userData = userStructure, setReqState = console.log, reqState = { reqId: Number(), state: false, peticion: '', type: ''  ,inList: [] }, setPopUp = console.log, objStrings = objStringsInit, objCss = objCssInit } = props
     const [startCreating, setStartCreating] = useState(false)
 
     return (
@@ -29,12 +29,12 @@ export const crearEmpresas = (userData = userData, misEmpresas = misEmpresas.emp
                             </>
                                 :
                                 <>
-                                    <FormularioCrearEmpresa firstTimeIn userModel={userModel} userData={userData} setPopUp={setPopUp} objCss={objCss} objStrings={objStrings} />
+                                    <FormularioCrearEmpresa firstTimeIn userModel={userModel} userData={userData} setReqState={setReqState} reqState={reqState} setPopUp={setPopUp} objCss={objCss} objStrings={objStrings} />
                                 </>
                         }
                     </div> :
                     <div className="flex-column">
-                        <FormularioCrearEmpresa back={back} userModel={userModel} userData={userData} setPopUp={setPopUp} objCss={objCss} objStrings={objStrings} />
+                        <FormularioCrearEmpresa back={back} userModel={userModel} userData={userData} setReqState={setReqState} reqState={reqState} setPopUp={setPopUp} objCss={objCss} objStrings={objStrings} />
                     </div>
             }
         </>

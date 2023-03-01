@@ -6,11 +6,11 @@ import { useState } from "react"
 const objCssInit = StylesObj()
 const objStringsInit = StringsObj()
 const DashBoard = (props) => {
-    const { actualizarEstado = console.log, modeloBiosepticos = ModeloBiosepticos , vehiculos = { array: [] }, usersAll = { array: [] }, pedirEmpresas = console.log, users = { array: [] }, empresas = { array: [] }, userData = userStructure, setPopUp = console.log, objStrings = objStringsInit, objCss = objCssInit } = props
+    const { actualizarEstado = console.log, modeloBiosepticos = ModeloBiosepticos , vehiculos = { array: [] }, usersAll = { array: [] }, pedirEmpresas = console.log, users = { array: [] }, empresas = { array: [] }, userData = userStructure, setReqState = console.log, reqState = { reqId: Number(), state: false, peticion: '', type: ''  ,inList: [] }, setPopUp = console.log, objStrings = objStringsInit, objCss = objCssInit } = props
     const [selectioned, setSelectioned] = useState('centro rapido')
 
     return (
-        <AppContainer selectioned={selectioned} setSelectioned={setSelectioned} modeloBiosepticos={modeloBiosepticos} actualizarEstado={actualizarEstado} vehiculos={vehiculos} usersAll={usersAll} pedirEmpresas={pedirEmpresas} empresas={empresas} users={users} userData={userData} setPopUp={setPopUp} objCss={objCss} objStrings={objStrings} inUse={'dashBoard'} />
+        <AppContainer selectioned={selectioned} setSelectioned={setSelectioned} modeloBiosepticos={modeloBiosepticos} actualizarEstado={actualizarEstado} vehiculos={vehiculos} usersAll={usersAll} pedirEmpresas={pedirEmpresas} empresas={empresas} users={users} userData={userData} setReqState={setReqState} reqState={reqState} setPopUp={setPopUp} objCss={objCss} objStrings={objStrings} inUse={'dashBoard'} />
     )
 }
 export default DashBoard

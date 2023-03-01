@@ -16,8 +16,8 @@ const StylesObj = () => {
         },
         absoluteBox: {
             main: '',
-            cardBox: ''
-
+            cardBox: '',
+            reqBox: ''
         },
         forms: {
             register: {

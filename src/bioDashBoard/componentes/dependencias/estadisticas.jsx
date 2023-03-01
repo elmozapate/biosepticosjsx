@@ -25,7 +25,7 @@ const Estadisticas = (props) => {
                                 <h1 > {`${sectionFuntion.function} ${showed}`} </h1>
                                 <button onClick={(e) => { e.preventDefault(); setSectionFuntion({ ...sectionFuntion, state: false, function: '' }) }} className={objCss.dashBoard.backButton} ><span> Volver </span> ↩</button>
                             </div>
-                            <FuntionsSelected userData={userData} setPopUp={setPopUp} objCss={objCss} objStrings={objStrings} showed={sectionFuntion} />
+                            <FuntionsSelected userData={userData} setReqState={setReqState} reqState={reqState} setPopUp={setPopUp} objCss={objCss} objStrings={objStrings} showed={sectionFuntion} />
 
 
                         </>

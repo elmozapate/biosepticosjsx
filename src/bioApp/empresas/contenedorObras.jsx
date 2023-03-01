@@ -10,7 +10,7 @@ const objStringsInit = StringsObj()
 const userStructure = UserObj()
 
 const ContenedorObras = (props) => {
-    const { creatingObra = false, misObras = { array: [] }, misServicios = { array: [] }, setCreatingObra = console.log, activeEmpresa = EmpresaObj(), userData = userStructure, setPopUp = console.log, sideOpen = false, objStrings = objStringsInit, objCss = objCssInit, showed = 'inicio' } = props
+    const { creatingObra = false, misObras = { array: [] }, misServicios = { array: [] }, setCreatingObra = console.log, activeEmpresa = EmpresaObj(), userData = userStructure, setReqState = console.log, reqState = { reqId: Number(), state: false, peticion: '', type: ''  ,inList: [] }, setPopUp = console.log, sideOpen = false, objStrings = objStringsInit, objCss = objCssInit, showed = 'inicio' } = props
     return (
         <>
             {
@@ -38,7 +38,7 @@ const ContenedorObras = (props) => {
                                     <button onClick={(e) => { e.preventDefault(); setCreatingObra(true) }}>CREAR OBRA</button>
                                 </>
                                 :
-                                <FormularioCrearObra userData={userData} setPopUp={setPopUp} sideOpen={sideOpen} activeEmpresa={activeEmpresa} objCss={objCss} objStrings={objStrings} showed={showed} back={setCreatingObra} />
+                                <FormularioCrearObra userData={userData} setReqState={setReqState} reqState={reqState} setPopUp={setPopUp} sideOpen={sideOpen} activeEmpresa={activeEmpresa} objCss={objCss} objStrings={objStrings} showed={showed} back={setCreatingObra} />
                         }
                     </>
             }

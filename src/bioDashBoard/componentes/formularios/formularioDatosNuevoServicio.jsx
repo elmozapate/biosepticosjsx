@@ -16,7 +16,7 @@ const objCssInit = StylesObj()
 const objStringsInit = StringsObj()
 const FormularioDatosNuevoServicio = (props) => {
 
-    const {serviceStep={ data: {}, step: 0 }, seServiceStep=console.log, misObras = { array: [] }, userData = userStructure, setCreatingObra = console.log, setPopUp = console.log, objStrings = objStringsInit, objCss = objCssInit, sendData = console.log, showed = 'inicio', activeEmpresa = EmpresaObj() } = props
+    const {serviceStep={ data: {}, step: 0 }, seServiceStep=console.log, misObras = { array: [] }, userData = userStructure, setReqState = console.log, reqState = { reqId: Number(), state: false, peticion: '', type: ''  ,inList: [] }, setCreatingObra = console.log, setPopUp = console.log, objStrings = objStringsInit, objCss = objCssInit, sendData = console.log, showed = 'inicio', activeEmpresa = EmpresaObj() } = props
     const [obrasExistentes, setObrasExistentes] = useState([])
     const [endDate, setEndDate] = useState({ state: false })
 

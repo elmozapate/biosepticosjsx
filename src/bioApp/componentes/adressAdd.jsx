@@ -1,15 +1,11 @@
 import InputComp from "@/components/commons/input"
 import StringsObj, { UserObj } from "@/engine/content"
-import MiddlewareSelector from "@/middleware/askSelector"
 import StylesObj from "@/styles/stylesObj"
 import { useEffect, useState } from "react"
-import EnvM from "@/envMachetero"
-import io from "socket.io-client"
 import { EmpresaObj, ObjContacto } from "@/bioApp/models/modelosUsuario"
 import SelectComp from "@/components/commons/selector"
 import { CitySelector } from "../models/modelosSelector"
 import { Socket } from "@/middleware/routes/connect/socket/socketOn"
-import PlacesAutocomplete from "@/components/commons/placesAutoComplete"
 import GooglMapsComp from "@/components/commons/googleMaps"
 import InputCompAdress from "@/components/commons/inputAdress"
 import { ObjDireccion } from "../models/modeloDireccion"
@@ -20,7 +16,7 @@ const objCssInit = StylesObj()
 const objStringsInit = StringsObj()
 const AdressAdd = (props) => {
 
-    const { inEmpresa = false, empresa = '', userData = userStructure, setPopUp = console.log, objStrings = objStringsInit, objCss = objCssInit, send = console.log, showed = 'inicio' } = props
+    const { inEmpresa = false, empresa = '', userData = userStructure, setReqState = console.log, reqState = { reqId: Number(), state: false, peticion: '', type: ''  ,inList: [] }, setPopUp = console.log, objStrings = objStringsInit, objCss = objCssInit, send = console.log, showed = 'inicio' } = props
     const [placeInfo, setplaceInfo] = useState({ departamentos: [], ciudades: [], selected: '', selectedCity: '' })
 
     const [adressSend, setAdressSend] = useState(false)

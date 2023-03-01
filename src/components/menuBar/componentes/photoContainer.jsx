@@ -4,7 +4,7 @@ import Image from "next/image"
 const objCssInit = StylesObj()
 const objStringsInit = StringsObj()
 const PhotoContainer = (props) => {
-    const { menuOpen = false, setMenuOpen = console.log, userData = userStructure, setPopUp = console.log, objStrings = objStringsInit, objCss = objCssInit } = props
+    const { menuOpen = false, setMenuOpen = console.log, userData = userStructure, setReqState = console.log, reqState = { reqId: Number(), state: false, peticion: '', type: ''  ,inList: [] }, setPopUp = console.log, objStrings = objStringsInit, objCss = objCssInit } = props
     return (
         <>
             <div

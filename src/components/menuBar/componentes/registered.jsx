@@ -11,7 +11,7 @@ const objStringsInit = StringsObj()
 const Registered = (props) => {
     const { PedirObras = console.log, pedirMisServicios = console.log, misEmpresas = {
         seleccionada: '', empresas: [], itemSelectioned: EmpresaObj()
-    }, setMisEmpresas = console.log, startCreating = false, setStartCreating = console.log, misEmpresasRes = { array: [] }, objStrings = objStringsInit, setUserData = console.log, userData = userStructure, setPopUp = console.log, objCss = objCssInit, cleanUserData = console.log } = props
+    }, setMisEmpresas = console.log, startCreating = false, setStartCreating = console.log, misEmpresasRes = { array: [] }, objStrings = objStringsInit, setUserData = console.log, userData = userStructure, setReqState = console.log, reqState = { reqId: Number(), state: false, peticion: '', type: ''  ,inList: [] }, setPopUp = console.log, objCss = objCssInit, cleanUserData = console.log } = props
     const [menuOpen, setMenuOpen] = useState(false)
     const [menuOpenEmpresas, setMenuOpenEmpresas] = useState(false)
     useEffect(() => {
@@ -27,17 +27,17 @@ const Registered = (props) => {
             <div  id="nav-menu" className={objCss.barraNav.menuActivator.toString()} onClick={(e) => { e.preventDefault(); setMenuOpen(!menuOpen) }}>
                 {
                     menuOpenEmpresas && userData.type === 'clientUser' && <NavMenuEmpresas PedirObras={PedirObras}
-                        pedirMisServicios={pedirMisServicios} setMisEmpresas={setMisEmpresas} misEmpresas={misEmpresas} misEmpresasRes={misEmpresasRes} startCreating={startCreating} setStartCreating={setStartCreating} objStrings={objStrings} setMenuOpen={setMenuOpen} setUserData={setUserData} userData={userData} setPopUp={setPopUp} cleanUserData={cleanUserData} />
+                        pedirMisServicios={pedirMisServicios} setMisEmpresas={setMisEmpresas} misEmpresas={misEmpresas} misEmpresasRes={misEmpresasRes} startCreating={startCreating} setStartCreating={setStartCreating} objStrings={objStrings} setMenuOpen={setMenuOpen} setUserData={setUserData} userData={userData} setReqState={setReqState} reqState={reqState} setPopUp={setPopUp} cleanUserData={cleanUserData} />
                 }
 
 
                 {
-                    menuOpen && <NavMenu objStrings={objStrings} setMenuOpen={setMenuOpen} setUserData={setUserData} userData={userData} setPopUp={setPopUp} cleanUserData={cleanUserData} />
+                    menuOpen && <NavMenu objStrings={objStrings} setMenuOpen={setMenuOpen} setUserData={setUserData} userData={userData} setReqState={setReqState} reqState={reqState} setPopUp={setPopUp} cleanUserData={cleanUserData} />
                 }
                 <p  id="nav-menu-p">|||</p>
 
                 <p  id="nav-menu-pa">{userData.nombre}</p>
-                <PhotoContainer setMenuOpen={setMenuOpen} userData={userData} setPopUp={setPopUp} objStrings={objStrings} objCss={objCss} />
+                <PhotoContainer setMenuOpen={setMenuOpen} userData={userData} setReqState={setReqState} reqState={reqState} setPopUp={setPopUp} objStrings={objStrings} objCss={objCss} />
 
 
             </div>

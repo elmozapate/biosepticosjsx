@@ -25,7 +25,7 @@ const UsuariosApp = (props) => {
                                 <h1 > {`${sectionFuntion.function} ${showed}`} </h1>
                                 <button onClick={(e) => { e.preventDefault(); setSectionFuntion({ ...sectionFuntion, state: false, function: '' }) }} className={objCss.dashBoard.backButton} ><span> Volver </span> ↩</button>
                             </div>
-                            <FuntionsSelected userData={userData} setPopUp={setPopUp} usersAll={usersAll} users={users} objCss={objCss} objStrings={objStrings} showed={sectionFuntion} inShowed={showed} />
+                            <FuntionsSelected userData={userData} setReqState={setReqState} reqState={reqState} setPopUp={setPopUp} usersAll={usersAll} users={users} objCss={objCss} objStrings={objStrings} showed={sectionFuntion} inShowed={showed} />
                         </>
                         :
                         <>

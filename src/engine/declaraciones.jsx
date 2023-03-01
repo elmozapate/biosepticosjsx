@@ -27,7 +27,9 @@ const Declaraciones = (props) => {
                         },
                         absoluteBox: {
                             main: 'absolutedialog',
-                            cardBox: 'absolutedialog_popout'
+                            cardBox: 'absolutedialog_popout',
+                            reqBox: 'absolutedialog_reqBox'
+
                         },
                         page: {
                             main: 'div-page'

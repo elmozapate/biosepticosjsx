@@ -8,7 +8,7 @@ const userStructure = UserObj()
 const objCssInit = StylesObj()
 const objStringsInit = StringsObj()
 const SelectorEmpresas = (props) => {
-    const { PedirObras = console.log, pedirMisServicios = console.log, startCreating = false, setStartCreating = console.log, setMisEmpresas = console.log, userModel = ModeloUsuario(), misEmpresas = { seleccionada: '', empresas: [], itemSelectioned: EmpresaObj() }, pedirEmpresas = console.log, empresas = { array: [] }, users = { array: [] }, userData = userStructure, setPopUp = console.log, objStrings = objStringsInit, objCss = objCssInit, inUse = 'app' } = props
+    const { PedirObras = console.log, pedirMisServicios = console.log, startCreating = false, setStartCreating = console.log, setMisEmpresas = console.log, userModel = ModeloUsuario(), misEmpresas = { seleccionada: '', empresas: [], itemSelectioned: EmpresaObj() }, pedirEmpresas = console.log, empresas = { array: [] }, users = { array: [] }, userData = userStructure, setReqState = console.log, reqState = { reqId: Number(), state: false, peticion: '', type: ''  ,inList: [] }, setPopUp = console.log, objStrings = objStringsInit, objCss = objCssInit, inUse = 'app' } = props
     const ingresarEnEmpresa = (empresa) => {
         setMisEmpresas({
             ...misEmpresas,
@@ -25,7 +25,7 @@ const SelectorEmpresas = (props) => {
                     {
                         misEmpresas.empresas.length === 0 &&
                         <>
-                            <CrearEmpresa firstTime userModel={userModel} userData={userData} setPopUp={setPopUp} objCss={objCss} objStrings={objStrings} />
+                            <CrearEmpresa firstTime userModel={userModel} userData={userData} setReqState={setReqState} reqState={reqState} setPopUp={setPopUp} objCss={objCss} objStrings={objStrings} />
                         </>
                     }
                     {
@@ -33,7 +33,7 @@ const SelectorEmpresas = (props) => {
                         misEmpresas.empresas.length > 0 && <>
                             {startCreating ?
                                 <>
-                                    <CrearEmpresa userModel={userModel} userData={userData} setPopUp={setPopUp} objCss={objCss} objStrings={objStrings} back={setStartCreating} />
+                                    <CrearEmpresa userModel={userModel} userData={userData} setReqState={setReqState} reqState={reqState} setPopUp={setPopUp} objCss={objCss} objStrings={objStrings} back={setStartCreating} />
                                 </>
                                 :
                                 <div className="flex-column">

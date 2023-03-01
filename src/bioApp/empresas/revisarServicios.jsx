@@ -1,9 +1,15 @@
 import SelectComp from "@/components/commons/selector"
-import { useState } from "react"
+import MiddlewareSelector from "@/middleware/askSelector"
+import { Socket } from "@/middleware/routes/connect/socket/socketOn"
+import { useEffect, useState } from "react"
+import { ModeloBiosepticos } from "../models/modeloBiosepticos"
 import { EstadosServiciosObj } from "../models/selectores"
+const socket = Socket
+
+let resId = 0
 
 const RevisarServicios = (props) => {
-    const { vehiculosDispo = [], verDiaVehiculo = console.log, obras = { array: [] }, rutas = { rutas: [] }, inCalendario = false, logistica = false, misServiciosSort = EstadosServiciosObj, actualizarEstado = console.log, sortBy = console.log, misServicios = { array: [] } } = props
+    const {setReqState = console.log, reqState = { reqId: Number(), state: false, peticion: '', type: ''  ,inList: [] }, modeloBiosepticos = ModeloBiosepticos, rutaDia = '', vehiculosDispo = { array: [], arrayAll: [] }, verDiaVehiculo = console.log, obras = { array: [] }, rutas = { rutas: [] }, inCalendario = false, logistica = false, misServiciosSort = EstadosServiciosObj, actualizarEstado = console.log, sortBy = console.log, misServicios = { array: [] } } = props
     const [inAsign, setInAsign] = useState({ state: false, obj: { id: '', value: {}, ready: false } })
     const getDireccion = (key, typo) => {
         let direccion = 'SIN DATOS'
@@ -14,6 +20,39 @@ const RevisarServicios = (props) => {
         })
         return direccion
     }
+    const editarSevicio = (value) => {
+        let props = {
+            servicio: value,
+            rutaIndividual: vehiculosDispo.arrayAll[0].id,
+            conductor: inAsign.obj.value.split(' ')[0],
+            auxiliar: vehiculosDispo.arrayAll[0].encargados.auxiliar,
+            ruta: rutaDia,
+            vehiculo: vehiculosDispo.arrayAll[0].vehiculo,
+        }
+
+        asignarlaRuta(props)
+    }
+    const asignarlaRuta = (props) => {
+        const res = MiddlewareSelector({
+            ask: 'edit-servicios', data: props
+        })
+        resId = res
+    }
+    useEffect(() => {
+        socket.on("bioApp", (msg) => {
+            const actionTodo = msg.actionTodo
+            const Data = msg.dataIn
+            switch (actionTodo) {
+                case 'dataRes-editServicios':
+                    if (parseInt(msg.resId) === parseInt(resId)) {
+                        window.alert('correcto')
+                    }
+                    break;
+                default:
+                    break;
+            }
+        })
+    }, [])
     return (
         <div className="service-list">
             <>
@@ -65,7 +104,8 @@ const RevisarServicios = (props) => {
                                                     inAsign.obj.ready && inAsign.obj.id === key.id ?
                                                         <button onClick={(e) => {
                                                             e.preventDefault();
-                                                            setInAsign({ state: false, obj: { value: {}, ready: false, id: '' } })
+                                                            editarSevicio(key)
+                                                            /*  setInAsign({ state: false, obj: { value: {}, ready: false, id: '' } }) */
 
                                                         }} >SALVAR</button> : inAsign.obj.id === key.id &&
                                                         <><button onClick={(e) => {

@@ -2,12 +2,17 @@ import StringsObj from "@/engine/content"
 import StylesObj from "@/styles/stylesObj"
 import { useEffect, useState } from "react"
 import CrearRutasVehiculo from "../componentes/crearRutasVehiculo"
+import DateView from "../componentes/dateView"
 import { ModeloBiosepticos } from "../models/modeloBiosepticos"
+import { ModeloVehiculo } from "../models/modeloVehiculo"
 import { EstadosServiciosObj } from "../models/selectores"
 const objCssInit = StylesObj()
 const objStringsInit = StringsObj()
 const RevisarVehiculos = (props) => {
-    const { modeloBiosepticos = ModeloBiosepticos, objStrings = objStringsInit, objCss = objCssInit, misServiciosSort = EstadosServiciosObj, actualizarEstado = console.log, sortBy = console.log, misServicios = { array: [] } } = props
+    const { vehiculo=ModeloVehiculo, modeloBiosepticos = ModeloBiosepticos, objStrings = objStringsInit, objCss = objCssInit, misServiciosSort = EstadosServiciosObj, actualizarEstado = console.log, sortBy = console.log, misServicios = { array: [] } } = props
+    const [modoCrearVehiculo, setModoCrearVehiculo] = useState({
+        mode: 'mes'
+    })
     const [inOperativo, setInOperativo] = useState({
         active: false,
         vehiculo: {},
@@ -60,6 +65,9 @@ const RevisarVehiculos = (props) => {
                                         {inOperativo.inMode === 'modificar' && <>
                                         </>}
                                         {inOperativo.inMode === 'ver' && <>
+                                            <>
+                                                <DateView vehiculo={inOperativo.vehiculo} modeloBiosepticos={modeloBiosepticos} modo={modoCrearVehiculo.mode} verRuta crearRuta />
+                                            </>
                                         </>}
                                         {inOperativo.inMode === 'historial' && <>
                                         </>}

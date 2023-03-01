@@ -11,13 +11,13 @@ const userStructure = UserObj()
 const MenuBar = (props) => {
     const { misEmpresas = {
         seleccionada: '', empresas: [], itemSelectioned: EmpresaObj()
-    }, setMisEmpresas = console.log, startCreating = false, setStartCreating = console.log, inSending = false, misEmpresasRes = { array: [] }, userData = userStructure, setPopUp = console.log, cleanUserData = console.log, setUserData = console.log, PedirObras = console.log, pedirMisServicios = console.log, changeLanguage = console.log, objStrings = objStringsInit, objCss = objCssInit } = props
+    }, setMisEmpresas = console.log, startCreating = false, setStartCreating = console.log, inSending = false, misEmpresasRes = { array: [] }, userData = userStructure, setReqState = console.log, reqState = { reqId: Number(), state: false, peticion: '', type: ''  ,inList: [] }, setPopUp = console.log, cleanUserData = console.log, setUserData = console.log, PedirObras = console.log, pedirMisServicios = console.log, changeLanguage = console.log, objStrings = objStringsInit, objCss = objCssInit } = props
     return (
         <>
             <div className={objCss.barraNav.main}>
-                <Logo userData={userData} setPopUp={setPopUp} misEmpresas={misEmpresas} objCss={objCss} objStrings={objStrings} />
+                <Logo userData={userData} setReqState={setReqState} reqState={reqState} setPopUp={setPopUp} misEmpresas={misEmpresas} objCss={objCss} objStrings={objStrings} />
                 <UserInfo PedirObras={PedirObras}
-                    pedirMisServicios={pedirMisServicios} misEmpresas={misEmpresas} setMisEmpresas={setMisEmpresas} startCreating={startCreating} setStartCreating={setStartCreating} misEmpresasRes={misEmpresasRes} inSending={inSending} objCss={objCss} objStrings={objStrings} userData={userData} setPopUp={setPopUp} setUserData={setUserData} cleanUserData={cleanUserData} changeLanguage={changeLanguage} />
+                    pedirMisServicios={pedirMisServicios} misEmpresas={misEmpresas} setMisEmpresas={setMisEmpresas} startCreating={startCreating} setStartCreating={setStartCreating} misEmpresasRes={misEmpresasRes} inSending={inSending} objCss={objCss} objStrings={objStrings} userData={userData} setReqState={setReqState} reqState={reqState} setPopUp={setPopUp} setUserData={setUserData} cleanUserData={cleanUserData} changeLanguage={changeLanguage} />
 
             </div>
         </>

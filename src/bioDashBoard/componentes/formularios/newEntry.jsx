@@ -9,14 +9,14 @@ const objStringsInit = StringsObj()
 
 const NewEntry = (props) => {
 
-    const { userData = userStructure, setPopUp = console.log, objStrings = objStringsInit, objCss = objCssInit, willShow = console.log, inSection = 'inicio' } = props
+    const { userData = userStructure, setReqState = console.log, reqState = { reqId: Number(), state: false, peticion: '', type: ''  ,inList: [] }, setPopUp = console.log, objStrings = objStringsInit, objCss = objCssInit, willShow = console.log, inSection = 'inicio' } = props
     return (
         <>
             {
-                inSection === 'usuariosApp' && <FormularioAppUser userData={userData} setPopUp={setPopUp} objStrings={objStrings} objCss={objCss} />
+                inSection === 'usuariosApp' && <FormularioAppUser userData={userData} setReqState={setReqState} reqState={reqState} setPopUp={setPopUp} objStrings={objStrings} objCss={objCss} />
             }
             {
-                inSection === 'bioSepticos' && <SelectorTipoBioseptico userData={userData} setPopUp={setPopUp} objStrings={objStrings} objCss={objCss} />
+                inSection === 'bioSepticos' && <SelectorTipoBioseptico userData={userData} setReqState={setReqState} reqState={reqState} setPopUp={setPopUp} objStrings={objStrings} objCss={objCss} />
             }
 
         </>

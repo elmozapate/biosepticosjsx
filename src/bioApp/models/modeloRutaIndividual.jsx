@@ -1,9 +1,9 @@
 const ObjRutaIndividual = (vehiculo, equipo = { conductor: '', auxiliar: '' }, fecha = '', creador = '') => {
     return ({
-        id: `rDVeh-${parseInt(Math.random() * 99999)}`,
+        id: equipo.conductor === '' ? '' : `rDVeh-${parseInt(Math.random() * 99999)}`,
         rutaDia: '',
         programada: false,
-        estado: true,
+        estado: equipo.conductor === '' ? false : true,
         porgamadoPor: '',
         creadaPor: creador,
         vehiculo: vehiculo,

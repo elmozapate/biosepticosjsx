@@ -11,7 +11,6 @@ import { RegisterAuth } from "@/auth/register"
 import CentroDeLogistica from "@/bioApp/logistica/centroDeLogistica"
 import DashBoard from "@/bioDashBoard/dashBoard"
 import EnvM from "@/envMachetero"
-import io from "socket.io-client"
 import MiddlewareSelector from "@/middleware/askSelector"
 import ModeloUsuario, { EmpresaObj } from "@/bioApp/models/modelosUsuario"
 import CentroDeEmpresas from "@/bioApp/empresas/centroDeEmpresas"
@@ -20,6 +19,7 @@ import { ObjPermisos } from "@/bioApp/models/modelosPermisos"
 import { Socket, SocketOn } from "@/middleware/routes/connect/socket/socketOn"
 import CentroDeVendedores from "@/bioApp/vendedores/centroDeVendedores"
 import { ModeloBiosepticos } from "@/bioApp/models/modeloBiosepticos"
+import ReqComponent from "@/components/containers/reqComponent"
 const envM = EnvM()
 const plantillaUSuario = ModeloUsuario()
 const socket = Socket
@@ -33,6 +33,13 @@ let modelActual = plantillaUSuario
 
 const UserCheck = (props) => {
     const { usersArray = [], setUsersArray = [] } = props
+    const [reqState, setReqState] = useState({
+        reqId: Number(),
+        state: false,
+        peticion: '',
+        type: '',
+        inList: []
+    })
     const [userData, setUserName] = useState(userStructure)
     const [userModel, setUserModel] = useState(plantillaUSuario)
     const [empresas, setEmpresas] = useState({ array: [] })
@@ -70,9 +77,48 @@ const UserCheck = (props) => {
         userActual = ({ ...oldData })
 
     }
+    const sendLogin = () => {
+        const req = LoginAuth(userData, usersArray)
+        res = req
+        let newInList = reqState.inList
+        let isSend = false
+        newInList.map((key, i) => {
+            if (key.id === req) {
+                isSend = true
+            }
+        })
+        if (!isSend) {
+            newInList.push({ id: req, valor: 'login' })
+            setReqState({
+                ...reqState,
+                state: true,
+                reqId: reqState.reqId !== 0 && reqState.reqId !== '' ? reqState.reqId : req,
+                peticion: reqState.peticion !== '' ? reqState.peticion : 'login',
+                inList: newInList
+            })
+        }
+
+    }
     const sendData = () => {
         const req = RegisterAuth(userData, usersArray)
         res = req
+        let newInList = reqState.inList
+        let isSend = false
+        newInList.map((key, i) => {
+            if (key.id === req) {
+                isSend = true
+            }
+        })
+        if (!isSend) {
+            newInList.push({ id: req, valor: 'login' })
+            setReqState({
+                ...reqState,
+                state: true,
+                reqId: reqState.reqId !== 0 && reqState.reqId !== '' ? reqState.reqId : req,
+                peticion: reqState.peticion !== '' ? reqState.peticion : 'login',
+                inList: newInList
+            })
+        }
         if (res === 0) {
             setUserName({
                 ...userData, status: 'registered', permisions: {
@@ -105,30 +151,111 @@ const UserCheck = (props) => {
 
 
     }
-    const sendLogin = () => {
-        res = LoginAuth(userData, usersArray)
 
-
-    }
     const changePassword = () => {
         const req = MiddlewareSelector({ ask: 'changePassword', data: userData })
         res = req
+        let newInList = reqState.inList
+        let isSend = false
+        newInList.map((key, i) => {
+            if (key.id === req) {
+                isSend = true
+            }
+        })
+        if (!isSend) {
+            newInList.push({ id: req, valor: 'changePassword' })
+            setReqState({
+                ...reqState,
+                state: true,
+                reqId: reqState.reqId !== 0 && reqState.reqId !== '' ? reqState.reqId : req,
+                peticion: reqState.peticion !== '' ? reqState.peticion : 'changePassword',
+                inList: newInList
+            })
+        }
     }
     const sendNewServicio = (servicio) => {
         const req = MiddlewareSelector({ ask: 'setServicio', data: servicio, id: userData.id })
         res = req
+        let newInList = reqState.inList
+        let isSend = false
+        newInList.map((key, i) => {
+            if (key.id === req) {
+                isSend = true
+            }
+        })
+        if (!isSend) {
+            newInList.push({ id: req, valor: 'setServicio' })
+            setReqState({
+                ...reqState,
+                state: true,
+                reqId: reqState.reqId !== 0 && reqState.reqId !== '' ? reqState.reqId : req,
+                peticion: reqState.peticion !== '' ? reqState.peticion : 'setServicio',
+                inList: newInList
+            })
+        }
     }
     const PedirObras = (data) => {
         const req = MiddlewareSelector({ ask: 'askObras', data: data })
         res = req
+       /*  let newInList = reqState.inList
+        let isSend = false
+        newInList.map((key, i) => {
+            if (key.id === req) {
+                isSend = true
+            }
+        })
+        if (!isSend) {
+            newInList.push({ id: req, valor: 'askObras' })
+            setReqState({
+                ...reqState,
+                state: true,
+                reqId: reqState.reqId !== 0 && reqState.reqId !== '' ? reqState.reqId : req,
+                peticion: reqState.peticion !== '' ? reqState.peticion : 'askObras',
+                inList: newInList
+            })
+        } */
     }
     const PedirBiosepticos = (data) => {
         const req = MiddlewareSelector({ ask: 'askBioseptico', data: data })
         res = req
+        let newInList = reqState.inList
+        let isSend = false
+        newInList.map((key, i) => {
+            if (key.id === req) {
+                isSend = true
+            }
+        })
+        if (!isSend) {
+            newInList.push({ id: req, valor: 'askBioseptico' })
+            setReqState({
+                ...reqState,
+                state: true,
+                reqId: reqState.reqId !== 0 && reqState.reqId !== '' ? reqState.reqId : req,
+                peticion: reqState.peticion !== '' ? reqState.peticion : 'askBioseptico',
+                inList: newInList
+            })
+        }
     }
     const PedirVehiculos = (data) => {
         const req = MiddlewareSelector({ ask: 'askVehiculos', data: data })
         res = req
+        let newInList = reqState.inList
+        let isSend = false
+        newInList.map((key, i) => {
+            if (key.id === req) {
+                isSend = true
+            }
+        })
+        if (!isSend) {
+            newInList.push({ id: req, valor: 'askVehiculos' })
+            setReqState({
+                ...reqState,
+                state: true,
+                reqId: reqState.reqId !== 0 && reqState.reqId !== '' ? reqState.reqId : req,
+                peticion: reqState.peticion !== '' ? reqState.peticion : 'askVehiculos',
+                inList: newInList
+            })
+        }
     }
     const cleanUserData = () => {
         setUserName({ ...userStructure })
@@ -140,15 +267,72 @@ const UserCheck = (props) => {
     const pedirEmpresas = (userIn = userData) => {
         const req = MiddlewareSelector({ ask: 'pedirEmpresas', data: userIn })
         res = req
+        let newInList = reqState.inList
+        let isSend = false
+        newInList.map((key, i) => {
+            if (key.id === req) {
+                isSend = true
+            }
+        })
+        if (!isSend) {
+            newInList.push({ id: req, valor: 'pedirEmpresas' })
+            setReqState({
+                ...reqState,
+                state: true,
+                reqId: reqState.reqId !== 0 && reqState.reqId !== '' ? reqState.reqId : req,
+                peticion: reqState.peticion !== '' ? reqState.peticion : 'pedirEmpresas',
+                inList: newInList
+            })
+        }
     }
-    const pedirMisEmpresas = (model = userModel.app.relationed.empresas) => {
+    const pedirMisEmpresas = (inEmpesas = false, model = userModel.app.relationed.empresas) => {
         const req = MiddlewareSelector({ ask: 'askCompanies', data: model })
         res = req
-
+        if (!inEmpesas) {
+            let newInList = reqState.inList
+            let isSend = false
+            newInList.map((key, i) => {
+                if (key.id === req) {
+                    isSend = true
+                }
+            })
+            if (!isSend) {
+                newInList.push({ id: req, valor: 'askCompanies' })
+                setReqState({
+                    ...reqState,
+                    state: true,
+                    reqId: reqState.reqId !== 0 && reqState.reqId !== '' ? reqState.reqId : req,
+                    peticion: reqState.peticion !== '' ? reqState.peticion : 'askCompanies',
+                    inList: newInList
+                })
+            }
+        }
+        return req
     }
     const pedirMisServicios = (model = userModel.app.relationed.empresas) => {
-        const req = MiddlewareSelector({ ask: 'askServicios', data: model })
-        res = req
+        if (userModel.app.relationed.empresas.length > 0) {
+            const req = MiddlewareSelector({ ask: 'askServicios', data: model })
+            res = req
+            
+         /*    let newInList = reqState.inList
+            let isSend = false
+            newInList.map((key, i) => {
+                if (key.id === req) {
+                    isSend = true
+                }
+            })
+            if (!isSend) {
+                newInList.push({ id: req, valor: 'askServicios' })
+                setReqState({
+                    ...reqState,
+                    state: true,
+                    reqId: reqState.reqId !== 0 && reqState.reqId !== '' ? reqState.reqId : req,
+                    peticion: reqState.peticion !== '' ? reqState.peticion : 'askServicios',
+                    inList: newInList
+                })
+            }*/
+        } 
+
 
     }
     const setUserDataApp = (type, value) => {
@@ -166,12 +350,44 @@ const UserCheck = (props) => {
     const actualizarEstado = (data) => {
         const req = MiddlewareSelector({ ask: 'actualizarEstado', data: data })
         res = req
+        let newInList = reqState.inList
+        let isSend = false
+        newInList.map((key, i) => {
+            if (key.id === req) {
+                isSend = true
+            }
+        })
+        if (!isSend) {
+            newInList.push({ id: req, valor: 'actualizarEstado' })
+            setReqState({
+                ...reqState,
+                state: true,
+                reqId: reqState.reqId !== 0 && reqState.reqId !== '' ? reqState.reqId : req,
+                peticion: reqState.peticion !== '' ? reqState.peticion : 'actualizarEstado',
+                inList: newInList
+            })
+        }
     }
     const resMisEmpresas = () => {
-        const req = MiddlewareSelector({
-            ask: 'getMisEmpresasVendedor', id: userData.id
-        })
+        const req = MiddlewareSelector({ ask: 'getMisEmpresasVendedor', id: userData.id })
         res = req
+        let newInList = reqState.inList
+        let isSend = false
+        newInList.map((key, i) => {
+            if (key.id === req) {
+                isSend = true
+            }
+        })
+        if (!isSend) {
+            newInList.push({ id: req, valor: 'getMisEmpresasVendedor' })
+            setReqState({
+                ...reqState,
+                state: true,
+                reqId: reqState.reqId !== 0 && reqState.reqId !== '' ? reqState.reqId : req,
+                peticion: reqState.peticion !== '' ? reqState.peticion : 'getMisEmpresasVendedor',
+                inList: newInList
+            })
+        }
     }
     const socketDo = (msg) => {
         const actionTodo = msg.actionTodo
@@ -390,7 +606,7 @@ const UserCheck = (props) => {
         <>
             <SocketOn socketDo={socketDo} setPopUp={setPopUp} />
             <MenuBar PedirObras={PedirObras}
-                pedirMisServicios={pedirMisServicios} startCreating={startCreating} setStartCreating={setStartCreating} misEmpresas={misEmpresas} setMisEmpresas={setMisEmpresas} misEmpresasRes={misEmpresasRes} inSending={inSending} objCss={objCss} objStrings={objStrings} cleanUserData={cleanUserData} userData={userData} setPopUp={setPopUp} changeLanguage={changeLanguage} setUserData={setUserDataApp} />
+                pedirMisServicios={pedirMisServicios} startCreating={startCreating} setStartCreating={setStartCreating} misEmpresas={misEmpresas} setMisEmpresas={setMisEmpresas} misEmpresasRes={misEmpresasRes} inSending={inSending} objCss={objCss} objStrings={objStrings} cleanUserData={cleanUserData} userData={userData} setReqState={setReqState} reqState={reqState} setPopUp={setPopUp} changeLanguage={changeLanguage} setUserData={setUserDataApp} />
             {
                 userData.type === 'newUser' &&
                 <>
@@ -398,7 +614,7 @@ const UserCheck = (props) => {
                 </>
             }
             {userModel.userObj.emailConfirmation ? <></> : (userData.type !== 'newUser' && userModel.userObj.dataRequired) || (userData.type === 'createUserData' && userModel.userObj.dataRequired) ?
-                <FormularioNuevo userData={userData} setPopUp={setPopUp} setUserData={setUserModel} objCss={objCss} objStrings={objStrings} />
+                <FormularioNuevo setReqState={setReqState} reqState={reqState} userData={userData} setPopUp={setPopUp} setUserData={setUserModel} objCss={objCss} objStrings={objStrings} />
                 : <>
 
                     {
@@ -407,7 +623,7 @@ const UserCheck = (props) => {
                             {
 
                                 <CentroDeEmpresas sendNewServicio={sendNewServicio} creatingObra={creatingObra} setCreatingObra={setCreatingObra} misObras={misObras} misServicios={misServicios} PedirObras={PedirObras}
-                                    pedirMisServicios={pedirMisServicios} startCreating={startCreating} setStartCreating={setStartCreating} misEmpresas={misEmpresas} setMisEmpresas={setMisEmpresas} pedirEmpresas={pedirMisEmpresas} misEmpresasRes={misEmpresasRes} userModel={userModel} userData={userData} setPopUp={setPopUp} objCss={objCss} objStrings={objStrings} />
+                                    pedirMisServicios={pedirMisServicios} startCreating={startCreating} setStartCreating={setStartCreating} misEmpresas={misEmpresas} setMisEmpresas={setMisEmpresas} pedirEmpresas={pedirMisEmpresas} misEmpresasRes={misEmpresasRes} userModel={userModel} userData={userData} setReqState={setReqState} reqState={reqState} setPopUp={setPopUp} objCss={objCss} objStrings={objStrings} />
 
                             }
 
@@ -416,24 +632,25 @@ const UserCheck = (props) => {
                     {
                         userData.type === 'vendedor' && userData.permisions.vendedores &&
                         <>
-                            <CentroDeVendedores actualizarEstado={actualizarEstado} startCreating={startCreating} setStartCreating={setStartCreating} userData={userData} setPopUp={setPopUp} objCss={objCss} objStrings={objStrings} />
+                            <CentroDeVendedores actualizarEstado={actualizarEstado} startCreating={startCreating} setStartCreating={setStartCreating} userData={userData} setReqState={setReqState} reqState={reqState} setPopUp={setPopUp} objCss={objCss} objStrings={objStrings} />
 
                         </>
                     }
                     {
                         userData.type === 'operativeUser' && userData.permisions.logistica &&
                         <>
-                            <CentroDeLogistica obras={obras} rutas={rutas} PedirBiosepticos={PedirBiosepticos} servicios={servicios} modeloBiosepticos={modeloBiosepticos} actualizarEstado={actualizarEstado} vehiculos={vehiculos} userData={userData} setPopUp={setPopUp} objCss={objCss} objStrings={objStrings} />
+                            <CentroDeLogistica obras={obras} rutas={rutas} PedirBiosepticos={PedirBiosepticos} servicios={servicios} modeloBiosepticos={modeloBiosepticos} actualizarEstado={actualizarEstado} vehiculos={vehiculos} userData={userData} setReqState={setReqState} reqState={reqState} setPopUp={setPopUp} objCss={objCss} objStrings={objStrings} />
                         </>
                     }
                     {
                         userData.type === 'adminUser' && userData.permisions.console &&
                         <>
-                            <DashBoard modeloBiosepticos={modeloBiosepticos} actualizarEstado={actualizarEstado} vehiculos={vehiculos} empresas={empresas} usersAll={usersAll} users={users} pedirEmpresas={pedirEmpresas} userData={userData} setPopUp={setPopUp} objCss={objCss} objStrings={objStrings} />
+                            <DashBoard modeloBiosepticos={modeloBiosepticos} actualizarEstado={actualizarEstado} vehiculos={vehiculos} empresas={empresas} usersAll={usersAll} users={users} pedirEmpresas={pedirEmpresas} userData={userData} setReqState={setReqState} reqState={reqState} setPopUp={setPopUp} objCss={objCss} objStrings={objStrings} />
                         </>
                     }
                 </>}
-            <AbsoluteBox inSending={inSending} userData={userData} setPopUp={setPopUp} objCss={objCss} popUp={popUp} />
+            <ReqComponent userData={userData} setReqState={setReqState} reqState={reqState} objCss={objCss} />
+            <AbsoluteBox inSending={inSending} userData={userData} setReqState={setReqState} reqState={reqState} setPopUp={setPopUp} objCss={objCss} popUp={popUp} />
         </>
     )
 }

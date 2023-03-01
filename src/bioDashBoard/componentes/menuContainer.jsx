@@ -9,7 +9,7 @@ const objStringsInit = StringsObj()
 
 const MenuContainer = (props) => {
 
-    const { userData = userStructure, setPopUp = console.log, objStrings = objStringsInit, objCss = objCssInit, willShow = console.log, showed = '', isShowed = 'inicio', selected = 'inicio' } = props
+    const { userData = userStructure, setReqState = console.log, reqState = { reqId: Number(), state: false, peticion: '', type: ''  ,inList: [] }, setPopUp = console.log, objStrings = objStringsInit, objCss = objCssInit, willShow = console.log, showed = '', isShowed = 'inicio', selected = 'inicio' } = props
     return (
         <div id={(parseInt(Math.random() * 9999999999)).toString()} className={showed === 'inicio' || showed === 'centro rapido' ? objCss.dashBoard.sectionContainerMenu : objCss.dashBoard.sectionContainerMenuLarge}>
             {

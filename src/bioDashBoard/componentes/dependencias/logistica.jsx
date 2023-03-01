@@ -26,7 +26,7 @@ const Logistica = (props) => {
                                 <h1 > {`${sectionFuntion.function} ${showed}`} </h1>
                                 <button onClick={(e) => { e.preventDefault(); setSectionFuntion({ ...sectionFuntion, state: false, function: '' }) }} className={objCss.dashBoard.backButton} ><span> Volver </span> ↩</button>
                             </div>
-                            <FuntionsSelected /* empresas={empresas} users={users} */ modeloBiosepticos={modeloBiosepticos} actualizarEstado={actualizarEstado} vehiculos={vehiculos} userData={userData} setPopUp={setPopUp} objCss={objCss} objStrings={objStrings} inShowed={showed} showed={sectionFuntion} />
+                            <FuntionsSelected /* empresas={empresas} users={users} */ modeloBiosepticos={modeloBiosepticos} actualizarEstado={actualizarEstado} vehiculos={vehiculos} userData={userData} setReqState={setReqState} reqState={reqState} setPopUp={setPopUp} objCss={objCss} objStrings={objStrings} inShowed={showed} showed={sectionFuntion} />
 
 
                         </>

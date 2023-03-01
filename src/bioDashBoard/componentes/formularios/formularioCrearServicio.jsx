@@ -1,15 +1,9 @@
 import ModeloUsuario, { EmpresaObj, ObjPermisions } from "@/bioApp/models/modelosUsuario"
-import InputComp from "@/components/commons/input"
 import StringsObj, { UserObj } from "@/engine/content"
 import MiddlewareSelector from "@/middleware/askSelector"
 import StylesObj from "@/styles/stylesObj"
 import { useEffect, useState } from "react"
-import EnvM from "@/envMachetero"
-import io from "socket.io-client"
-import FormularioPersonalData from "./formularioPersonalData"
-import FormularioContactData from "./formularioContactData"
 import { Socket } from "@/middleware/routes/connect/socket/socketOn"
-import FormularioDatosEmpresa from "./formularioDatosEmpresa"
 import FormularioLegalData from "./formularioLegalData"
 import FormularioDatosObra from "./formularioDatosObra"
 import ObraObj, { HorarioObj } from "@/bioApp/models/modeloObra"
@@ -21,7 +15,7 @@ let resId = 0
 
 const FormularioCrearServicio = (props) => {
 
-    const { activeEmpresa = EmpresaObj(), back = console.log, firstTimeIn = false, userModel = ModeloUsuario(), setUserData = console.log, userData = userStructure, setPopUp = console.log, objStrings = objStringsInit, objCss = objCssInit, willShow = console.log, showed = 'inicio' } = props
+    const { activeEmpresa = EmpresaObj(), back = console.log, firstTimeIn = false, userModel = ModeloUsuario(), setUserData = console.log, userData = userStructure, setReqState = console.log, reqState = { reqId: Number(), state: false, peticion: '', type: ''  ,inList: [] }, setPopUp = console.log, objStrings = objStringsInit, objCss = objCssInit, willShow = console.log, showed = 'inicio' } = props
     const [firstTime, setFirstTime] = useState(firstTimeIn ? true : false)
     const [formSelected, setFormSelected] = useState({ selected: 'none', })
     const [userFullModel, setuserFullModel] = useState(ObraObj())
@@ -141,11 +135,11 @@ const FormularioCrearServicio = (props) => {
                                 :
                                 <div className={objCss.companies.dataFormContainer}>
                                     {
-                                        formSelected.selected === 'personalData' && <><FormularioDatosObra activeEmpresa={activeEmpresa} sendData={sendData} userData={userData} setPopUp={setPopUp} objCss={objCss} objStrings={objStrings} /></>
+                                        formSelected.selected === 'personalData' && <><FormularioDatosObra activeEmpresa={activeEmpresa} sendData={sendData} userData={userData} setReqState={setReqState} reqState={reqState} setPopUp={setPopUp} objCss={objCss} objStrings={objStrings} /></>
 
                                     }
                                     {
-                                        formSelected.selected === 'contactData' && <><FormularioLegalData sendData={sendData} userData={userData} setPopUp={setPopUp} objCss={objCss} objStrings={objStrings} /> </>
+                                        formSelected.selected === 'contactData' && <><FormularioLegalData sendData={sendData} userData={userData} setReqState={setReqState} reqState={reqState} setPopUp={setPopUp} objCss={objCss} objStrings={objStrings} /> </>
 
                                     }
                                     <br />

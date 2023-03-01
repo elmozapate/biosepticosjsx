@@ -10,7 +10,7 @@ const objStringsInit = StringsObj()
 const HistorialSearch = (props) => {
 
 
-    const { usersAll = { array: [] }, users = { array: [] }, empresas = { array: [] }, userData = userStructure, setPopUp = console.log, objStrings = objStringsInit, objCss = objCssInit, willShow = console.log, inShowed = 'inicio' } = props
+    const { usersAll = { array: [] }, users = { array: [] }, empresas = { array: [] }, userData = userStructure, setReqState = console.log, reqState = { reqId: Number(), state: false, peticion: '', type: ''  ,inList: [] }, setPopUp = console.log, objStrings = objStringsInit, objCss = objCssInit, willShow = console.log, inShowed = 'inicio' } = props
     const [selectioned, setSelectioned] = useState({
         active: false,
         inSelection: ''

@@ -99,6 +99,24 @@
     font-weight: 900;
     padding: getRemSize(20px);
 }
+.absolutedialog_reqBox {
+    z-index: 1500;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: 100vh;
+    width: 100vw;
+    border-radius: 18px;
+    box-shadow: 0 1.5px 3px 0 rgba(0, 0, 0, 0.16);
+    border: solid 0.5px #dcdcdc;
+    background-color: rgb(12, 39, 39);
+    position: fixed;
+    color: #fff;
+    font-weight: getRemSize(25px);
+    text-align: center;
+    font-weight: 900;
+}
 .app-container {
     width: 100vw;
     max-width: 100vw;

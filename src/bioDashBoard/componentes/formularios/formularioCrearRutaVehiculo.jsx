@@ -1,10 +1,8 @@
 import ModeloUsuario, { ObjPermisions } from "@/bioApp/models/modelosUsuario"
-import InputComp from "@/components/commons/input"
 import StringsObj, { UserObj } from "@/engine/content"
 import MiddlewareSelector from "@/middleware/askSelector"
 import StylesObj from "@/styles/stylesObj"
 import { useEffect, useState } from "react"
-import PermisionComp from "./permisionComp"
 import { Socket } from "@/middleware/routes/connect/socket/socketOn"
 import { ModeloBiosepticos } from "@/bioApp/models/modeloBiosepticos"
 import SelectComp from "@/components/commons/selector"
@@ -19,7 +17,7 @@ let resId = 0
 
 const FormularioCrearRutaVehiculo = (props) => {
 
-    const { back = console.log, vehiculo = ModeloVehiculo, rutaSelected = {}, modeloBiosepticos = ModeloBiosepticos, userModel = ModeloUsuario(), setWillShow = console.log, inAsk = 'newUser', userType = '', willShows = '', onlyAccess = [{ type: '', perms: {} }], sinPermisos = false, userData = userStructure, setPopUp = console.log, objStrings = objStringsInit, objCss = objCssInit, willShow = console.log, showed = 'inicio' } = props
+    const { back = console.log, vehiculo = ModeloVehiculo, rutaSelected = {}, modeloBiosepticos = ModeloBiosepticos, userModel = ModeloUsuario(), setWillShow = console.log, inAsk = 'newUser', userType = '', willShows = '', onlyAccess = [{ type: '', perms: {} }], sinPermisos = false, userData = userStructure, setReqState = console.log, reqState = { reqId: Number(), state: false, peticion: '', type: ''  ,inList: [] }, setPopUp = console.log, objStrings = objStringsInit, objCss = objCssInit, willShow = console.log, showed = 'inicio' } = props
     const [newUserData, setNewUserData] = useState({
         conductor: '',
         auxiliar: '',
@@ -80,7 +78,7 @@ const FormularioCrearRutaVehiculo = (props) => {
                     setNewUserData({
                         ...newUserData,
                         [id]: value,
-                        idAuxiliar: equipos.conductores[i]
+                        idAuxiliar: equipos.auxiliares[i]
                     })
                 }
             })

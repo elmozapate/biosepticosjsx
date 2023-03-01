@@ -1,13 +1,11 @@
 import { SendNewPasword } from "@/auth/register"
-import EnvM from "@/envMachetero"
 import { GetEmpresas, GetMisEmpresas, GetMisEmpresasVendedor, GetMisObras, GetMisServicios } from "@/request/getEmpresas"
 import { NewUser, NewUserBio, SendEmailCheck } from "@/request/newUser"
 import { ContactData, EditCompanyPermisionData, EditPermisionData, EditSellPermisionData, PersonalData, SendAllData, SendNewPerms } from "@/request/personalData"
-import io from "socket.io-client"
 import { Socket } from "@/middleware/routes/connect/socket/socketOn"
 import { SetEmpresas } from "@/request/sendEmpresa"
 import { SetObras } from "@/request/sendObra"
-import { SetServicio } from "@/request/sendServicio"
+import { EditServicios, SetServicio } from "@/request/sendServicio"
 import { ActualizarEstadoVehiculo, CrearRutaVehiculo, SetVehiculo } from "@/request/sendVehiculo"
 import { GetVendedores } from "@/request/getVendedores"
 import { AskBioseptico, CrearCalendarioReq, CrearRutaDiariaReq, GetMisVehiculos } from "@/request/getBioseptico"
@@ -64,6 +62,9 @@ export const MiddlewareSelector = (props) => {
             break;
         case 'edit-sellPermisions':
             EditSellPermisionData(socket, props, res)
+            break;
+        case 'edit-servicios':
+            EditServicios(socket, props, res)
             break;
         case 'sendNewCar':
             SetVehiculo(socket, props, res)

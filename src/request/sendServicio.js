@@ -8,3 +8,13 @@ export const SetServicio = (socket, props, res) => {
     });
 
 }
+
+export const EditServicios = (socket, props, res) => {
+    console.log(props);
+    socket.emit('bioSepticos', {
+        'dataIn': props.data,
+        actionTodo: "editServicios",
+        reqId: res
+    });
+
+}

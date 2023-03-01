@@ -5,7 +5,7 @@ const objStringsInit = StringsObj()
 const userStructure = UserObj()
 
 const NavMenu = (props) => {
-    const { objStrings = objStringsInit, userData = userStructure, setPopUp = console.log, setUserData = console.log, setMenuOpen = console.log, objCss = objCssInit, cleanUserData = console.log } = props
+    const { objStrings = objStringsInit, userData = userStructure, setReqState = console.log, reqState = { reqId: Number(), state: false, peticion: '', type: ''  ,inList: [] }, setPopUp = console.log, setUserData = console.log, setMenuOpen = console.log, objCss = objCssInit, cleanUserData = console.log } = props
     return (
         <div id="nav-menu-div">
 

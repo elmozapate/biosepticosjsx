@@ -5,15 +5,11 @@ import { useEffect, useState } from "react"
 import PermComp from "./permComp"
 import MiddlewareSelector from "@/middleware/askSelector"
 import PersComp from "./persComp"
-import EnvM from "@/envMachetero"
-import io from "socket.io-client"
 import TableHistorialApp from "@/components/containers/table"
 import PermisionComp from "../formularios/permisionComp"
-import { Socket } from "@/middleware/routes/connect/socket/socketOn"
 import { ArraySelectorEmpresas, ArraySelectorVendedores } from "@/bioApp/models/modelosSelector"
 
 
-const socket = Socket
 const usuarioDefault = ModeloUsuario()
 const objCssInit = StylesObj()
 const objStringsInit = StringsObj()

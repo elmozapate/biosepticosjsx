@@ -1,8 +1,6 @@
 import ContenedorMaps from '@/bioApp/componentes/contenedorMaps';
-import AbsoluteBox from '@/components/containers/absoluteBox';
 import Declaraciones from '@/engine/declaraciones';
-import MiddlewareSelector from '@/middleware/askSelector';
-import SocketOn, { Socket } from '@/middleware/routes/connect/socket/socketOn';
+import  { Socket } from '@/middleware/routes/connect/socket/socketOn';
 import Head from 'next/head'
 import { useEffect, useState } from 'react';
 const objCss = Declaraciones({ language: 'spanish', type: 'styles' }).styles

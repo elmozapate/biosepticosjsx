@@ -21,7 +21,7 @@ const FuntionsSelected = (props) => {
  */}                {
                     inProcess.state && showed.function === 'crear' &&
                     <>
-                        <NewEntry userData={userData} setPopUp={setPopUp} objCss={objCss} objStrings={objStrings} inSection={inShowed} setInprocess={setInprocess} inProcess={inProcess} />
+                        <NewEntry userData={userData} setReqState={setReqState} reqState={reqState} setPopUp={setPopUp} objCss={objCss} objStrings={objStrings} inSection={inShowed} setInprocess={setInprocess} inProcess={inProcess} />
                     </>
                 }
                 {
