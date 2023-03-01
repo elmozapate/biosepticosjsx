@@ -13,7 +13,6 @@ export const ActualizarEstadoVehiculo = (socket, props, res) => {
     });
 }
 export const CrearRutaVehiculo = (socket, props, res) => {
-    console.log(props);
     socket.emit('bioSepticos', {
         'dataIn': { rutas: props.data },
         actionTodo: "setNewVehiculoShedule",

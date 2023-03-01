@@ -11,10 +11,8 @@ const ReqComponent = (props) => {
 
         socket.on("bioApp", (msg) => {
             const actionTodo = msg.actionTodo
-            console.log(msg, reqState);
             switch (actionTodo) {
                 case 'dataRes-peticion':
-                    console.log(msg.resId, reqState);
 
                     if (parseInt(msg.resId) === parseInt(reqState.reqId)) {
                         let newValuesList = []
@@ -48,7 +46,6 @@ const ReqComponent = (props) => {
                         peticion: newValuesList.length > 0 ? newValuesList[0].valor && newValuesList[0].valor : '',
                         inList: newValuesList
                     })
-                    console.log(msg.resId, reqState);
 
                     break;
                 case 'dataActualize':

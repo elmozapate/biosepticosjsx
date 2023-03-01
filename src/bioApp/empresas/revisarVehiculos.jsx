@@ -9,7 +9,7 @@ import { EstadosServiciosObj } from "../models/selectores"
 const objCssInit = StylesObj()
 const objStringsInit = StringsObj()
 const RevisarVehiculos = (props) => {
-    const { vehiculo=ModeloVehiculo, modeloBiosepticos = ModeloBiosepticos, objStrings = objStringsInit, objCss = objCssInit, misServiciosSort = EstadosServiciosObj, actualizarEstado = console.log, sortBy = console.log, misServicios = { array: [] } } = props
+    const { vehiculo = ModeloVehiculo, modeloBiosepticos = ModeloBiosepticos, objStrings = objStringsInit, objCss = objCssInit, misServiciosSort = EstadosServiciosObj, actualizarEstado = console.log, sortBy = console.log, misServicios = { array: [] } } = props
     const [modoCrearVehiculo, setModoCrearVehiculo] = useState({
         mode: 'mes'
     })
@@ -25,11 +25,11 @@ const RevisarVehiculos = (props) => {
             if (key.id === idVeh) {
                 modeloBiosepticos.rutasIndividuales.map((keyInd, iInd) => {
                     if (keyInd.vehiculo === idVeh) {
-
                         const fecha = new Date().toLocaleDateString()
                         const fechaCuted = fecha.split('/')
                         const fechaCompCuted = keyInd.fecha.split('-')
-                        if (fechaCuted[0] === fechaCompCuted[0] && fechaCuted[1] === fechaCompCuted[1] && fechaCuted[2] === fechaCompCuted[2]) {
+
+                        if (parseInt(fechaCuted[0]) === parseInt(fechaCompCuted[0]) && parseInt(fechaCuted[1]) === parseInt(fechaCompCuted[1]) && parseInt(fechaCuted[2]) === parseInt(fechaCompCuted[2])) {
                             rutaActiva = keyInd.id.split('-')[1]
                         }
                     }

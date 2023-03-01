@@ -1,3 +1,4 @@
+import DateSelect from "@/components/commons/dateSelect"
 import SelectComp from "@/components/commons/selector"
 import MiddlewareSelector from "@/middleware/askSelector"
 import { Socket } from "@/middleware/routes/connect/socket/socketOn"
@@ -9,7 +10,12 @@ const socket = Socket
 let resId = 0
 
 const RevisarServicios = (props) => {
-    const {setReqState = console.log, reqState = { reqId: Number(), state: false, peticion: '', type: ''  ,inList: [] }, modeloBiosepticos = ModeloBiosepticos, rutaDia = '', vehiculosDispo = { array: [], arrayAll: [] }, verDiaVehiculo = console.log, obras = { array: [] }, rutas = { rutas: [] }, inCalendario = false, logistica = false, misServiciosSort = EstadosServiciosObj, actualizarEstado = console.log, sortBy = console.log, misServicios = { array: [] } } = props
+    const { dateSelected = {
+        active: false,
+        servicios: { array: [] },
+        dia: {},
+        asignarRuta: { state: false, data: {} }
+    }, setDateSelected = console.log, setReqState = console.log, reqState = { reqId: Number(), state: false, peticion: '', type: '', inList: [] }, modeloBiosepticos = ModeloBiosepticos, rutaDia = '', vehiculosDispo = { array: [], arrayAll: [] }, verDiaVehiculo = console.log, obras = { array: [] }, rutas = { rutas: [] }, inCalendario = false, logistica = false, misServiciosSort = EstadosServiciosObj, actualizarEstado = console.log, sortBy = console.log, misServicios = { array: [] } } = props
     const [inAsign, setInAsign] = useState({ state: false, obj: { id: '', value: {}, ready: false } })
     const getDireccion = (key, typo) => {
         let direccion = 'SIN DATOS'
@@ -45,8 +51,8 @@ const RevisarServicios = (props) => {
             switch (actionTodo) {
                 case 'dataRes-editServicios':
                     if (parseInt(msg.resId) === parseInt(resId)) {
-                        window.alert('correcto')
-                    }
+                        setInAsign({ state: false, obj: { value: {}, ready: false, id: '' } })
+                                            }
                     break;
                 default:
                     break;

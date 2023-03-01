@@ -14,6 +14,12 @@ import { EstadosServicios, EstadosServiciosObj, EstadosUsersObj } from "../model
 const objCssInit = StylesObj()
 const objStringsInit = StringsObj()
 const userStructure = UserObj()
+let allmesVar = {
+    totalServicios: 0,
+    serviciosActivos: 0,
+    serviciosPendientes: 0,
+    serviciosRealizados: 0,
+}
 const DateView = (props) => {
     const [allmes, setAllMes] = useState({
         totalServicios: 0,
@@ -21,15 +27,11 @@ const DateView = (props) => {
         serviciosPendientes: 0,
         serviciosRealizados: 0
     })
+
     const { verRuta = false, inTest = false, vehiculo = ModeloVehiculo, modo = 'dia', crearRuta = false, rutasIn = false, obras = { array: [] }, rutas = { array: [] }, objStrings = objStringsInit, objCss = objCssInit, userData = userStructure, setReqState = console.log, reqState = { reqId: Number(), state: false, peticion: '', type: '', inList: [] }, servicios = { array: [] }, modeloBiosepticos = ModeloBiosepticos, calendario = false } = props
     const [misServiciosSort, setMisServiciosSort] = useState(EstadosServiciosObj)
     const [diasDeVehiculoMes, setDiasDeVehiculoMes] = useState([])
-    let allmesVar = {
-        totalServicios: 0,
-        serviciosActivos: 0,
-        serviciosPendientes: 0,
-        serviciosRealizados: 0,
-    }
+
     const [rutaDia, setRutaDia] = useState('')
     const [rutaSelected, setRutaSelected] = useState({
         modo: modo,
@@ -207,11 +209,8 @@ const DateView = (props) => {
                 }
             })
             if (!stateOf) {
-
                 testarray.push(keyPp)
-            } else {
-                console.log('copia');
-            }
+            } 
 
         })
         testarray.map((keyPp, iPp) => {
@@ -433,7 +432,7 @@ const DateView = (props) => {
                 })
                 oldArray.dias = value && rutaSelected.modo === 'variosDias' ? otherArray : rutaSelected.dias
                 if (!inOut && !(value && rutaSelected.modo === 'variosDias')) {
-                    rutaSelected.modo === 'dia' && !value ? newArray.push(dia) : rutaSelected.modo === 'variosDias' && !value ? arraydias.push(dia) : console.log('falta');
+                    rutaSelected.modo === 'dia' && !value ? newArray.push(dia) : rutaSelected.modo === 'variosDias' && !value ? arraydias.push(dia) : console.log;
                 }
                 (value && rutaSelected.modo === 'variosDias')
                 setRutaSelected((value && rutaSelected.modo === 'variosDias' ? { ...oldArray } :
@@ -521,6 +520,23 @@ const DateView = (props) => {
         })
         setRutaDia(laRuta)
     }
+    const setelmesvar = () => {
+        setAllMes(allmesVar)
+    }
+    const serviciosLength = () => {
+        let resL = 0
+        modeloBiosepticos.calendario.ano.map((key, i) => {
+            key.mesObj.map((keyS, iS) => {
+                keyS.dias.map((keyDiD) => {
+                    if (parseInt(keyDiD.dia) === parseInt(dateSelected.dia.dia) && (parseInt(keyDiD['año']) === parseInt(dateSelected.dia['año'])||parseInt(keyDiD['año']) === parseInt(dateSelected.dia.ano)) && parseInt(keyDiD.mes) === parseInt(dateSelected.dia.mes)) {
+                        resL = keyDiD.servicios.length
+                    }
+                })
+            })
+
+        })
+        return resL
+    }
     useEffect(() => {
         !rutasIn && makeMonth(fecha.anoAentrar, fecha.mesAentrar, fecha.diaAentrar, false, calendario)
     }, [modeloBiosepticos.calendario, calendario, rutasIn])
@@ -540,23 +556,52 @@ const DateView = (props) => {
         dateSelected.active && !rutasIn && sortBy('all')
     }, [dateSelected.active])
     useEffect(() => {
-        calendario && setAllMes(allmesVar)
+
+        calendario && setelmesvar()
+
         if (dateSelected.active && !rutasIn) {
-            checkDia(dateSelected.dia)
+            let newDia = {}
+
+            checkDiaRuta(dateSelected.dia)
             countMany()
             sortBy(misServiciosSort.sort)
-        }
-    }, [modeloBiosepticos.calendario])
-    useEffect(() => {
+            modeloBiosepticos.calendario.ano.map((key, i) => {
+                key.mesObj.map((keyS, iS) => {
+                    keyS.dias.map((keyDiD) => {
+                        if (parseInt(keyDiD.dia) === parseInt(dateSelected.dia.dia) && parseInt(keyDiD['año']) === parseInt(dateSelected.dia['año']) && parseInt(keyDiD.mes) === parseInt(dateSelected.dia.mes)) {
+                            setDateSelected({
+                                ...dateSelected,
+                                active: false
+                            })
+                            setTimeout(() => {
+                                newDia = keyDiD
+                                verDiaDeRuta(keyDiD.dia)
+                                checkDia(keyDiD, iS)
 
-        rutasIn && setMes({
+                            }, 100);
+                        }
+                    })
+                })
+
+            })
+
+        }
+
+    }, [modeloBiosepticos.calendario, servicios])
+    const setelmes = () => {
+        setMes({
             ...mes,
             array: modeloBiosepticos.calendario.ano[fecha.mesAentrar].mesObj
         })
+    }
+
+    useEffect(() => {
+
+        rutasIn && setelmes()
     }, [fecha])
     useEffect(() => {
-        calendario && setAllMes(allmesVar)
-    }, [allmesVar])
+        calendario && setelmesvar()
+    }, [fecha])
 
     return (<>
 
@@ -596,7 +641,7 @@ const DateView = (props) => {
                                                                         Rutas:{ckekarRutas(dateSelected).state}
                                                                     </span>
                                                                     <span>
-                                                                        Servicios:{key.servicios && key.servicios.length}
+                                                                        Servicios:{serviciosLength()}
                                                                     </span>
                                                                 </p>
                                                             </>)
@@ -662,7 +707,7 @@ const DateView = (props) => {
                                         <ServiceSelector userSort={false} misServiciosSort={misServiciosSort} sortBy={sortBy} />
 
                                     </div>
-                                    <RevisarServicios setReqState={setReqState} reqState={reqState} rutaDia={rutaDia} vehiculosDispo={vehiculosDispo} verDiaVehiculo={verDiaVehiculo} obras={obras} rutas={rutas} inCalendario logistica={false} misServicios={dateSelected.servicios} sortBy={sortBy} misServiciosSort={misServiciosSort} />
+                                    <RevisarServicios dateSelected={dateSelected} setDateSelected={setDateSelected} setReqState={setReqState} reqState={reqState} rutaDia={rutaDia} vehiculosDispo={vehiculosDispo} verDiaVehiculo={verDiaVehiculo} obras={obras} rutas={rutas} inCalendario logistica={false} misServicios={dateSelected.servicios} sortBy={sortBy} misServiciosSort={misServiciosSort} />
                                 </>
                         }
 
@@ -805,22 +850,22 @@ const DateView = (props) => {
                                                                     key && key.dias && key.dias[iSemana] && key.dias[iSemana].dia !== 'off' ? (checkDiaRuta(key.dias[iSemana])/* , setfecha({
                                                                 ...fecha,
                                                                 diaAentrar: parseInt(key.dias[iSemana].dia)
-                                                            }) */) : console.log('otromes');
+                                                            }) */) : console.log;
 
                                                                 } : calendario ? (e) => {
                                                                     e.preventDefault();
-                                                                    key && key.dias && key.dias[iSemana] && key.dias[iSemana].dia !== 'off' ? verDiaDeRuta(key.dias[iSemana].dia) : console.log('otromes');
+                                                                    key && key.dias && key.dias[iSemana] && key.dias[iSemana].dia !== 'off' ? verDiaDeRuta(key.dias[iSemana].dia) : console.log;
                                                                     key && key.dias && key.dias[iSemana] && key.dias[iSemana].dia !== 'off' ? (checkDia(key.dias[iSemana], iSemana)/* , setfecha({
                                                                 ...fecha,
                                                                 diaAentrar: parseInt(key.dias[iSemana].dia)
-                                                            }) */) : console.log('otromes');
+                                                            }) */) : console.log;
 
                                                                 } : (e) => {
                                                                     e.preventDefault();
                                                                     key && key.dias && key.dias[iSemana] && key.dias[iSemana].dia !== 'off' ? (setfecha({
                                                                         ...fecha,
                                                                         diaAentrar: parseInt(key.dias[iSemana].dia)
-                                                                    })) : console.log('otromes');
+                                                                    })) : console.log;
 
                                                                 }
                                                                 } className={`day ${crearRuta ? key && key.dias && key.dias[iSemana] && (parseInt(key.dias[iSemana].dia) >= parseInt(fecha.diaAentrar)) ? getStateDiaRuta(key.dias[iSemana].dia) ? getStateDiaRuta(key.dias[iSemana].dia) === 'true' ? 'bgColor-orange' : 'bgColor-green' : 'bgColor-yellow' : 'bgColor-blue' : rutasIn ? (getDayRutas(key, iSemana)) ? (getDayRutas(key, iSemana)) === 'warning' ? 'bgColor-red' : (getDayRutas(key, iSemana)) === 'ready' ? 'bgColor-green' : 'bgColor-yellow' : 'bgColor-blue' : (key.dias && key.dias[iSemana] && key.dias[iSemana].hoy ? 'bgColor-yellow' : '')}`}

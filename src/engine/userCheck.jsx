@@ -448,6 +448,7 @@ const UserCheck = (props) => {
         }
         if (actionTodo === 'dataRes-askEmpresas') {
             if (msg.res === 'ok') {
+                const lastEmpresas=misEmpresas
                 setMisEmpresasRes({ ...misEmpresasRes, array: msg.empresas })
                 if (msg.empresas.length === 1) {
                     setMisEmpresas({
@@ -459,6 +460,8 @@ const UserCheck = (props) => {
                 } else {
                     setMisEmpresas({
                         ...misEmpresas,
+                        seleccionada: lastEmpresas.seleccionada,
+                        itemSelectioned: lastEmpresas.seleccionada,
                         empresas: msg.empresas
                     })
                 }

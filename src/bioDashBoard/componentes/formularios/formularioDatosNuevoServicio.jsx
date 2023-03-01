@@ -147,7 +147,7 @@ const FormularioDatosNuevoServicio = (props) => {
                 daysShedule = daysShedule + 1
             }
         })
-        if ((serviceStep.step === 0 && personalObj.servicio.obra !== '') || (serviceStep.step === 1 && personalObj.servicio.tipoDeServicio.tipo !== '') || (serviceStep.step === 2 && personalObj.servicio.tipoDeServicio.cantidad > 0) || (serviceStep.step === 3 && personalObj.servicio.shedule.fechaDeInicio !== '') || (serviceStep.step === 4 && daysShedule === parseInt(personalObj.servicio.shedule.diasPorSemana) && personalObj.servicio.shedule.diasPorSemana > 0) || serviceStep.step === 5) {
+        if ((serviceStep.step === 0 && personalObj.servicio.obra !== '') || (serviceStep.step === 1 && personalObj.servicio.tipoDeServicio.tipo !== '') || (serviceStep.step === 2 && personalObj.servicio.tipoDeServicio.cantidad > 0) || (serviceStep.step === 3 && personalObj.servicio.shedule.fechaDeInicio !== '') || ( serviceStep.step === 4) ){
             setReady(true)
         } else {
             setReady(false)
@@ -198,7 +198,7 @@ const FormularioDatosNuevoServicio = (props) => {
                                         personalObj={personalObj} startDate={personalObj.servicio.shedule.fechaDeFinal} setStartDate={setPersonalObj} />}
                                 </>}
                             </div>}
-                            {serviceStep.step === 4 && <div className="form-default formInput">
+                            {serviceStep.step === 6 && <div className="form-default formInput">
                                 DIAS PROGRAMADOS POR SEMANA PARA MANTENIMIENTO Y RECOLECCIÓN
                                 {
 
@@ -211,9 +211,9 @@ const FormularioDatosNuevoServicio = (props) => {
                                 }
                             </div>}
                             {ready && <button className="formInput-btn" onClick={(e) => {
-                                e.preventDefault; serviceStep.step < 5 ? nextStep() : sendData(personalObj);
+                                e.preventDefault; serviceStep.step < 4 ? nextStep() : sendData(personalObj);
                             }}>
-                                {serviceStep.step < 5 ? 'CONTINUAR' : 'CREAR SERVICIO'}
+                                {serviceStep.step < 4 ? 'CONTINUAR' : 'CREAR SERVICIO'}
                             </button>}
                             {<button className="formInput-btn" onClick={(e) => {
                                 e.preventDefault; serviceStep.step === 0 ? setCreatingObra(false) : nextStep('-');

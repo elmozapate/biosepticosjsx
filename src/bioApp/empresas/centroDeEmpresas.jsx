@@ -18,9 +18,9 @@ const CentroDeEmpresas = (props) => {
 
     useEffect(() => {
         if (userModel.app.relationed.empresas.length > 0) {
-            pedirEmpresas()
+            pedirEmpresas(userModel.app.relationed.empresas)
         }
-    }, [userModel])
+    }, [])
 
     return (
         <>

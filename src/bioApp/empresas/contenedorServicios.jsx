@@ -88,11 +88,6 @@ const ContenedorServicios = (props) => {
         })
     }
     useEffect(() => {
-        /* !logistica && pedirMisServicios(activeEmpresa.id)
-        !logistica &&console.log('00000'); */
-        /* countMany() */
-    }, [])
-    useEffect(() => {
         countMany()
         sortBy('reload')
     }, [misServicios, modeloBiosepticos])
