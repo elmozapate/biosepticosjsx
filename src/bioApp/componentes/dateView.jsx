@@ -358,26 +358,40 @@ const DateView = (props) => {
     const getDayRutas = (key, iSemana) => {
 
         let haveRutas = false;
+        /* console.log('1'); */
+
         rutas.array.map((keyRutas, iRutas) => {
+            /* console.log('2'); */
 
             if (keyRutas.fecha && keyRutas.fecha.split('T') && keyRutas.fecha.split('T')[0] && key.dias && key.dias[iSemana]) {
+                /* console.log('3'); */
+
                 let resDia = keyRutas.fecha.split('T')[0]
                 let reqDia = key.dias[iSemana]
 
                 if (key.dias[iSemana].dia !== 'off' && parseInt(resDia.split('-')[0]) === parseInt(reqDia['año']) && parseInt(resDia.split('-')[1]) === (parseInt(reqDia.mes) + 1) && parseInt(resDia.split('-')[2]) === (parseInt(reqDia.dia))) {
+                    /* console.log('4'); */
+
                     haveRutas = 'ready'
                     keyRutas.servicios && keyRutas.servicios.length > 0 ?
                         keyRutas.servicios.map((keySerRuta, iSerRuta) => {
                             servicios.array.map((keyServicios, iServicios) => {
                                 if (keySerRuta === keyServicios.id
                                 ) {
-                                    if (keyServicios.shedule.estado === "inactivo") {
-                                        haveRutas = 'warning'
-                                        return haveRutas
-                                    }
+                                    '5'
+                                    /* console.log(''); */
+                                    
                                     if (keyServicios.shedule.estado === "programado") {
                                         haveRutas = 'programado'
+                                        /* console.log('6'); */
+                                        return haveRutas
 
+                                    }
+                                    if (keyServicios.shedule.estado === "inactivo") {
+                                        haveRutas = 'warning'
+                                        /* console.log('t'); */
+
+                                        return haveRutas
                                     }
 
                                 }
