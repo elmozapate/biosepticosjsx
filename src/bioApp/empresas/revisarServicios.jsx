@@ -110,64 +110,65 @@ const RevisarServicios = (props) => {
                             <table>
                                 <thead>
                                     <tr>
-                                        {!inCalendario ? <th >id</th> : <></>}
-                                        <th className={inCalendario ? 'small' : ""} >TIPO</th>
-                                        <th className={inCalendario ? 'medium' : ""}>CANTIDAD</th>
-                                        <th className={inCalendario ? 'big' : ""} >PROGRAMADO</th>
-                                        {!inCalendario ? <th >ESTADO</th> : <></>}
+                                        {!inCalendario ? <th className={inCalendario ? '' : "mediumSize"} >id</th> : <></>}
+                                        <th className={inCalendario ? 'small' : "bigSize"} >TIPO</th>
+                                        <th className={inCalendario ? 'medium' : "mediumSize"}>CANTIDAD</th>
+                                        <th className={inCalendario ? 'big' : "bigSizeS"} >PROGRAMADO</th>
+                                        {!inCalendario ? <th className={inCalendario ? 'big' : "mediumSize"} >ESTADO</th> : <></>}
                                         {inCalendario ? <th className={inCalendario ? 'medium' : ""} >Departamento</th> : <></>}
                                         {inCalendario ? <th className={inCalendario ? 'medium' : ""} >Ciudad</th> : <></>}
                                         {inCalendario ? <th className={inCalendario ? 'medium' : ""}>Sector</th> : <></>}
                                         {inCalendario ? <th className={inCalendario ? 'medium' : ""} >ASIGNACION</th> : <></>}
                                     </tr>
                                 </thead>
-                                <tbody>                            {(misServiciosSort[misServiciosSort.sort]) && (misServiciosSort[misServiciosSort.sort]).array && (misServiciosSort[misServiciosSort.sort]).array.map((key, i) => {
-                                    return (
-                                        key.id && ((inCalendario && key.shedule.activo) || !inCalendario) && <tr tr id={`safe-${i}`
-                                        }>
-                                            {!inCalendario ? <td className={inCalendario ? 'small' : ""} id={`safeb-${i}`}>{` ${key.id.split('-')[1]}`}</td> : <></>}
-                                            <td className={inCalendario ? 'small' : ""} id={`safefdb-${i}`}>{inCalendario ? (key.tipoDeServicio.tipo === 'Alquiler de baños' ? 'SAB' : 'SRSO') : key.tipoDeServicio.tipo}</td>
-                                            <td className={inCalendario ? 'medium' : ""} id={`safdeb-${i}`}>{key.tipoDeServicio.cantidad}</td>
-                                            <td className={inCalendario ? 'big' : ""} id={`sdfafe-${i}`}> {key.shedule.estado === 'inactivo' ? 'SIN PROGRAMAR' : key.shedule.estado} </td>
-                                            {!inCalendario ? <td className={inCalendario ? 'medium' : ""} id={`safeab-${i}`} onClick={(e) => { e.preventDefault(); actualizarEstado({ tipo: key.tipoDeServicio.tipo, accion: 'estado', valor: !key.shedule.activo }) }} >{key.shedule.activo ? 'ACTIVO' : 'INACTIVO'}</td> : <></>}
-                                            {inCalendario ? <td className={inCalendario ? 'medium' : ""} >{
+                                <tbody>
+                                    {(misServiciosSort[misServiciosSort.sort]) && (misServiciosSort[misServiciosSort.sort]).array && (misServiciosSort[misServiciosSort.sort]).array.map((key, i) => {
+                                        return (
+                                            key.id && ((inCalendario && key.shedule.activo) || !inCalendario) && <tr  id={`safe-${i}`
+                                            }>
+                                                {!inCalendario ? <td className={inCalendario ? 'small' : "mediumSize"} id={`safeb-${i}`}>{` ${key.id.split('-')[1]}`}</td> : <></>}
+                                                <td className={inCalendario ? 'small' : "bigSize"} id={`safefdb-${i}`}>{inCalendario ? (key.tipoDeServicio.tipo === 'Alquiler de baños' ? 'SAB' : 'SRSO') : key.tipoDeServicio.tipo}</td>
+                                                <td className={inCalendario ? 'medium' : "mediumSize"} id={`safdeb-${i}`}>{key.tipoDeServicio.cantidad}</td>
+                                                <td className={inCalendario ? 'big' : "bigSizeS"} id={`sdfafe-${i}`}> {key.shedule.estado === 'inactivo' ? 'SIN PROGRAMAR' : key.shedule.estado} </td>
+                                                {!inCalendario ? <td className={inCalendario ? 'medium' : "mediumSize"} id={`safeab-${i}`} onClick={(e) => { e.preventDefault(); actualizarEstado({ tipo: key.tipoDeServicio.tipo, accion: 'estado', valor: !key.shedule.activo }) }} >{key.shedule.activo ? 'ACTIVO' : 'INACTIVO'}</td> : <></>}
+                                                {inCalendario ? <td className={inCalendario ? 'medium' : "mediumSize"} >{
 
-                                                getDireccion(key, 'departamento')
-                                            }</td> : <></>}
-                                            {inCalendario ? <td className={inCalendario ? 'medium' : ""} >{
-                                                getDireccion(key, 'ciudad')
+                                                    getDireccion(key, 'departamento')
+                                                }</td> : <></>}
+                                                {inCalendario ? <td className={inCalendario ? 'medium' : ""} >{
+                                                    getDireccion(key, 'ciudad')
 
-                                            }</td> : <></>}
-                                            {inCalendario ? <td className={inCalendario ? 'medium' : ""}>{
-                                                getDireccion(key, 'barrio')
+                                                }</td> : <></>}
+                                                {inCalendario ? <td className={inCalendario ? 'medium' : ""}>{
+                                                    getDireccion(key, 'barrio')
 
-                                            }</td> : <></>}
-                                            {inCalendario ? <td className={inCalendario ? 'medium' : ""}>{key.ruta !== '' ? <>{key.ruta}<span className="pointer" onClick={(e) => {
-                                                e.preventDefault(); editarSevicio(key, true)
-                                            }}>DESASIGNAR</span></> : !inAsign.state ? <span className="pointer" onClick={(e) => { e.preventDefault(); verDiaVehiculo(key); setInAsign({ ...inAsign, state: true, obj: { ...inAsign.obj, id: key.id } }) }}>ASIGNAR</span> : <>{key.id === inAsign.obj.id && < SelectComp item={'encargado'} items={vehiculosDispo.array} funtions={(e) => {
-                                                e.preventDefault();
-                                                setInAsign({ ...inAsign, obj: { ...inAsign.obj, ready: true, value: e.target.value } })
+                                                }</td> : <></>}
+                                                {inCalendario ? <td className={inCalendario ? 'medium' : ""}>{key.ruta !== '' ? <>{key.ruta}<span className="pointer" onClick={(e) => {
+                                                    e.preventDefault(); editarSevicio(key, true)
+                                                }}>DESASIGNAR</span></> : !inAsign.state ? <span className="pointer" onClick={(e) => { e.preventDefault(); verDiaVehiculo(key); setInAsign({ ...inAsign, state: true, obj: { ...inAsign.obj, id: key.id } }) }}>ASIGNAR</span> : <>{key.id === inAsign.obj.id && < SelectComp item={'encargado'} items={vehiculosDispo.array} funtions={(e) => {
+                                                    e.preventDefault();
+                                                    setInAsign({ ...inAsign, obj: { ...inAsign.obj, ready: true, value: e.target.value } })
 
-                                            }} id={'encargado'} required />}
-                                                {
-                                                    inAsign.obj.ready && inAsign.obj.id === key.id ?
-                                                        <button onClick={(e) => {
-                                                            e.preventDefault();
-                                                            editarSevicio(key)
-                                                            /*  setInAsign({ state: false, obj: { value: {}, ready: false, id: '' } }) */
+                                                }} id={'encargado'} required />}
+                                                    {
+                                                        inAsign.obj.ready && inAsign.obj.id === key.id ?
+                                                            <button onClick={(e) => {
+                                                                e.preventDefault();
+                                                                editarSevicio(key)
+                                                                /*  setInAsign({ state: false, obj: { value: {}, ready: false, id: '' } }) */
 
-                                                        }} >SALVAR</button> : inAsign.obj.id === key.id &&
-                                                        <><button onClick={(e) => {
-                                                            e.preventDefault();
-                                                            setInAsign({ state: false, obj: { value: {}, ready: false, id: '' } })
+                                                            }} >SALVAR</button> : inAsign.obj.id === key.id &&
+                                                            <><button onClick={(e) => {
+                                                                e.preventDefault();
+                                                                setInAsign({ state: false, obj: { value: {}, ready: false, id: '' } })
 
-                                                        }} >cancelar</button></>
-                                                }
-                                            </>
-                                            }</td> : <></>}
-                                        </tr>
-                                    )
-                                })}
+                                                            }} >cancelar</button></>
+                                                    }
+                                                </>
+                                                }</td> : <></>}
+                                            </tr>
+                                        )
+                                    })}
                                 </tbody>
 
                             </table>
@@ -177,15 +178,19 @@ const RevisarServicios = (props) => {
                     {
 
                         misServiciosSort[misServiciosSort.sort] && (misServiciosSort[misServiciosSort.sort]).array.length > 0 ? <>
+                            <p id={`pidspan-0`}>
+                                <span className="bigSizeS" id={`pidspandos-s0`}>   TIPO</span>
+                                <span className="bigSize" id={`pidspantres-s0`}> USUARIO</span>
+                                <span className="mediumSize" id={`pidspancuatros-0`}> MAS INFO</span>
 
+                            </p>
                             {misServiciosSort[misServiciosSort.sort].array.map((key, i) => {
                                 return (
                                     <>{key.app && <p id={`pid-${i}`}>
-                                        <span id={`pidspan-${i}`}>
-                                            <span id={`pidspandos-${i}`}>   {key.app.type}  :</span>
-                                            <span id={`pidspantres-${i}`}>  {key.datosPersonales.nombre}  {key.datosPersonales.apellido.split(' ')[0]}</span>
+                                        <span className="bigSizeS" id={`pidspantres-${i}`}>   {key.app.type} </span>
+                                        <span className="bigSize" id={`pidspandos-${i}`}> {key.datosPersonales.nombre}  {key.datosPersonales.apellido.split(' ')[0]}</span>
+                                        <span className="pointer mediumSize" id={`pidspancuatro-${i}`}> VER</span>
 
-                                        </span>
                                     </p>}</>
                                 )
                             })}

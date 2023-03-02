@@ -11,7 +11,7 @@ const socket = Socket
 
 const GooglMapsComp = (props) => {
     let start = false
-    const { fullAdressSearch=false, adressView = { state: false, centre: { ltn: 6.1576585, lgn: -75872710271 } }, setAdressView = console.log, soloAdress = false, adressData = ObjContacto.direccion, visorObj = {}, setEnviar = console.log, enviar = { aReady: false, bReady: false, cReady: false, b: console.log, a: console.log, c: console.log, allReady: false }, rastreado = false, normal = false, receptor = false, mapCenterGo = { inicio: { lat: 27.672932021393862, lng: 85.31184012689732 }, final: { lat: 27.672932021393862, lng: 85.31184012689732 } }, irALugar = console.log, setMapCenterFuntion = console.log, mapCenter = { lat: 27.672932021393862, lng: 85.31184012689732 }, setMapCenter = console.log } = props
+    const { adressViewIn = false, fullAdressSearch = false, adressView = { state: false, centre: { ltn: 6.1576585, lgn: -75872710271 } }, setAdressView = console.log, soloAdress = false, adressData = ObjContacto.direccion, visorObj = {}, setEnviar = console.log, enviar = { aReady: false, bReady: false, cReady: false, b: console.log, a: console.log, c: console.log, allReady: false }, rastreado = false, normal = false, receptor = false, mapCenterGo = { inicio: { lat: 27.672932021393862, lng: 85.31184012689732 }, final: { lat: 27.672932021393862, lng: 85.31184012689732 } }, irALugar = console.log, setMapCenterFuntion = console.log, mapCenter = { lat: 27.672932021393862, lng: 85.31184012689732 }, setMapCenter = console.log } = props
     const libraries = useMemo(() => ['places'], []);
     let map = false
     const mapOptions = {
@@ -29,7 +29,7 @@ const GooglMapsComp = (props) => {
     if (!isLoaded) {
         return <p>Loading...</p>;
     }
-    
+
     const loadDragInfo = (evt) => {
         if (receptor) {
             console.log({ lat: evt.latLng.lat(), lng: evt.latLng.lng() });
@@ -43,7 +43,7 @@ const GooglMapsComp = (props) => {
                 ...visorObj,
                 ip: visorObj.ip,
                 id: visorObj.id,
-                reqId:parseInt(Math.random()*999999)
+                reqId: parseInt(Math.random() * 999999)
             });
         }
         if (normal) {
@@ -88,30 +88,30 @@ const GooglMapsComp = (props) => {
                     <GoogleMap
                         onClick={(e) => console.log(e, 'MapaClick')}
                         options={mapOptions}
-                        zoom={adressView.state ? 17 : 14}
+                        zoom={adressViewIn ? 17.5 : adressView.state ? 17 : 14}
                         center={adressView.state ? adressView.centre : mapCenter}
                         mapTypeId={google.maps.MapTypeId.ROADMAP}
-                        mapContainerStyle={{ width: adressView.state ? '300px' : '800px', height: adressView.state ? '300px' : '500px' }}
+                        mapContainerStyle={{ width: (adressViewIn || adressView.state) ? '300px' : '800px', height: (adressViewIn || adressView.state) ? '300px' : '500px' }}
                         onLoad={() => console.log('Map Component Loaded...')}
                         id={'map-google'}
                     >
                         <MarkerF
-                            draggable={true}
-                            position={adressView.state ? adressView.centre : mapCenter}
+                            draggable={adressViewIn ? false : true}
+                            position={adressViewIn ? mapCenter : adressView.state ? adressView.centre : mapCenter}
                             onDragEnd={loadDragInfo}
                             onLoad={() => console.log('Marker Loaded')}
                         />
-                        {!receptor && !rastreado && < DirectionsRenderer />}
+                        {!adressViewIn && !receptor && !rastreado && < DirectionsRenderer />}
 
                     </GoogleMap>
-                    {!receptor && !rastreado && !adressView.state && <>
+                    {!adressViewIn && !receptor && !rastreado && !adressView.state && <>
                         <PlacesAutocomplete setMapCenter={setMapCenter} />
                         <PlacesAutocomplete setMapCenter={setMapCenterFuntion} />
                     </>}
 
                     {/* <DirectionsRenderer /> */}
 
-                    {!receptor && !rastreado && !adressView.state && <button onClick={(e) => { e.preventDefault(); IrAplace() }}>LLEGAR</button>}
+                    {!adressViewIn && !receptor && !rastreado && !adressView.state && <button onClick={(e) => { e.preventDefault(); IrAplace() }}>LLEGAR</button>}
                     {/*  {
                         receptor && <><button onClick={(e) => { e.preventDefault(); rastrear() }}>rastrear</button></>
                     } */}

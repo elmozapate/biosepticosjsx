@@ -605,3 +605,30 @@
     justify-content: center;
     align-items: center;
 }
+.bigSize{
+    text-align: left;
+
+    min-width: getRemSize(200px) !important;
+    width: getRemSize(200px) !important;
+    max-width: getRemSize(200px) !important;
+}
+.bigSizeS{
+    text-align: left;
+    min-width: getRemSize(150px) !important;
+    width: getRemSize(150px) !important;
+    max-width: getRemSize(150px) !important;
+}
+.mediumSize{
+    text-align: left;
+
+    min-width: getRemSize(100px) !important;
+    width: getRemSize(100px) !important;
+    max-width: getRemSize(100px) !important;
+}
+.smallSize{
+    text-align: left;
+
+    min-width: getRemSize(40px) !important;
+    width: getRemSize(40px) !important;
+    max-width: getRemSize(40px) !important;
+}

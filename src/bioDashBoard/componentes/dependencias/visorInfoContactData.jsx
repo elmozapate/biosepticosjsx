@@ -1,9 +1,10 @@
 import StylesObj from "@/styles/stylesObj"
 import StringsObj from "@/engine/content"
 import { UserObj } from "@/engine/content"
-import { ArrayContactData, ArrayContactDataAdress } from "@/bioApp/models/modelosSelector"
+import { ArrayContactData, ArrayContactDataAdress, ArrayContactDataAdressStreet } from "@/bioApp/models/modelosSelector"
 import ModeloUsuario from "@/bioApp/models/modelosUsuario"
 import { useState } from "react"
+import ContenedorMaps from "@/bioApp/componentes/contenedorMaps"
 const usuarioDefault = ModeloUsuario()
 const userStructure = UserObj()
 const objCssInit = StylesObj()
@@ -13,6 +14,7 @@ const VisorInfoContactData = (props) => {
     const [inAdress, setInAdress] = useState({
         state: false
     })
+    const [inMaps, setinMaps] = useState(false)
     return (
         <>
             {!inAdress.state ? <>
@@ -52,16 +54,44 @@ const VisorInfoContactData = (props) => {
                         </>
                         :
                         <>
-                            {ArrayContactDataAdress.map((key, i) => {
-                                return (
-                                    <><p id={`pid-${i}`}>
-                                        <span id={`pidspan-${i}`}>
-                                            <span id={`pidspandos-${i}`}>   {key}  :</span>
-                                            <span id={`pidspantres-${i}`}>   {activeUser.userInfo.datosContacto.direccion[key]}</span>
-                                        </span>
-                                    </p></>
-                                )
-                            })}                </>}
+                            {
+                                inMaps ? <>
+                                    <ContenedorMaps adressViewIn  defaultLocation={activeUser.userInfo.datosContacto.direccion.coordenadas}  />
+                                    <span onClick={(e) => { e.preventDefault(); setinMaps(false) }}> VOLVER</span>
+                                    <br />
+
+                                </> :
+
+                                    <>
+                                        {ArrayContactDataAdress.map((key, i) => {
+                                            return (
+                                                <><p id={`pid-${i}`}>
+                                                    <span id={`pidspan-${i}`}>
+                                                        <span id={`pidspandos-${i}`}>   {key}  :</span>
+                                                        <span id={`pidspantres-${i}`}>   {activeUser.userInfo.datosContacto.direccion[key]}</span>
+                                                    </span>
+                                                </p></>
+                                            )
+                                        })}
+                                        <div className="flex-row">
+                                            {ArrayContactDataAdressStreet.map((key, i) => {
+                                                return (
+                                                    <><p className="flex-row" id={`pid-${i}`}>
+                                                        <span className="flex-row" id={`pidspan-${i}`}>
+                                                            <span id={`pidspandos-${i}`}>   {key === 'numero' ? '# ' : key === 'viaSelecionada' ? '' : (key === 'numero' || key === 'letra' || key === 'primerLetra' || key === 'segundaLetra') ? ' ' : key === 'primerNumDireccion' ? ' # ' : ' - '}  </span>
+                                                            <span id={`pidspantres-${i}`}>   {activeUser.userInfo.datosContacto.direccion[key]}</span>
+                                                        </span>
+                                                    </p></>
+                                                )
+                                            })}</div>
+                                        <span onClick={(e) => { e.preventDefault(); setinMaps(true) }}>VER EN MAPS</span>
+                                        <br />
+
+                                    </>
+                            }
+                        </>
+                    }
+
 
                     <button onClick={(e) => { e.preventDefault(); setInAdress({ ...inAdress, state: false }) }}>REGRESAR</button>
 

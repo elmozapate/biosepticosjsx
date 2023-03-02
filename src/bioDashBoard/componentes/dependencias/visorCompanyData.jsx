@@ -1,9 +1,10 @@
 import StylesObj from "@/styles/stylesObj"
 import StringsObj from "@/engine/content"
 import { UserObj } from "@/engine/content"
-import { ArrayCompanyData, ArrayContactDataAdress, ArrayPersonalData } from "@/bioApp/models/modelosSelector"
+import { ArrayCompanyData, ArrayContactDataAdress, ArrayContactDataAdressStreet, ArrayPersonalData } from "@/bioApp/models/modelosSelector"
 import ModeloUsuario, { EmpresaObj } from "@/bioApp/models/modelosUsuario"
 import { useState } from "react"
+import ContenedorMaps from "@/bioApp/componentes/contenedorMaps"
 const usuarioDefault = ModeloUsuario()
 
 const userStructure = UserObj()
@@ -12,6 +13,8 @@ const objStringsInit = StringsObj()
 const VisorCompanyData = (props) => {
     const { actualizeData = console.log, activeEmpresa = EmpresaObj(), setactiveEmpresa = console.log, objStrings = objStringsInit, objCss = objCssInit, selectioned = { active: false, inSelection: 'default' }, usersAll = { array: [] } } = props
     const [inAdress, setInAdress] = useState(false)
+    const [inMaps, setinMaps] = useState(false)
+
     return (
         <div className="flex-column">
             <h1> INFORMACION EMPRESA{inAdress && '--DIRECCION'}</h1>
@@ -27,7 +30,38 @@ const VisorCompanyData = (props) => {
                         inAdress ?
                             <>
                                 <div>
-                                    {ArrayContactDataAdress.map((key, i) => {
+                                    {inMaps ? <>
+                                        <ContenedorMaps adressViewIn defaultLocation={activeEmpresa.contact.direccion.coordenadas} />
+                                        <span onClick={(e) => { e.preventDefault(); setinMaps(false) }}> VOLVER</span>
+                                        <br />
+
+                                    </> : <>
+                                        {ArrayContactDataAdress.map((key, i) => {
+                                            return (
+                                                <><p id={`pid-${i}`}>
+                                                    <span id={`pidspan-${i}`}>
+                                                        <span id={`pidspandos-${i}`}>   {key}  :</span>
+                                                        <span id={`pidspantres-${i}`}>   {activeEmpresa.contact.direccion[key]}</span>
+                                                    </span>
+                                                </p></>
+                                            )
+                                        })}
+                                        <div className="flex-row">
+                                            {ArrayContactDataAdressStreet.map((key, i) => {
+                                                return (
+                                                    <><p className="flex-row" id={`pid-${i}`}>
+                                                        <span className="flex-row" id={`pidspan-${i}`}>
+                                                            <span id={`pidspandos-${i}`}>   {key === 'numero' ? '# ' : key === 'viaSelecionada' ? '' : (key === 'numero' || key === 'letra' || key === 'primerLetra' || key === 'segundaLetra') ? ' ' : key === 'primerNumDireccion' ? ' # ' : ' - '}  </span>
+                                                            <span id={`pidspantres-${i}`}>   {activeEmpresa.contact.direccion[key]}</span>
+                                                        </span>
+                                                    </p></>
+                                                )
+                                            })}</div>
+                                        <span onClick={(e) => { e.preventDefault(); setinMaps(true) }}>VER EN MAPS</span>
+                                        <br />
+
+                                    </>}
+                                    {/*    {ArrayContactDataAdress.map((key, i) => {
                                         return (
                                             <><p id={`pid-${i}`}>
                                                 <span id={`pidspan-${i}`}>
@@ -37,7 +71,7 @@ const VisorCompanyData = (props) => {
                                                 </span>
                                             </p></>
                                         )
-                                    })}
+                                    })} */}
                                 </div>
                                 <span onClick={(e) => { e.preventDefault(); setInAdress(false) }} id={`pidspantres-sas`}>   volver</span>
                             </>

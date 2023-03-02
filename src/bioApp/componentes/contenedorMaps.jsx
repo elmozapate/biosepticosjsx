@@ -6,8 +6,8 @@ import { useEffect, useState } from "react"
 const socket = Socket
 let asks = []
 const ContenedorMaps = (props) => {
-    const { getId = console.log, normal = false, rastreado = false, receptor = false, visorObj = {} } = props
-    const [mapCenter, setMapCenter] = useState({ lat: 6.2476376, lng: -75.56581530000001 })
+    const { adressViewIn = false, defaultLocation = { lat: 6.2476376, lng: -75.56581530000001 }, getId = console.log, normal = false, rastreado = false, receptor = false, visorObj = {} } = props
+    const [mapCenter, setMapCenter] = useState(defaultLocation)
     const [mapCenterGo, setMapCenterGo] = useState({ inicio: { lat: 6.2476376, lng: -75.56581530000001 }, final: { lat: 6.2476376, lng: -75.56581530000001 } })
     const [lasDireccionesResult, setLasDireccionesResult] = useState({
         state: false,
@@ -66,9 +66,9 @@ const ContenedorMaps = (props) => {
 
 
     }, [visorObj])
-  useEffect(() => {
+    useEffect(() => {
         if (rastreado) {
-            navigator.geolocation.watchPosition (
+            navigator.geolocation.watchPosition(
                 function (position) { // success cb
                     setMapCenter({
                         ...mapCenter,
@@ -85,7 +85,7 @@ const ContenedorMaps = (props) => {
                         type: 'obj',
                         ip: visorObj.ip,
                         id: visorObj.id,
-                        reqId:parseInt(Math.random()*999999)
+                        reqId: parseInt(Math.random() * 999999)
                     });
                 }
             );
@@ -102,32 +102,32 @@ const ContenedorMaps = (props) => {
         }
     }, [visorObj, rastreado])
 
-const check=()=>{
-    navigator.geolocation.getCurrentPosition(
-        function (position) { // success cb
-            setMapCenter({
-                ...mapCenter,
-                lat: position.coords.latitude,
-                lng: position.coords.longitude
-            })
-            socket.emit('bioSepticosMap', {
-                'dataIn': {
+    const check = () => {
+        navigator.geolocation.getCurrentPosition(
+            function (position) { // success cb
+                setMapCenter({
+                    ...mapCenter,
                     lat: position.coords.latitude,
                     lng: position.coords.longitude
-                },
-                actionTodo: "userObjLocation",
-                ...visorObj,
-                type: 'obj',
-                ip: visorObj.ip,
-                id: visorObj.id,
-                reqId:parseInt(Math.random()*999999)
-            });
-        }
-    );
-}
+                })
+                socket.emit('bioSepticosMap', {
+                    'dataIn': {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    },
+                    actionTodo: "userObjLocation",
+                    ...visorObj,
+                    type: 'obj',
+                    ip: visorObj.ip,
+                    id: visorObj.id,
+                    reqId: parseInt(Math.random() * 999999)
+                });
+            }
+        );
+    }
     return (
         <>
-            <GooglMapsComp visorObj={visorObj} normal={normal} rastreado={rastreado} receptor={receptor} setLasDireccionesResult={setLasDireccionesResult} lasDireccionesResult={lasDireccionesResult} mapCenterGo={mapCenterGo} irALugar={irALugar} mapCenter={mapCenter} setMapCenterFuntion={setMapCenterFuntionDos} setMapCenter={setMapCenterFuntion} />
+            <GooglMapsComp adressViewIn={adressViewIn} visorObj={visorObj} normal={normal} rastreado={rastreado} receptor={receptor} setLasDireccionesResult={setLasDireccionesResult} lasDireccionesResult={lasDireccionesResult} mapCenterGo={mapCenterGo} irALugar={irALugar} mapCenter={mapCenter} setMapCenterFuntion={setMapCenterFuntionDos} setMapCenter={setMapCenterFuntion} />
         </>
     )
 }
