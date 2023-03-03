@@ -384,7 +384,7 @@ const DateView = (props) => {
                                     if (keyServicios.shedule.estado === "programado") {
                                         haveRutas = 'programado'
                                         /* console.log('6'); */
-                                        return haveRutas
+                                         haveRutas
 
                                     }
                                     if (keyServicios.shedule.estado === "inactivo") {
