@@ -378,13 +378,12 @@ const DateView = (props) => {
                             servicios.array.map((keyServicios, iServicios) => {
                                 if (keySerRuta === keyServicios.id
                                 ) {
-                                    '5'
-                                    /* console.log(''); */
-                                    
-                                    if (keyServicios.shedule.estado === "programado") {
+
+                                    console.log('5');
+
+                                    if (keyServicios.shedule.estado === "programado" && haveRutas !== 'warning') {
                                         haveRutas = 'programado'
                                         /* console.log('6'); */
-                                         haveRutas
 
                                     }
                                     if (keyServicios.shedule.estado === "inactivo") {
