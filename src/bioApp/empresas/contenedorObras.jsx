@@ -30,7 +30,6 @@ const ContenedorObras = (props) => {
                                 {<>
                                     <p id={`opopo-0o`}><span className="mediumSize"> OBRA</span> <span className="bigSizeS"> departamento</span><span className="bigSizeS"> ciudad</span><span className="mediumSize"> barrio</span><span className="mediumSize" id={`opopo-as-ssss`}></span></p>
                                     {misObras.array.map((key, i) => {
-                                        console.log(key.direccion.coordenadas);
                                         return (
                                             <>
                                                 <p id={`opopo-${i}`}> <span className="mediumSize">{key.nombre}</span> <span className="bigSizeS" id={`opopo-${i}-s`}>{key.direccion.departamento}</span><span className="bigSizeS" id={`opopo-${i}-ss`}>{key.direccion.ciudad}</span><span className="mediumSize" id={`opopo-${i}-ssss`}>{key.direccion.barrio}</span><span onClick={(e) => { e.preventDefault(); setinMaps({...inMaps, state: true, coord: key.direccion.coordenadas }) }} className="mediumSize pointer" id={`opopo-${i}-ssss`}>VER EN MAPS</span></p>

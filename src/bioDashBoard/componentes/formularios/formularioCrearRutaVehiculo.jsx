@@ -17,7 +17,13 @@ let resId = 0
 
 const FormularioCrearRutaVehiculo = (props) => {
 
-    const { back = console.log, vehiculo = ModeloVehiculo, rutaSelected = {}, modeloBiosepticos = ModeloBiosepticos, userModel = ModeloUsuario(), setWillShow = console.log, inAsk = 'newUser', userType = '', willShows = '', onlyAccess = [{ type: '', perms: {} }], sinPermisos = false, userData = userStructure, setReqState = console.log, reqState = { reqId: Number(), state: false, peticion: '', type: ''  ,inList: [] }, setPopUp = console.log, objStrings = objStringsInit, objCss = objCssInit, willShow = console.log, showed = 'inicio' } = props
+    const { inOperativo = {
+        active: false,
+        vehiculo: {},
+        inMode: ''
+    }, setInOperativo = console.log, setModoCrearVehiculo = {
+        mode: ''
+    }, diasDeVehiculoMes = [], setRutaSelected = console.log, back = console.log, vehiculo = ModeloVehiculo, rutaSelected = {}, modeloBiosepticos = ModeloBiosepticos, userModel = ModeloUsuario(), setWillShow = console.log, inAsk = 'newUser', userType = '', willShows = '', onlyAccess = [{ type: '', perms: {} }], sinPermisos = false, userData = userStructure, setReqState = console.log, reqState = { reqId: Number(), state: false, peticion: '', type: '', inList: [] }, setPopUp = console.log, objStrings = objStringsInit, objCss = objCssInit, willShow = console.log, showed = 'inicio' } = props
     const [newUserData, setNewUserData] = useState({
         conductor: '',
         auxiliar: '',
@@ -89,24 +95,59 @@ const FormularioCrearRutaVehiculo = (props) => {
         setSending(true)
         let newRutas = []
         rutaSelected.dias.map((key, i) => {
-            const fechaIn = `${key}-${rutaSelected.mes + 1}-${rutaSelected.ano}`
-            newRutas.push(ObjRutaIndividual(vehiculo.id, { conductor: value.idConductor, auxiliar: value.idAuxiliar }, fechaIn, 'moet'))
+            let yaReq = false
+            diasDeVehiculoMes.map((keyO, iO) => {
+                if (keyO === key) {
+                    yaReq = true
+                }
+            })
+            if (!yaReq) {
+                const fechaIn = `${key}-${rutaSelected.mes + 1}-${rutaSelected.ano}`
+                newRutas.push(ObjRutaIndividual(vehiculo.id, { conductor: value.idConductor, auxiliar: value.idAuxiliar }, fechaIn, 'moet'))
+            }
         })
         crearlasRutas(newRutas);
     }
     const crearlasRutas = (newRutas) => {
+
         const res = MiddlewareSelector({
             ask: 'crearRutaVehiculo', data: newRutas
         })
         resId = res
+        let newList = reqState.inList
+        newList.push({
+            id: res,
+            tipo: 'crearRutaVehiculo'
+        })
+        setReqState({
+            ...reqState,
+            reqId: res, state: true, peticion: 'crearRutaVehiculo', type: '', inList: newList
+        })
     }
     useEffect(() => {
         socket.on("bioApp", (msg) => {
             const actionTodo = msg.actionTodo
             const Data = msg.dataIn
             switch (actionTodo) {
-                case 'newVehiculoShedule':
+                case 'dataRes-newVehiculoShedule':
                     if (parseInt(msg.resId) === parseInt(resId)) {
+                        setRutaSelected({
+                            modo: '',
+                            semana: -1,
+                            dias: []/* newDias() */,
+                            stage: 0,
+                            mes: parseInt(new Date().toLocaleDateString().split('/')[1]) - 1,
+                            ano: parseInt(new Date().toLocaleDateString().split('/')[2])
+                        })
+                        setInOperativo({
+                            ...inOperativo,
+                            inMode: 'ver'
+                        })
+                        setTimeout(() => {
+                            setModoCrearVehiculo({
+                                mode: ''
+                            })
+                        }, 1000);
                         setSending(false)
                         back(true)
                     }

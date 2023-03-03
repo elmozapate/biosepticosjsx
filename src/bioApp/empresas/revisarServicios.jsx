@@ -33,7 +33,6 @@ const RevisarServicios = (props) => {
             modeloBiosepticos.vehiculos.map((key, i) => {
                 if (key.datosLegales.placa === (inAsign.obj.value.split(' ')[inAsign.obj.value.split(' ').length - 1]).split('-')[1]) {
                     vehiculosDispo.arrayAll.map((keyV, iV) => {
-                        console.log(keyV.vehiculo, key.id);
                         if (keyV.vehiculo === key.id && !sended) {
                             props = {
                                 servicio: value,
@@ -52,14 +51,8 @@ const RevisarServicios = (props) => {
 
         } else {
             let props = {}
-            modeloBiosepticos.rutas.map((key, i) => {
-                if (key.id === value.encargadosDeRuta.rutaDia) {
-                    console.log(key);
-                };
-            })
             modeloBiosepticos.rutasIndividuales.map((key, i) => {
                 if (key.id === value.ruta) {
-                    console.log(value);
                     props = {
                         servicio: value,
                         rutaIndividual: value.ruta,

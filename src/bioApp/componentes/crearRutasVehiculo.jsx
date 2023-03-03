@@ -22,7 +22,7 @@ const CrearRutasVehiculo = (props) => {
                 </>
                     :
                     <>
-                        <DateView vehiculo={vehiculo} modeloBiosepticos={modeloBiosepticos} modo={modoCrearVehiculo.mode} crearRuta />
+                        <DateView inOperativo={inOperativo}setInOperativo={setInOperativo} vehiculo={vehiculo} modeloBiosepticos={modeloBiosepticos} modo={modoCrearVehiculo.mode} setModoCrearVehiculo={setModoCrearVehiculo} crearRuta />
                     </>
             }
             <span className="pointer" onClick={modoCrearVehiculo.mode === '' ? (e) => { e.preventDefault(); setInOperativo({ ...inOperativo, inMode: '' }) } : (e) => { e.preventDefault(); setModoCrearVehiculo({ ...modoCrearVehiculo, mode: '' }) }}> VOLVER </span>

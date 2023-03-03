@@ -66,7 +66,7 @@ const RevisarVehiculos = (props) => {
                                         </>}
                                         {inOperativo.inMode === 'ver' && <>
                                             <>
-                                                <DateView vehiculo={inOperativo.vehiculo} modeloBiosepticos={modeloBiosepticos} modo={modoCrearVehiculo.mode} verRuta crearRuta />
+                                                <DateView inOperativo={inOperativo} vehiculo={inOperativo.vehiculo} modeloBiosepticos={modeloBiosepticos} modo={modoCrearVehiculo.mode} verRuta crearRuta />
                                             </>
                                         </>}
                                         {inOperativo.inMode === 'historial' && <>
