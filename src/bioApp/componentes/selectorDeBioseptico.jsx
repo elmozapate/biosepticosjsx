@@ -66,7 +66,7 @@ const SelectorDeBioseptico = (props) => {
                         newanoAentrarObra === anoAentrar) {
                         let isIn = false
                         obrasArray.map((keyCompO, iCompO) => {
-                            if (keyCompO !== keyDo.obra) {
+                            if (keyCompO === keyDo.obra) {
                                 isIn = true
                             }
                         })
@@ -103,7 +103,7 @@ const SelectorDeBioseptico = (props) => {
                         newanoAentrarObra === anoAentrar) {
                         let isIn = false
                         obrasArray.map((keyCompO, iCompO) => {
-                            if (keyCompO !== keyDo.obra) {
+                            if (keyCompO === keyDo.obra) {
                                 isIn = true
                             }
                         })
@@ -139,7 +139,7 @@ const SelectorDeBioseptico = (props) => {
                         newanoAentrarObra === anoAentrar) {
                         let isIn = false
                         obrasArray.map((keyCompO, iCompO) => {
-                            if (keyCompO !== keyDo.obra) {
+                            if (keyCompO === keyDo.obra) {
                                 isIn = true
                             }
                         })
@@ -196,7 +196,7 @@ const SelectorDeBioseptico = (props) => {
                             newanoAentrarObra === newanoAentrarSelecteDate) {
                             let isIn = false
                             obrasArray.map((keyCompO, iCompO) => {
-                                if (keyCompO !== keyDo.obra) {
+                                if (keyCompO === keyDo.obra) {
                                     isIn = true
                                 }
                             })
