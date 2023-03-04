@@ -64,7 +64,13 @@ const SelectorDeBioseptico = (props) => {
                     if (newdiaAentrarObra === diaAentrar &&
                         newmesAentrarObra === mesAentrar &&
                         newanoAentrarObra === anoAentrar) {
-                        obrasArray.push(keyDo.obra);
+                        let isIn = false
+                        obrasArray.map((keyCompO, iCompO) => {
+                            if (keyCompO !== keyDo.obra) {
+                                isIn = true
+                            }
+                        })
+                        !isIn && obrasArray.push(keyDo.obra);
 
 
                     }
@@ -95,8 +101,13 @@ const SelectorDeBioseptico = (props) => {
                     if (newdiaAentrarObra === diaAentrar - 1 &&
                         newmesAentrarObra === mesAentrar &&
                         newanoAentrarObra === anoAentrar) {
-                        obrasArray.push(keyDo.obra);
-
+                        let isIn = false
+                        obrasArray.map((keyCompO, iCompO) => {
+                            if (keyCompO !== keyDo.obra) {
+                                isIn = true
+                            }
+                        })
+                        !isIn && obrasArray.push(keyDo.obra);
 
                     }
                 })
@@ -126,8 +137,13 @@ const SelectorDeBioseptico = (props) => {
                     if (newdiaAentrarObra === diaAentrar + 1 &&
                         newmesAentrarObra === mesAentrar &&
                         newanoAentrarObra === anoAentrar) {
-                        obrasArray.push(keyDo.obra);
-
+                        let isIn = false
+                        obrasArray.map((keyCompO, iCompO) => {
+                            if (keyCompO !== keyDo.obra) {
+                                isIn = true
+                            }
+                        })
+                        !isIn && obrasArray.push(keyDo.obra);
 
                     }
                 })
@@ -178,8 +194,13 @@ const SelectorDeBioseptico = (props) => {
                         if (newdiaAentrarObra === newdiaAentrarSelecteDate &&
                             newmesAentrarObra === newmesAentrarSelecteDate &&
                             newanoAentrarObra === newanoAentrarSelecteDate) {
-                            obrasArray.push(keyDo.obra);
-
+                            let isIn = false
+                            obrasArray.map((keyCompO, iCompO) => {
+                                if (keyCompO !== keyDo.obra) {
+                                    isIn = true
+                                }
+                            })
+                            !isIn && obrasArray.push(keyDo.obra);
 
                         }
                     })
