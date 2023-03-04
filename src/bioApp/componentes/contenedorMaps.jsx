@@ -8,7 +8,7 @@ let asks = []
 const ContenedorMaps = (props) => {
     const { irPlace = { state: false, coordenadas: { lat: 6.2476376, lng: -75.56581530000001 } }, setIrPlace = console.log, inOperacion = { state: false, inicio: { lat: 6.2476376, lng: -75.56581530000001 }, final: { lat: 6.2476376, lng: -75.56581530000001 } }, adressViewIn = false, defaultLocation = { lat: 6.2476376, lng: -75.56581530000001 }, getId = console.log, normal = false, rastreado = false, receptor = false, visorObj = {} } = props
     const [mapCenter, setMapCenter] = useState(defaultLocation)
-    const [goPlace, setGoPlace] = useState({ state: false, funtion: console.log })
+    const [goPlace, setGoPlace] = useState({ ok:false,state: false, funtion: console.log })
     const [mapCenterGo, setMapCenterGo] = useState({ inicio: inOperacion.inicio, final: inOperacion.final })
     const [lasDireccionesResult, setLasDireccionesResult] = useState({
         state: false,
@@ -154,7 +154,10 @@ const ContenedorMaps = (props) => {
                     <>
                         {goPlace.state && <span onClick={(e) => {
                             e.preventDefault(); goPlace.funtion()
-                        }}>IR </span>}
+                        }}>VER RUTA </span>}
+                        {goPlace.ok && <span onClick={(e) => {
+                            e.preventDefault(); irALugar()
+                        }}>llevame </span>}
                     </>
             }
         </>

@@ -11,7 +11,7 @@ const socket = Socket
 
 const GooglMapsComp = (props) => {
     let start = false
-    const { goPlace = { state: false, funtion: console.log }, setGoPlace = console.log, adressViewIn = false, fullAdressSearch = false, adressView = { state: false, centre: { ltn: 6.1576585, lgn: -75872710271 } }, setAdressView = console.log, soloAdress = false, adressData = ObjContacto.direccion, visorObj = {}, setEnviar = console.log, enviar = { aReady: false, bReady: false, cReady: false, b: console.log, a: console.log, c: console.log, allReady: false }, rastreado = false, normal = false, receptor = false, mapCenterGo = { inicio: { lat: 27.672932021393862, lng: 85.31184012689732 }, final: { lat: 27.672932021393862, lng: 85.31184012689732 } }, irALugar = console.log, setMapCenterFuntion = console.log, mapCenter = { lat: 27.672932021393862, lng: 85.31184012689732 }, setMapCenter = console.log } = props
+    const { goPlace = { ok: false, state: false, funtion: console.log }, setGoPlace = console.log, adressViewIn = false, fullAdressSearch = false, adressView = { state: false, centre: { ltn: 6.1576585, lgn: -75872710271 } }, setAdressView = console.log, soloAdress = false, adressData = ObjContacto.direccion, visorObj = {}, setEnviar = console.log, enviar = { aReady: false, bReady: false, cReady: false, b: console.log, a: console.log, c: console.log, allReady: false }, rastreado = false, normal = false, receptor = false, mapCenterGo = { inicio: { lat: 27.672932021393862, lng: 85.31184012689732 }, final: { lat: 27.672932021393862, lng: 85.31184012689732 } }, irALugar = console.log, setMapCenterFuntion = console.log, mapCenter = { lat: 27.672932021393862, lng: 85.31184012689732 }, setMapCenter = console.log } = props
     const libraries = useMemo(() => ['places'], []);
     let map = false
     const mapOptions = {
@@ -75,6 +75,10 @@ const GooglMapsComp = (props) => {
                 });
                 directionsDisplay.setMap(map)
                 directionsDisplay.setDirections(response);
+                setGoPlace({
+                    ...goPlace,
+                    ok: true
+                })
             } else {
 /*              alert("No existen rutas entre ambos puntos");
  */          }
@@ -82,6 +86,7 @@ const GooglMapsComp = (props) => {
     }
     if (!goPlace.state) {
         setGoPlace({
+            ...goPlace,
             state: true,
             funtion: IrAplace
         })
