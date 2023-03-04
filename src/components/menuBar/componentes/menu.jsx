@@ -26,15 +26,19 @@ const NavMenu = (props) => {
                     userData.type !== 'vendedor' && userData.permisions.vendedores && <p id="nav-menu-opt-3" onClick={(e) => { e.preventDefault(); setUserData('changeType', 'vendedor'); setMenuOpen(false) }}>{objStrings.navBar.menu.vendedores}</p>
 
                 }
+                 {
+                    userData.type !== 'bioseptico' && userData.permisions.bioseptico && <p id="nav-menu-opt-5" onClick={(e) => { e.preventDefault(); setUserData('changeType', 'bioseptico'); setMenuOpen(false) }}>{objStrings.navBar.menu.bioseptico}</p>
+
+                }
                 {
                     userData.dataRequired && userData.type === 'newUser' && !userData.permisions.console && !userData.permisions.logistica && !userData.permisions.empresas && !userData.permisions.vendedores && <p id="nav-menu-opt-4" onClick={(e) => { e.preventDefault(); setUserData('changeType', 'createUserData'); setMenuOpen(false) }}>TERMINAR REGISTRO</p>
 
                 }
                 {
-                    userData.type !== 'newUser' && <p id="nav-menu-opt-3" onClick={(e) => { e.preventDefault(); setUserData('changeType', 'newUser'); setMenuOpen(false) }}>{objStrings.navBar.menu.page}</p>
+                    userData.type !== 'newUser' && <p id="nav-menu-opt-4" onClick={(e) => { e.preventDefault(); setUserData('changeType', 'newUser'); setMenuOpen(false) }}>{objStrings.navBar.menu.page}</p>
 
                 }
-                <p id="nav-menu-opt-4" onClick={(e) => { e.preventDefault(); cleanUserData(); setMenuOpen(false) }}> {objStrings.navBar.menu.logOut}</p>
+                <p id="nav-menu-opt-6" onClick={(e) => { e.preventDefault(); cleanUserData(); setMenuOpen(false) }}> {objStrings.navBar.menu.logOut}</p>
 
             </div>
         </div>

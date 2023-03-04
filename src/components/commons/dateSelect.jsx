@@ -2,7 +2,7 @@ import { ObjDatosPersonales } from "@/bioApp/models/modelosUsuario";
 import { useState } from "react";
 import ReactDatePicker from "react-datepicker";
 const DateSelect = (props) => {
-  const { MinDate='',Atype = false, Btype = false, Ctype = false, MaxDate = new Date(), showTimeSelect = false, OnChange = console.log, personalObj = ObjDatosPersonales, startDate = new Date(), setStartDate = console.log } = props
+  const { Dtype = false, MinDate = '', Atype = false, Btype = false, Ctype = false, MaxDate = new Date(), showTimeSelect = false, OnChange = console.log, personalObj = ObjDatosPersonales, startDate = new Date(), setStartDate = console.log } = props
   let typeA = (date) => setStartDate({
     ...personalObj,
     fechaDeNacimiento: date
@@ -27,11 +27,12 @@ const DateSelect = (props) => {
       }
     }
   })
+  let typeD = (date) => setStartDate(date)
 
   return (
     <ReactDatePicker
       selected={startDate}
-      onChange={Ctype ? typeC : Btype ? typeB : typeA}
+      onChange={Dtype ? typeD : Ctype ? typeC : Btype ? typeB : typeA}
       showTimeSelect={showTimeSelect}
       dateFormatCalendar={"MMM yyyy"}
       popperClassName="some-custom-class"

@@ -66,6 +66,7 @@ const DateView = (props) => {
         let newArrayTest = []
         let yaReq = false
         rutaSelected.dias.map((key, i) => {
+            yaReq = false
             diasDeVehiculoMes.map((keyO, iO) => {
                 if (keyO === key) {
                     yaReq = true
@@ -864,7 +865,11 @@ const DateView = (props) => {
                                     <>
 
                                         <div id={`idds-`}
-                                            className={calendario ? 'rowBig' : 'row'}>
+                                            className={calendario ? 'rowBig' : 'row'}
+                                            onClick={(e)=>{
+                                                e.preventDefault();
+                                            }}
+                                            >
 
                                             {
                                                 laSemana.map((keySemana, iSemana) => {
@@ -904,7 +909,7 @@ const DateView = (props) => {
                                                                     })) : console.log;
 
                                                                 }
-                                                                } className={`day ${crearRuta ? key && key.dias && key.dias[iSemana] && (inOperativo.inMode === 'ver' ? (parseInt(key.dias[iSemana].dia) >= parseInt(fecha.diaAentrar) || parseInt(key.dias[iSemana].dia) <= parseInt(fecha.diaAentrar)) : (parseInt(key.dias[iSemana].dia) >= parseInt(fecha.diaAentrar))) ? getStateDiaRuta(key.dias[iSemana].dia) ? getStateDiaRuta(key.dias[iSemana].dia) === 'true' ? 'bgColor-orange' : 'bgColor-green' : 'bgColor-yellow' : 'bgColor-blue' : rutasIn ? (getDayRutas(key, iSemana)) ? (getDayRutas(key, iSemana)) === 'warning' ? 'bgColor-red' : (getDayRutas(key, iSemana)) === 'ready' ? 'bgColor-green' : 'bgColor-yellow' : 'bgColor-blue' : (key.dias && key.dias[iSemana] && key.dias[iSemana].hoy ? 'bgColor-yellow' : '')}`}
+                                                                } className={`day ${key.dias[iSemana].dia!=='off'?'pointer':''} ${crearRuta ? key && key.dias && key.dias[iSemana] && (inOperativo.inMode === 'ver' ? (parseInt(key.dias[iSemana].dia) >= parseInt(fecha.diaAentrar) || parseInt(key.dias[iSemana].dia) <= parseInt(fecha.diaAentrar)) : (parseInt(key.dias[iSemana].dia) >= parseInt(fecha.diaAentrar))) ? getStateDiaRuta(key.dias[iSemana].dia) ? getStateDiaRuta(key.dias[iSemana].dia) === 'true' ? 'bgColor-orange' : 'bgColor-green' : 'bgColor-yellow' : 'bgColor-blue' : rutasIn ? (getDayRutas(key, iSemana)) ? (getDayRutas(key, iSemana)) === 'warning' ? 'bgColor-red' : (getDayRutas(key, iSemana)) === 'ready' ? 'bgColor-green' : 'bgColor-yellow' : 'bgColor-blue' : (key.dias && key.dias[iSemana] && key.dias[iSemana].hoy ? 'bgColor-yellow' : '')}`}
                                                                     id={`iddss-${iSemana}-${i}`}>
                                                                     {key.dias && key.dias[iSemana] && key.dias[iSemana].dia !== 'off' ?
                                                                         <>

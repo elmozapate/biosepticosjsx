@@ -5,6 +5,7 @@ const StringsObj = () => {
             intro: ''
         },
         app: {
+            introBio:'',
             intro: ''
         },
         dashBoard: {
@@ -21,7 +22,8 @@ const StringsObj = () => {
                 logistic: '',
                 config: '',
                 page: '',
-                logOut: ''
+                logOut: '',
+                bioseptico:''
             }
         },
         selector: {

@@ -20,6 +20,7 @@ import { Socket, SocketOn } from "@/middleware/routes/connect/socket/socketOn"
 import CentroDeVendedores from "@/bioApp/vendedores/centroDeVendedores"
 import { ModeloBiosepticos } from "@/bioApp/models/modeloBiosepticos"
 import ReqComponent from "@/components/containers/reqComponent"
+import CentroDeBiosepticos from "@/bioApp/logistica/centroDeBiosepticos"
 const envM = EnvM()
 const plantillaUSuario = ModeloUsuario()
 const socket = Socket
@@ -43,6 +44,12 @@ const UserCheck = (props) => {
     const [userData, setUserName] = useState(userStructure)
     const [userModel, setUserModel] = useState(plantillaUSuario)
     const [empresas, setEmpresas] = useState({ array: [] })
+    const [dataBioseptico, setDataBioseptico] = useState({
+        servicios: [],
+        rutas: [],
+        obras: [],
+        rutasIndividuales: []
+    })
     const [vehiculos, setVehiculos] = useState({ array: [] })
     const [creatingObra, setCreatingObra] = useState(false)
     const [obras, setObras] = useState({ array: [] })
@@ -197,23 +204,23 @@ const UserCheck = (props) => {
     const PedirObras = (data) => {
         const req = MiddlewareSelector({ ask: 'askObras', data: data })
         res = req
-       /*  let newInList = reqState.inList
-        let isSend = false
-        newInList.map((key, i) => {
-            if (key.id === req) {
-                isSend = true
-            }
-        })
-        if (!isSend) {
-            newInList.push({ id: req, valor: 'askObras' })
-            setReqState({
-                ...reqState,
-                state: true,
-                reqId: reqState.reqId !== 0 && reqState.reqId !== '' ? reqState.reqId : req,
-                peticion: reqState.peticion !== '' ? reqState.peticion : 'askObras',
-                inList: newInList
-            })
-        } */
+        /*  let newInList = reqState.inList
+         let isSend = false
+         newInList.map((key, i) => {
+             if (key.id === req) {
+                 isSend = true
+             }
+         })
+         if (!isSend) {
+             newInList.push({ id: req, valor: 'askObras' })
+             setReqState({
+                 ...reqState,
+                 state: true,
+                 reqId: reqState.reqId !== 0 && reqState.reqId !== '' ? reqState.reqId : req,
+                 peticion: reqState.peticion !== '' ? reqState.peticion : 'askObras',
+                 inList: newInList
+             })
+         } */
     }
     const PedirBiosepticos = (data) => {
         const req = MiddlewareSelector({ ask: 'askBioseptico', data: data })
@@ -313,25 +320,25 @@ const UserCheck = (props) => {
         if (userModel.app.relationed.empresas.length > 0) {
             const req = MiddlewareSelector({ ask: 'askServicios', data: model })
             res = req
-            
-         /*    let newInList = reqState.inList
-            let isSend = false
-            newInList.map((key, i) => {
-                if (key.id === req) {
-                    isSend = true
-                }
-            })
-            if (!isSend) {
-                newInList.push({ id: req, valor: 'askServicios' })
-                setReqState({
-                    ...reqState,
-                    state: true,
-                    reqId: reqState.reqId !== 0 && reqState.reqId !== '' ? reqState.reqId : req,
-                    peticion: reqState.peticion !== '' ? reqState.peticion : 'askServicios',
-                    inList: newInList
-                })
-            }*/
-        } 
+
+            /*    let newInList = reqState.inList
+               let isSend = false
+               newInList.map((key, i) => {
+                   if (key.id === req) {
+                       isSend = true
+                   }
+               })
+               if (!isSend) {
+                   newInList.push({ id: req, valor: 'askServicios' })
+                   setReqState({
+                       ...reqState,
+                       state: true,
+                       reqId: reqState.reqId !== 0 && reqState.reqId !== '' ? reqState.reqId : req,
+                       peticion: reqState.peticion !== '' ? reqState.peticion : 'askServicios',
+                       inList: newInList
+                   })
+               }*/
+        }
 
 
     }
@@ -448,7 +455,7 @@ const UserCheck = (props) => {
         }
         if (actionTodo === 'dataRes-askEmpresas') {
             if (msg.res === 'ok') {
-                const lastEmpresas=misEmpresas
+                const lastEmpresas = misEmpresas
                 setMisEmpresasRes({ ...misEmpresasRes, array: msg.empresas })
                 if (msg.empresas.length === 1) {
                     setMisEmpresas({
@@ -603,7 +610,40 @@ const UserCheck = (props) => {
         pedirMisServicios(misEmpresas.itemSelectioned.id)
         PedirObras({ id: misEmpresas.itemSelectioned.id, user: userData.id })
     }, [misEmpresas.itemSelectioned])
-
+    useEffect(() => {
+        if (userModel.userObj.permisions.bioseptico) {
+            let newvalues = {
+                servicios: [],
+                rutas: [],
+                rutasIndividuales: [],
+                obras: []
+            }
+            modeloBiosepticos.rutasIndividuales.map((key, i) => {
+                if ((userModel.app.type === 'operativo') || (key.encargados[(userModel.app.type === 'conductores' ? 'conductor' : 'auxiliar')] === userModel.id)) {
+                    newvalues.rutasIndividuales.push(key)
+                    if (key.rutaDia !== '') {
+                        newvalues.rutas.push(key.id)
+                        key.servicios.map((keyS, iS) => {
+                            servicios.array.map((keyServicios, iServicios) => {
+                                if (keyServicios.id === keyS) {
+                                    newvalues.servicios.push({ servicio: keyServicios, fecha: key.fecha })
+                                    obras.array.map((keyO, iO) => {
+                                        if (keyServicios.obra === keyO.id) {
+                                            newvalues.obras.push({ obra: keyO, fecha: key.fecha })
+                                        }
+                                    })
+                                }
+                            })
+                        })
+                    }
+                }
+            })
+            setDataBioseptico({
+                ...dataBioseptico,
+                ...newvalues
+            })
+        }
+    }, [modeloBiosepticos, servicios, obras, rutas])
 
     return (
         <>
@@ -636,6 +676,13 @@ const UserCheck = (props) => {
                         userData.type === 'vendedor' && userData.permisions.vendedores &&
                         <>
                             <CentroDeVendedores actualizarEstado={actualizarEstado} startCreating={startCreating} setStartCreating={setStartCreating} userData={userData} setReqState={setReqState} reqState={reqState} setPopUp={setPopUp} objCss={objCss} objStrings={objStrings} />
+
+                        </>
+                    }
+                    {
+                        userData.type === 'bioseptico' && userData.permisions.bioseptico &&
+                        <>
+                            <CentroDeBiosepticos empresas={empresas} userModel={userModel} dataBioseptico={dataBioseptico} obras={obras} rutas={rutas} PedirBiosepticos={PedirBiosepticos} servicios={servicios} modeloBiosepticos={modeloBiosepticos} actualizarEstado={actualizarEstado} vehiculos={vehiculos} userData={userData} setReqState={setReqState} reqState={reqState} setPopUp={setPopUp} objCss={objCss} objStrings={objStrings} />
 
                         </>
                     }

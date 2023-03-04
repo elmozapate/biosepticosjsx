@@ -6,13 +6,19 @@ import { UserObj } from "@/engine/content"
 import SelectorEmpresas from "../empresas/selectorEmpresas"
 import ModeloUsuario, { EmpresaObj } from "../models/modelosUsuario"
 import { ModeloBiosepticos } from "../models/modeloBiosepticos"
+import SelectorDeBioseptico from "./selectorDeBioseptico"
 const userStructure = UserObj()
 const objCssInit = StylesObj()
 const objStringsInit = StringsObj()
 const AppContainer = (props) => {
-    const { obras = { array : [ ] }, rutas= { rutas: [ ] },actualizarEstado = console.log, PedirBiosepticos = console.log, modeloBiosepticos = ModeloBiosepticos , servicios = { array: [] }, vehiculos = { array: [] }, sendNewServicio = console.log, creatingObra = false, setCreatingObra = console.log, misObras = { array: [] }, misServicios = { array: [] }, startCreating = false, PedirObras = console.log, pedirMisServicios = console.log, setStartCreating = console.log, userModel = ModeloUsuario(), misEmpresas = {
+    const { dataBioseptico = {
+        servicios: [],
+        rutas: [],
+        obras: [],
+        rutasIndividuales: []
+    }, obras = { array: [] }, rutas = { rutas: [] }, actualizarEstado = console.log, PedirBiosepticos = console.log, modeloBiosepticos = ModeloBiosepticos, servicios = { array: [] }, vehiculos = { array: [] }, sendNewServicio = console.log, creatingObra = false, setCreatingObra = console.log, misObras = { array: [] }, misServicios = { array: [] }, startCreating = false, PedirObras = console.log, pedirMisServicios = console.log, setStartCreating = console.log, userModel = ModeloUsuario(), misEmpresas = {
         seleccionada: '', empresas: [], itemSelectioned: EmpresaObj()
-    }, setMisEmpresas = console.log, usersAll = { array: [] }, pedirEmpresas = console.log, empresas = { array: [] }, users = { array: [] }, userData = userStructure, setReqState = console.log, reqState = { reqId: Number(), state: false, peticion: '', type: ''  ,inList: [] }, setPopUp = console.log, objStrings = objStringsInit, objCss = objCssInit, inUse = 'app' } = props
+    }, setMisEmpresas = console.log, usersAll = { array: [] }, pedirEmpresas = console.log, empresas = { array: [] }, users = { array: [] }, userData = userStructure, setReqState = console.log, reqState = { reqId: Number(), state: false, peticion: '', type: '', inList: [] }, setPopUp = console.log, objStrings = objStringsInit, objCss = objCssInit, inUse = 'app' } = props
     const [startTransition, setStartTransition] = useState(false)
     useEffect(() => {
         setTimeout(() => {
@@ -24,6 +30,12 @@ const AppContainer = (props) => {
             {inUse === 'app' ?
                 <>
                     <div id={(parseInt(Math.random() * 9999999999)).toString()} className={objCss.app.main}>
+                        {userData.type === 'bioseptico' ?
+                            startTransition ? <>
+                                <SelectorDeBioseptico empresas={empresas} userModel={userModel} dataBioseptico={dataBioseptico} obras={obras} rutas={rutas} PedirBiosepticos={PedirBiosepticos} servicios={servicios} modeloBiosepticos={modeloBiosepticos} actualizarEstado={actualizarEstado} vehiculos={vehiculos} userData={userData} setReqState={setReqState} reqState={reqState} setPopUp={setPopUp} objCss={objCss} objStrings={objStrings} />
+
+                            </> : <> {objStrings.app.introBio}</> : <></>
+                        }
                         {userData.type === 'operativeUser' ?
                             startTransition ? <><Selector obras={obras} rutas={rutas} PedirBiosepticos={PedirBiosepticos} servicios={servicios} modeloBiosepticos={modeloBiosepticos} actualizarEstado={actualizarEstado} vehiculos={vehiculos} userData={userData} setReqState={setReqState} reqState={reqState} setPopUp={setPopUp} objCss={objCss} objStrings={objStrings} /></> : <> {objStrings.app.intro}</> : <></>
                         }

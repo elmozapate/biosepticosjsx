@@ -112,6 +112,7 @@ const Declaraciones = (props) => {
                             intro: 'BIENVENIDOS A MI NUEVA APP'
                         },
                         app: {
+                            introBio: 'BIENVENIDOS A LA APP OPERATIVA',
                             intro: 'BIENVENIDOS AL CENTRO DE LOGÍSTICA'
                         },
                         navBar: {
@@ -121,7 +122,9 @@ const Declaraciones = (props) => {
                                 empresas: 'EMPRESAS',
                                 vendedores: 'VENDEDORES',
                                 page: 'PAGINA',
-                                logOut: 'CERRAR SESION'
+                                logOut: 'CERRAR SESION',
+                                bioseptico: 'BIOSEPTICOS'
+
                             }
                         },
                         dashBoard: {
@@ -185,6 +188,7 @@ const Declaraciones = (props) => {
                             intro: 'Bienvenue a mon app'
                         },
                         app: {
+                            introBio: 'WELCOME TO THE OPERATIVE APP',
                             intro: 'WELCOME TO THE LOGISTIC CENTER'
                         },
                         navBar: {
@@ -193,7 +197,9 @@ const Declaraciones = (props) => {
                                 logistic: 'LOGISTIC CENTER',
                                 config: 'CONFIGURATION',
                                 page: 'PAGE',
-                                logOut: 'LOGOUT'
+                                logOut: 'LOGOUT',
+                                bioseptico: 'BIOSEPTICOS'
+
                             }
                         },
                         dashBoard: {
