@@ -152,7 +152,7 @@ const SelectorDeBioseptico = (props) => {
         const newanoAentrarSelecteDate = parseInt(dateCalendar.toLocaleDateString().split('/')[2])
         let elreturn = false
         if ((diaAentrar !== newdiaAentrarSelecteDate && mesAentrar === newmesAentrarSelecteDate &&
-            anoAentrar === newanoAentrarSelecteDate) || (diaAentrar === newdiaAentrarSelecteDate &&
+            anoAentrar === newanoAentrarSelecteDate) || ((diaAentrar === newdiaAentrarSelecteDate || diaAentrar !== newdiaAentrarSelecteDate) &&
                 (mesAentrar !== newmesAentrarSelecteDate ||
                     anoAentrar !== newanoAentrarSelecteDate))) {
             dataBioseptico.rutasIndividuales.map((key, i) => {
@@ -243,9 +243,9 @@ const SelectorDeBioseptico = (props) => {
                                 }
 
                                 <div className="dia" id={`asdsadsadd`}>
-                                    <p className="flex-p-between"><span>BUSCAR POR FECHA </span> <span> <DateSelect Dtype MinDate={new Date(new Date().setMonth(new Date().getMonth() - 1))} MaxDate={new Date(new Date().setMonth(new Date().getMonth() + 1))} startDate={dateCalendar} setStartDate={setDateCalendar} /></span> </p>
+                                    <p className="flex-p-between"><span>BUSCAR POR FECHA </span> <span> <DateSelect Dtype MinDate={new Date(new Date().setMonth(new Date().getMonth() - 2))} MaxDate={new Date(new Date().setMonth(new Date().getMonth() + 2))} startDate={dateCalendar} setStartDate={setDateCalendar} /></span> </p>
                                     {revisarMisRutas(true) &&
-                                        rutasMias.seleccionado.id === ''||rutasMias.seleccionado.id == '' ? <>SIN RUTA PARA ESTE DIA</> : <div className="dia" id={`asdsadsaasas`}>
+                                        rutasMias.seleccionado.id === '' || rutasMias.seleccionado.id == '' ? <>SIN RUTA PARA ESTE DIA</> : <div className="dia" id={`asdsadsaasas`}>
                                         <p className="flex-p-between"><span>RUTA DE {dateCalendar.toLocaleDateString()} </span> <span>{rutasMias.seleccionado.id}</span> </p>
                                         <p >
                                             <p className="flex-p-between"><span> SERVICIOS</span>  <span className="gap-min"><span>TOTAL : {rutasMias.seleccionado.servicios.length}</span><span className='pointer' onClick={(e) => { e.preventDefault(); setSelectioned(`seleccionado-SERVICIOS`) }}>ver</span> </span></p>

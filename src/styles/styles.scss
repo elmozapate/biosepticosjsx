@@ -167,6 +167,11 @@
 
     text-align: center !important;
 }
+a{
+text-decoration: none;
+color: #fff;
+margin-left: getRemSize(10px);
+}
 .treintraytres {
     h2{
         padding: 0;

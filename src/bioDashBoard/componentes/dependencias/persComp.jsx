@@ -11,16 +11,16 @@ const usuarioDefault = ModeloUsuario()
 const objCssInit = StylesObj()
 const objStringsInit = StringsObj()
 const PersComp = (props) => {
-    const { actualizeData = console.log, activeUser = { selectOp: '', userInfo: usuarioDefault }, setActiveUser = console.log, permision = ObjPermisos, permisionArray = ArraySelector, objStrings = objStringsInit, objCss = objCssInit, selectioned = { active: false, inSelection: 'default' }, usersAll = { array: [] } } = props
+    const { contact = false, adress = false, inselected = '', actualizeData = console.log, activeUser = { selectOp: '', userInfo: usuarioDefault }, setActiveUser = console.log, permision = ObjPermisos, permisionArray = ArraySelector, objStrings = objStringsInit, objCss = objCssInit, selectioned = { active: false, inSelection: 'default' }, usersAll = { array: [] } } = props
     const [editData, setEditData] = useState({
         active: true,
     })
     const [inData, setInData] = useState({
-        selected: '',
+        selected: inselected,
     })
     return (
         <>
-            <button onClick={(e) => {
+            {!adress && <button onClick={(e) => {
                 e.preventDefault();
                 setEditData({
                     ...editData,
@@ -30,7 +30,7 @@ const PersComp = (props) => {
 
             }}>
                 {!editData.active ? <>SALVAR</> : <>EDITAR</>}
-            </button>
+            </button>}
             {inData.selected === '' ?
                 <>
                     <div onClick={(e) => { e.preventDefault(); setInData({ ...inData, selected: 'personalData' }) }}>DATOS PERSONALES</div>
@@ -38,13 +38,13 @@ const PersComp = (props) => {
                 </> :
 
                 <>
-                    <button onClick={(e) => { e.preventDefault(); setInData({ ...inData, selected: '' }) }}>REGRESAR</button>
-
+                    {!adress && <button onClick={(e) => { e.preventDefault(); setInData({ ...inData, selected: '' }) }}>REGRESAR</button>
+                    }
                     {
                         inData.selected === 'personalData' && <><VisorInfoPersonalData actualizeData={actualizeData} setActiveUser={setActiveUser} activeUser={activeUser} objCss={objCss} objStrings={objStrings} /></>
                     }
                     {
-                        inData.selected === 'contactData' && <><VisorInfoContactData actualizeData={actualizeData} setActiveUser={setActiveUser} activeUser={activeUser} objCss={objCss} objStrings={objStrings} /></>
+                        inData.selected === 'contactData' && <><VisorInfoContactData contact={contact} adress={adress} actualizeData={actualizeData} setActiveUser={setActiveUser} activeUser={activeUser} objCss={objCss} objStrings={objStrings} /></>
 
                     }
                 </>
@@ -52,10 +52,6 @@ const PersComp = (props) => {
             }
         </>
     )
-    return (
-        <>
-            personalInfo
-        </>
-    )
+
 }
 export default PersComp

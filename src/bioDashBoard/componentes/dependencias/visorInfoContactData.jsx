@@ -10,15 +10,15 @@ const userStructure = UserObj()
 const objCssInit = StylesObj()
 const objStringsInit = StringsObj()
 const VisorInfoContactData = (props) => {
-    const { actualizeData = console.log, activeUser = { selectOp: '', userInfo: usuarioDefault }, setActiveUser = console.log, objStrings = objStringsInit, objCss = objCssInit, selectioned = { active: false, inSelection: 'default' }, usersAll = { array: [] } } = props
+    const { contact = false, adress = false, actualizeData = console.log, activeUser = { selectOp: '', userInfo: usuarioDefault }, setActiveUser = console.log, objStrings = objStringsInit, objCss = objCssInit, selectioned = { active: false, inSelection: 'default' }, usersAll = { array: [] } } = props
     const [inAdress, setInAdress] = useState({
-        state: false
+        state: contact ? false : adress
     })
     const [inMaps, setinMaps] = useState(false)
     return (
         <>
             {!inAdress.state ? <>
-                <h1> INFORMACION DE CONTACTO</h1>
+                {!contact && <h1> INFORMACION DE CONTACTO</h1>}
                 {activeUser.userInfo.app.dataRequired ?
                     <>
                         SIN INFORMACION
@@ -33,20 +33,21 @@ const VisorInfoContactData = (props) => {
                                     <span id={`pidspan-${i}`}>
                                         <span id={`pidspandos-${i}`}>   {key}  :</span>
                                         <span id={`pidspantres-${i}`}>   {activeUser.userInfo.datosContacto[key]}</span>
+                                        {(key === 'telefonoPrincipal' || key === 'telefonoSecundario') && <a hRef={`tel:${activeUser.userInfo.datosContacto[key]}`} className="pointer"><span>llamar</span>      </a>}
                                     </span>
                                 </p></>
                             )
                         })}
                     </>
                 }
-                <div onClick={(e) => { e.preventDefault(); setInAdress({ ...inAdress, state: true }) }}>
+                {!contact && <div onClick={(e) => { e.preventDefault(); setInAdress({ ...inAdress, state: true }) }}>
                     VER DIRECCION
-                </div>
+                </div>}
             </>
                 :
                 <>
-                    <h1> INFORMACION DE CONTACTO-DIRECCION</h1>
-                    {activeUser.userInfo.app.dataRequired ?
+                    {!adress && <h1> INFORMACION DE CONTACTO-DIRECCION</h1>
+                    }                    {activeUser.userInfo.app.dataRequired ?
                         <>
                             SIN INFORMACION
                             <button /* onClick={(e) => { e.preventDefault(); setInData({ ...inData, selected: 'contactData' }) }} */>LLENAR</button>
@@ -56,7 +57,7 @@ const VisorInfoContactData = (props) => {
                         <>
                             {
                                 inMaps ? <>
-                                    <ContenedorMaps adressViewIn  defaultLocation={activeUser.userInfo.datosContacto.direccion.coordenadas}  />
+                                    <ContenedorMaps adressViewIn defaultLocation={activeUser.userInfo.datosContacto.direccion.coordenadas} />
                                     <span onClick={(e) => { e.preventDefault(); setinMaps(false) }}> VOLVER</span>
                                     <br />
 
@@ -93,7 +94,7 @@ const VisorInfoContactData = (props) => {
                     }
 
 
-                    <button onClick={(e) => { e.preventDefault(); setInAdress({ ...inAdress, state: false }) }}>REGRESAR</button>
+                    {!adress && <button onClick={(e) => { e.preventDefault(); setInAdress({ ...inAdress, state: false }) }}>REGRESAR</button>}
 
                 </>}
 
