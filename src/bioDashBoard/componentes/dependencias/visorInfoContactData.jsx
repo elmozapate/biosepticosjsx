@@ -15,6 +15,9 @@ const VisorInfoContactData = (props) => {
         state: contact ? false : adress
     })
     const [inMaps, setinMaps] = useState(false)
+    const llamarAl = (telefono) => {
+        window.open(`tel:${telefono}`)
+    }
     return (
         <>
             {!inAdress.state ? <>
@@ -33,7 +36,7 @@ const VisorInfoContactData = (props) => {
                                     <span id={`pidspan-${i}`}>
                                         <span id={`pidspandos-${i}`}>   {key}  :</span>
                                         <span id={`pidspantres-${i}`}>   {activeUser.userInfo.datosContacto[key]}</span>
-                                        {(key === 'telefonoPrincipal' || key === 'telefonoSecundario') && <a hRef={`tel:${activeUser.userInfo.datosContacto[key]}`} className="pointer"><span>llamar</span>      </a>}
+                                        {(key === 'telefonoPrincipal' || key === 'telefonoSecundario') && <span onClick={(e) => { e.preventDefault(); llamarAl(activeUser.userInfo.datosContacto[key]) }} className="pointer">llamar   </span>}
                                     </span>
                                 </p></>
                             )
