@@ -878,7 +878,7 @@ const DateView = (props) => {
                                                     }
                                                     return (
                                                         <>
-                                                            {(keySemana !== 'servicios' && !calendario) || (keySemana !== 'servicios' && calendario) ?
+                                                            {key.dias && key.dias[iSemana] && key.dias[iSemana].dia&&(keySemana !== 'servicios' && !calendario) || (keySemana !== 'servicios' && calendario) ?
 
                                                                 <div onClick={crearRuta ? rutaSelected.modo !== 'semana' ? (e) => {
                                                                     e.preventDefault(); key && key.dias && key.dias[iSemana] && setDiasRuta(key.dias[iSemana].dia)
