@@ -14,8 +14,10 @@ const VisorInfoContactData = (props) => {
     const [inAdress, setInAdress] = useState({
         state: contact ? false : adress
     })
+    const [confirmMyDirection, setconfirmMyDirection] = useState(false)
+
     const [inMaps, setinMaps] = useState(false)
-    const [irPlace, setIrPlace] = useState({ state: false, coordenadas: { lat: 6.2476376, lng: -75.56581530000001 } })
+    const [irPlace, setIrPlace] = useState({ state: false, go: false, coordenadas: { lat: 6.2476376, lng: -75.56581530000001 } })
 
     const llamarAl = (telefono) => {
         window.open(`tel:${telefono}`)
@@ -62,18 +64,29 @@ const VisorInfoContactData = (props) => {
                         <>
                             {
                                 inMaps ? <>
-                                    <ContenedorMaps setIrPlace={setIrPlace} irPlace={irPlace} inOperacion={{
-                                        state: irPlace.state,
-                                        inicio: irPlace.state ? irPlace.coordenadas : { lat: 6.2476376, lng: -75.56581530000001 },
-                                        final: inAdress ? activeUser.userInfo.datosContacto.direccion.coordenadas : { lat: 6.2476376, lng: -75.56581530000001 }
-                                    }} adressViewIn defaultLocation={activeUser.userInfo.datosContacto.direccion.coordenadas} />
-                                    <br />
-                                    {adress && irPlace.state && irPlace.coordenadas !== { lat: 6.2476376, lng: -75.56581530000001 } &&
-                                        <><ContenedorMaps /* setIrPlace={setIrPlace} irPlace={irPlace} inOperacion={{
-                                            state: irPlace.state,
-                                            inicio: irPlace.state ? irPlace.coordenadas : { lat: 6.2476376, lng: -75.56581530000001 },
-                                            final: inAdress ? activeUser.userInfo.datosContacto.direccion.coordenadas : { lat: 6.2476376, lng: -75.56581530000001 }
-                                        }} */ adressViewIn defaultLocation={irPlace.coordenadas} />
+                                    {!confirmMyDirection ?
+                                        <>
+                                            <ContenedorMaps setIrPlace={setIrPlace} irPlace={irPlace} inOperacion={{
+                                                state: irPlace.state,
+                                                inicio: irPlace.coordenadas,
+                                                final: inAdress ? activeUser.userInfo.datosContacto.direccion.coordenadas : { lat: 6.2476376, lng: -75.56581530000001 }
+                                            }} adressViewIn defaultLocation={activeUser.userInfo.datosContacto.direccion.coordenadas} />
+                                            {adress && (irPlace.state) && irPlace.coordenadas !== { lat: 6.2476376, lng: -75.56581530000001 } && <>
+                                                <span onClick={(e) => { e.preventDefault(); setconfirmMyDirection(true) }} className='pointer'>
+                                                    CONFIRMAR MI UBICACION
+                                                </span></>}
+                                        </>
+                                        :
+                                        <>
+                                            {adress && 
+                                                <><ContenedorMaps adressViewIn defaultLocation={irPlace.coordenadas} />
+                                                </>}
+                                            <span onClick={(e) => { e.preventDefault(); setconfirmMyDirection(false) }} className='pointer'>
+                                                AQUI ESTOY
+                                            </span>
+                                            <span onClick={(e) => { e.preventDefault(); setconfirmMyDirection(false) }} className='pointer'>
+                                                AQUI NO ESTOY
+                                            </span>
                                         </>}
                                     <br />
                                     <span onClick={(e) => { e.preventDefault(); setinMaps(false) }}> VOLVER</span>
