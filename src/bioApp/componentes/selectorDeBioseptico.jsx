@@ -175,11 +175,6 @@ const SelectorDeBioseptico = (props) => {
                 const newdiaAentrar = parseInt(key.fecha.split('-')[0])
                 const newmesAentrar = parseInt(key.fecha.split('-')[1])
                 const newanoAentrar = parseInt(key.fecha.split('-')[2])
-                console.log('ahoasi', newdiaAentrarSelecteDate,
-                    newmesAentrarSelecteDate,
-                    newanoAentrarSelecteDate, newdiaAentrar,
-                    newmesAentrar,
-                    newanoAentrar);
                 elreturn = true
                 if (newdiaAentrarSelecteDate === newdiaAentrar &&
                     newmesAentrarSelecteDate === newmesAentrar &&
@@ -223,8 +218,6 @@ const SelectorDeBioseptico = (props) => {
 
         } else {
             elreturn = false
-
-            console.log('ahoasino');
 
         }
         !value && setRutasMias({ ...newData })

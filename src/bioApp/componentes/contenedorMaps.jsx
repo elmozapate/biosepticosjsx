@@ -6,10 +6,10 @@ import { useEffect, useState } from "react"
 const socket = Socket
 let asks = []
 const ContenedorMaps = (props) => {
-    const { irPlace = { go: false, state: false, coordenadas: { lat: 6.2476376, lng: -75.56581530000001 } }, setIrPlace = console.log, inOperacion = { state: false, inicio: { lat: 6.2476376, lng: -75.56581530000001 }, final: { lat: 6.2476376, lng: -75.56581530000001 } }, adressViewIn = false, defaultLocation = { lat: 6.2476376, lng: -75.56581530000001 }, getId = console.log, normal = false, rastreado = false, receptor = false, visorObj = {} } = props
+    const {inTimes=0,ruteando=false,times=[[]],setTimes=console.log,irPlace = {            funtionOk: false,        using: false, state: false, go: false, coordenadas: { lat: 6.2476376, lng: -75.56581530000001 }, coordenadasInicial: { lat: 6.2476376, lng: -75.56581530000001 } , funtion: console.log }, setIrPlace = console.log, inOperacion = { state: false, inicio: { lat: 6.2476376, lng: -75.56581530000001 }, final: { lat: 6.2476376, lng: -75.56581530000001 } }, adressViewIn = false, defaultLocation = { lat: 6.2476376, lng: -75.56581530000001 }, getId = console.log, normal = false, rastreado = false, receptor = false, visorObj = {} } = props
     const [mapCenter, setMapCenter] = useState(defaultLocation)
     const [goPlace, setGoPlace] = useState({ funtionOk: false, go: false, ok: false, state: false, funtion: console.log })
-    const [mapCenterGo, setMapCenterGo] = useState({ inicio: inOperacion.inicio, final: inOperacion.final })
+    const [mapCenterGo, setMapCenterGo] = useState(ruteando?{ inicio:irPlace.coordenadasInicial, final: irPlace.coordenadas }:{ inicio: inOperacion.inicio, final: inOperacion.final })
     const [lasDireccionesResult, setLasDireccionesResult] = useState({
         state: false,
         direcciones: []
@@ -31,7 +31,7 @@ const ContenedorMaps = (props) => {
     const irALugar = () => {
         window.open(`http://maps.google.com/maps?saddr=${mapCenterGo.inicio.lat},${mapCenterGo.inicio.lng}&daddr=${mapCenterGo.final.lat},${mapCenterGo.final.lng}`)
     }
-    
+
     useEffect(() => {
         if (receptor) {
             socket.on('bioSepticosMapAdminGet', (msg) => {
@@ -148,18 +148,18 @@ const ContenedorMaps = (props) => {
 
     return (
         <>
-            <GooglMapsComp setIrPlace={setIrPlace} irPlace={irPlace} goPlace={goPlace} setGoPlace={setGoPlace} adressViewIn={adressViewIn} visorObj={visorObj} normal={normal} rastreado={rastreado} receptor={receptor} setLasDireccionesResult={setLasDireccionesResult} lasDireccionesResult={lasDireccionesResult} mapCenterGo={mapCenterGo} irALugar={irALugar} mapCenter={mapCenter} setMapCenterFuntion={setMapCenterFuntionDos} setMapCenter={setMapCenterFuntion} />
+            <GooglMapsComp inTimes={inTimes} times={times} setTimes={setTimes} setIrPlace={setIrPlace} irPlace={irPlace} goPlace={goPlace} setGoPlace={setGoPlace} adressViewIn={adressViewIn} visorObj={visorObj} normal={normal} rastreado={rastreado} receptor={receptor} setLasDireccionesResult={setLasDireccionesResult} lasDireccionesResult={lasDireccionesResult} mapCenterGo={mapCenterGo} irALugar={irALugar} mapCenter={mapCenter} setMapCenterFuntion={setMapCenterFuntionDos} setMapCenter={setMapCenterFuntion} />
             {
                 ((goPlace.funtionOk && !irPlace.state) || (irPlace.state && irPlace.coordenadas === { lat: 6.2476376, lng: -75.56581530000001 })) ?
                     <>
-                    s
-                        { <span onClick={(e) => {
+                        s
+                        {<span onClick={(e) => {
                             e.preventDefault();
                             irAelLugar()
                         }}>{(!irPlace.state && irPlace.coordenadas === { lat: 6.2476376, lng: -75.56581530000001 }) ? 'LLEGAR' : 'ACCEDER A MI UBICACION'} </span>}
                     </> :
                     <>
-                        {goPlace.funtionOk && <span onClick={(e) => {
+                        {goPlace.funtionOk && <span id="crearLaRuta" onClick={(e) => {
                             e.preventDefault(); goPlace.funtion()
                         }}>VER RUTA </span>}
                         {goPlace.ok && <span onClick={(e) => {

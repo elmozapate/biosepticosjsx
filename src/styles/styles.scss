@@ -31,6 +31,9 @@
     box-shadow: 0 1.5px 3px 0 rgba(0, 0, 0, 0.16);
     background-color: #fff;
 }
+.hidden {
+    visibility: hidden !important;
+}
 .column-abs-empresas {
     right: getRemSize(150px);
     .flex-column {
@@ -163,17 +166,17 @@
     }
 }
 .centert {
-    border: .5px solid wheat;
+    border: 0.5px solid wheat;
 
     text-align: center !important;
 }
-a{
-text-decoration: none;
-color: #fff;
-margin-left: getRemSize(10px);
+a {
+    text-decoration: none;
+    color: #fff;
+    margin-left: getRemSize(10px);
 }
 .treintraytres {
-    h2{
+    h2 {
         padding: 0;
         margin: 0;
         width: 33%;

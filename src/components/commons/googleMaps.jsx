@@ -11,7 +11,9 @@ const socket = Socket
 
 const GooglMapsComp = (props) => {
     let start = false
-    const { irPlace = { go: false, state: false, coordenadas: { lat: 6.2476376, lng: -75.56581530000001 } }, setIrPlace = console.log, goPlace = { funtionOk: false, go: false, ok: false, state: false, funtion: console.log }, setGoPlace = console.log, adressViewIn = false, fullAdressSearch = false, adressView = { state: false, centre: { ltn: 6.1576585, lgn: -75872710271 } }, setAdressView = console.log, soloAdress = false, adressData = ObjContacto.direccion, visorObj = {}, setEnviar = console.log, enviar = { aReady: false, bReady: false, cReady: false, b: console.log, a: console.log, c: console.log, allReady: false }, rastreado = false, normal = false, receptor = false, mapCenterGo = { inicio: { lat: 27.672932021393862, lng: 85.31184012689732 }, final: { lat: 27.672932021393862, lng: 85.31184012689732 } }, irALugar = console.log, setMapCenterFuntion = console.log, mapCenter = { lat: 27.672932021393862, lng: 85.31184012689732 }, setMapCenter = console.log } = props
+    const { inTimes = 0, times = [[]], setTimes = console.log, irPlace = {
+        funtionOk: false, using: false, state: false, go: false, coordenadas: { lat: 6.2476376, lng: -75.56581530000001 }, coordenadasInicial: { lat: 6.2476376, lng: -75.56581530000001 }, funtion: console.log
+    }, goPlace = { funtionOk: false, go: false, ok: false, state: false, funtion: console.log }, setIrPlace = console.log, setGoPlace = console.log, adressViewIn = false, fullAdressSearch = false, adressView = { state: false, centre: { ltn: 6.1576585, lgn: -75872710271 } }, setAdressView = console.log, soloAdress = false, adressData = ObjContacto.direccion, visorObj = {}, setEnviar = console.log, enviar = { aReady: false, bReady: false, cReady: false, b: console.log, a: console.log, c: console.log, allReady: false }, rastreado = false, normal = false, receptor = false, mapCenterGo = { inicio: { lat: 27.672932021393862, lng: 85.31184012689732 }, final: { lat: 27.672932021393862, lng: 85.31184012689732 } }, irALugar = console.log, setMapCenterFuntion = console.log, mapCenter = { lat: 27.672932021393862, lng: 85.31184012689732 }, setMapCenter = console.log } = props
     const libraries = useMemo(() => ['places'], []);
     let map = false
     const mapOptions = {
@@ -50,7 +52,8 @@ const GooglMapsComp = (props) => {
             setMapCenter({ lat: evt.latLng.lat(), lng: evt.latLng.lng() })
         }
     }
-    const IrAplace = () => {
+    const IrAplace = async () => {
+        console.log('eoooo');
         map = map ? map : new google.maps.Map(document.getElementById('map-google'), mapOptions);
         let directionsDisplay = new google.maps.DirectionsRenderer({ map: map });
         let directionsService = new google.maps.DirectionsService;
@@ -75,10 +78,18 @@ const GooglMapsComp = (props) => {
                 });
                 directionsDisplay.setMap(map)
                 directionsDisplay.setDirections(response);
+                let alltime = times
+                !times[inTimes] && alltime.push([])
+                let oldTimes = alltime[inTimes]
+                oldTimes.push({ time: duration, timeInMin: `${parseInt(duration / 60)} : ${(duration - (parseInt(duration / 60) * 60))}` })
+                alltime[inTimes] = oldTimes
+                setTimes(alltime)
+                console.log(parseInt(duration / 60), ':', duration - (parseInt(duration / 60) * 60));
                 setGoPlace({
                     ...goPlace,
                     ok: true
                 })
+
             } else {
 /*              alert("No existen rutas entre ambos puntos");
  */          }
@@ -91,12 +102,23 @@ const GooglMapsComp = (props) => {
             funtion: IrAplace
         })
 
+
+    }
+    if (!irPlace.funtionOk) {
+        console.log('cargo');
+        setIrPlace({
+            ...irPlace,
+            funtionOk: true,
+            funtion: IrAplace
+        })
     }
 
+
+  
     return (
         <>
             {soloAdress ? <PlacesAutocomplete fullAdressSearch={fullAdressSearch} inAdressAdd setAdressView={setAdressView} adressView={adressView} adressData={adressData}/* setMapCenter={setMapCenter} */ />
-                : <div className={'styles.homeWrapper'}>
+                : <div className={`styles.homeWrapper ${irPlace.using ? 'hidden' : ''}`}>
                     <GoogleMap
                         onClick={(e) => console.log(e, 'MapaClick')}
                         options={mapOptions}
