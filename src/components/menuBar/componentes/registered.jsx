@@ -9,7 +9,7 @@ const userStructure = UserObj()
 const objCssInit = StylesObj()
 const objStringsInit = StringsObj()
 const Registered = (props) => {
-    const { PedirObras = console.log, pedirMisServicios = console.log, misEmpresas = {
+    const {  onMobil = { state: false, device: { iPhone: false, android: false, tablet: false, phone: false, mobile: false } }, PedirObras = console.log, pedirMisServicios = console.log, misEmpresas = {
         seleccionada: '', empresas: [], itemSelectioned: EmpresaObj()
     }, setMisEmpresas = console.log, startCreating = false, setStartCreating = console.log, misEmpresasRes = { array: [] }, objStrings = objStringsInit, setUserData = console.log, userData = userStructure, setReqState = console.log, reqState = { reqId: Number(), state: false, peticion: '', type: ''  ,inList: [] }, setPopUp = console.log, objCss = objCssInit, cleanUserData = console.log } = props
     const [menuOpen, setMenuOpen] = useState(false)
@@ -26,13 +26,13 @@ const Registered = (props) => {
             <p  onClick={(e) => { e.preventDefault(); userData.type === 'clientUser' && setMenuOpenEmpresas(!menuOpenEmpresas) }} className={'mr-head'/* objCss.barraNav.menuActivator */} id={userData.type === 'clientUser' ? "navEmpresas-menu-section" : "nav-menu-section"}>{`${userData.type === 'operativeUser' ? 'CENTRO DE LOGISTICA' : userData.type === 'vendedor' ? 'VENDEDORES' : userData.type === 'clientUser' ? 'EMPRESAS' : userData.type === 'adminUser' ? 'CONSOLA ADMINISTRATIVA' : ''}    `}</p>
             <div  id="nav-menu" className={objCss.barraNav.menuActivator.toString()} onClick={(e) => { e.preventDefault(); setMenuOpen(!menuOpen) }}>
                 {
-                    menuOpenEmpresas && userData.type === 'clientUser' && <NavMenuEmpresas PedirObras={PedirObras}
+                    menuOpenEmpresas && userData.type === 'clientUser' && <NavMenuEmpresas onMobil={onMobil} PedirObras={PedirObras}
                         pedirMisServicios={pedirMisServicios} setMisEmpresas={setMisEmpresas} misEmpresas={misEmpresas} misEmpresasRes={misEmpresasRes} startCreating={startCreating} setStartCreating={setStartCreating} objStrings={objStrings} setMenuOpen={setMenuOpen} setUserData={setUserData} userData={userData} setReqState={setReqState} reqState={reqState} setPopUp={setPopUp} cleanUserData={cleanUserData} />
                 }
 
 
                 {
-                    menuOpen && <NavMenu objStrings={objStrings} setMenuOpen={setMenuOpen} setUserData={setUserData} userData={userData} setReqState={setReqState} reqState={reqState} setPopUp={setPopUp} cleanUserData={cleanUserData} />
+                    menuOpen && <NavMenu onMobil={onMobil} objStrings={objStrings} setMenuOpen={setMenuOpen} setUserData={setUserData} userData={userData} setReqState={setReqState} reqState={reqState} setPopUp={setPopUp} cleanUserData={cleanUserData} />
                 }
                 <p  id="nav-menu-p">|||</p>
 

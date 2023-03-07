@@ -7,7 +7,7 @@ import { useEffect } from "react";
 const objCssInit = StylesObj()
 const AbsoluteBox = (props) => {
     const userStructure = UserObj()
-    const { setReqState = console.log, reqState = { reqId: Number(), state: false, peticion: '', type: ''  ,inList: [] }, setPopUp = console.log, inSending = false, popUp = { active: false, type: '' }, objCss = objCssInit, userData = userStructure } = props
+    const { onMobil = { state: false, device: { iPhone: false, android: false, tablet: false, phone: false, mobile: false } }, setReqState = console.log, reqState = { reqId: Number(), state: false, peticion: '', type: '', inList: [] }, setPopUp = console.log, inSending = false, popUp = { active: false, type: '' }, objCss = objCssInit, userData = userStructure } = props
     useEffect(() => {
         /*   if (userData.nombre.length > 2 && userData.password.length > 3 && userData.passwordRepeat.length > 3) {
               setTrueData(true)
@@ -18,7 +18,7 @@ const AbsoluteBox = (props) => {
             {
                 popUp.active ?
                     <div /* onClick={(e) => { e.preventDefault(); const popNew = PopUpObj(); popUp.funtions.setPopUp(popNew) }} */
-                        className={objCss.absoluteBox.main}>
+                        className={!onMobil.state ? objCss.absoluteBox.main : `onMobil ${objCss.absoluteBox.main} `}>
                         <div className={objCss.absoluteBox.cardBox}>
                             {
                                 popUp.type === 'inVerification' && <><h1>                        VERIFICANDO::::

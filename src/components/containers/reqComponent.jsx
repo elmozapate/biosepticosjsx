@@ -6,7 +6,7 @@ const socket = Socket
 const objCssInit = StylesObj()
 const ReqComponent = (props) => {
     const userStructure = UserObj()
-    const { setReqState = console.log, reqState = { reqId: Number(), state: false, peticion: '', type: '', inList: [] }, objCss = objCssInit, userData = userStructure } = props
+    const { onMobil = { state: false, device: { iPhone: false, android: false, tablet: false, phone: false, mobile: false } },setReqState = console.log, reqState = { reqId: Number(), state: false, peticion: '', type: '', inList: [] }, objCss = objCssInit, userData = userStructure } = props
     useEffect(() => {
 
         socket.on("bioApp", (msg) => {
@@ -67,7 +67,7 @@ const ReqComponent = (props) => {
             {
                 reqState.state ?
                     <div /* onClick={(e) => { e.preventDefault(); const popNew = PopUpObj(); reqState.funtions.setPopUp(popNew) }} */
-                        className={`${objCss.absoluteBox.main} zmayor`}>
+                        className={!onMobil.state ? `onMobil ${objCss.absoluteBox.main} zmayor` : `onMobil ${objCss.absoluteBox.main} `}>
                         <div className={objCss.absoluteBox.reqBox}>
                             <div className="flex-column">
                                 <h1>

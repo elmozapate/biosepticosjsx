@@ -33,7 +33,7 @@ let userActual = userStructure
 let modelActual = plantillaUSuario
 
 const UserCheck = (props) => {
-    const { usersArray = [], setUsersArray = [] } = props
+    const { usersArray = [], setUsersArray = [], onMobil = { state: false, device: { iPhone: false, android: false, tablet: false, phone: false, mobile: false } } } = props
     const [reqState, setReqState] = useState({
         reqId: Number(),
         state: false,
@@ -433,8 +433,13 @@ const UserCheck = (props) => {
         }
         if (actionTodo === 'dataRes-allEmpresaData' /* && parseInt(res) === parseInt(msg.resId) */) {
             if (msg.res === 'ok') {
+                userActual = { ...userData, ...msg.body, passwordRepeat: '', status: 'registered', type: onMobil.state ? 'bioseptico' : msg.body.type, appPermisions: userComeData.userObj.appPermisions }
+                modelActual = {
+                    ...userModel, ...modelUser, ...msg.fullUser, userObj: { ...msg.fullUser.userObj, type: onMobil.state ? 'bioseptico' : msg.fullUser.userObj.type }
+                }
                 setUserModel({
                     ...userModel,
+                    userObj: { ...msg.fullUser.userObj, type: onMobil.state ? 'bioseptico' : msg.fullUser.userObj.type },
                     ...msg.user
                 })
                 pedirMisEmpresas(msg.user.app.relationed.empresas)
@@ -505,16 +510,17 @@ const UserCheck = (props) => {
                 setServicios({ ...servicios, array: msg.servicios })
                 msg.users.map((key, i) => {
                     if (parseInt(key.id) === parseInt(userActual.id)) {
+
                         setUserName({
                             ...key.userObj,
-                            type: userActual.type,
+                            type: onMobil.state ? 'bioseptico' : userActual.type,
                         })
                         setUserModel({
                             ...modelActual,
                             ...key,
                             userObj: {
                                 ...key.userObj,
-                                type: userActual.type
+                                type: onMobil.state ? 'bioseptico' : userActual.type,
                             }
                         })
                     }
@@ -544,12 +550,12 @@ const UserCheck = (props) => {
                         pedirEmpresas(key.id)
                     }
                 })
-                setUserName({ ...userData, ...msg.body, passwordRepeat: '' })
-                userActual = { ...userData, ...msg.body, passwordRepeat: '' }
+                setUserName({ ...userData, ...msg.body, passwordRepeat: '', type: onMobil.state ? 'bioseptico' : msg.body.type })
+                userActual = { ...userData, ...msg.body, passwordRepeat: '', type: onMobil.state ? 'bioseptico' : msg.body.type }
 
                 const modelUser = ModeloUsuario({
                     ...userData,
-                    ...msg.body, passwordRepeat: '', status: 'registered', appPermisions: userComeData.userObj.appPermisions
+                    ...msg.body, passwordRepeat: '', status: 'registered', appPermisions: userComeData.userObj.appPermisions, userObj: { ...msg.fullUser.userObj, type: onMobil.state ? 'bioseptico' : msg.fullUser.userObj.type }
                 })
 
                 if (msg.body.passwordChange) {
@@ -558,15 +564,17 @@ const UserCheck = (props) => {
                     setPopUp(resPopUp)
                     setUserName({
                         ...userData,
-                        ...msg.body, passwordRepeat: '', status: 'registered'
+                        ...msg.body, passwordRepeat: '', status: 'registered', type: onMobil.state ? 'bioseptico' : msg.body.type
                     })
                     userActual = {
                         ...userData,
-                        ...msg.body, passwordRepeat: '', status: 'registered'
+                        ...msg.body,
+                        type: onMobil.state ? 'bioseptico' : msg.body.type,
+                        passwordRepeat: '', status: 'registered'
                     }
                     setUserModel({ ...userModel, ...modelUser })
                     modelActual = {
-                        ...userModel, ...modelUser
+                        ...userModel, ...modelUser, userObj: { ...msg.fullUser.userObj, type: onMobil.state ? 'bioseptico' : msg.fullUser.userObj.type }
                     }
 
 
@@ -574,10 +582,21 @@ const UserCheck = (props) => {
                      */
                 } else {
                     setTimeout(() => {
-                        setUserName({ ...userData, ...msg.body, passwordRepeat: '', status: 'registered', appPermisions: userComeData.userObj.appPermisions })
-                        setUserModel({ ...userModel, ...modelUser, ...msg.fullUser })
-                        userActual = { ...userData, ...msg.body, passwordRepeat: '', status: 'registered', appPermisions: userComeData.userObj.appPermisions }
-                        modelActual = { ...userModel, ...modelUser, ...msg.fullUser }
+                        if (onMobil.state && userData.status !== 'unRegistered') {
+                            setUserName({
+                                ...userData,
+                                type: 'bioseptico'
+                            })
+                        }
+                        setUserName({ ...userData, ...msg.body, passwordRepeat: '', type: onMobil.state ? 'bioseptico' : msg.body.type, status: 'registered', appPermisions: userComeData.userObj.appPermisions })
+                        setUserModel({
+                            ...userModel, ...modelUser, ...msg.fullUser,
+                            userObj: { ...msg.fullUser.userObj, type: onMobil.state ? 'bioseptico' : msg.fullUser.userObj.type }
+                        })
+                        userActual = { ...userData, ...msg.body, passwordRepeat: '', status: 'registered', type: onMobil.state ? 'bioseptico' : msg.body.type, appPermisions: userComeData.userObj.appPermisions }
+                        modelActual = {
+                            ...userModel, ...modelUser, ...msg.fullUser, userObj: { ...msg.fullUser.userObj, type: onMobil.state ? 'bioseptico' : msg.fullUser.userObj.type }
+                        }
                         setPopUp(popUpStructure)
                         /*  PedirBiosepticos()
                      PedirVehiculos() */
@@ -589,8 +608,22 @@ const UserCheck = (props) => {
                 window.alert('mala clave o usuario')
             }
         }
+        if (onMobil.state && userData.status !== 'unRegistered') {
+            setUserName({
+                ...userData,
+                type: 'bioseptico'
+            })
+            setUserModel({
+                ...userModel,
+                userObj: {
+                    ...userModel.userObj,
+                    type: 'bioseptico'
+                }
+            })
+        }
     }
     useEffect(() => {
+        console.log(onMobil)
         if (userModel.userObj.emailConfirmation && userData.type !== 'newUser' !== userData.type !== '') {
             setPopUp({
                 ...popUp,
@@ -606,6 +639,21 @@ const UserCheck = (props) => {
             })
         }
     }, [userData.type])
+    useEffect(() => {
+        if (onMobil.state && userData.status !== 'unRegistered' && userModel.userObj.type !== 'bioseptico' && userData.type !== 'bioseptico') {
+                setUserName({
+                    ...userData,
+                    type: 'bioseptico'
+                })
+                setUserModel({
+                    ...userModel,
+                    userObj: {
+                        ...userModel.userObj,
+                        type: 'bioseptico'
+                    }
+                })
+        }
+    }, [onMobil, userData, userModel])
     useEffect(() => {
         pedirMisServicios(misEmpresas.itemSelectioned.id)
         PedirObras({ id: misEmpresas.itemSelectioned.id, user: userData.id })
@@ -648,7 +696,7 @@ const UserCheck = (props) => {
     return (
         <>
             <SocketOn socketDo={socketDo} setPopUp={setPopUp} />
-            <MenuBar PedirObras={PedirObras}
+            <MenuBar onMobil={onMobil} PedirObras={PedirObras}
                 pedirMisServicios={pedirMisServicios} startCreating={startCreating} setStartCreating={setStartCreating} misEmpresas={misEmpresas} setMisEmpresas={setMisEmpresas} misEmpresasRes={misEmpresasRes} inSending={inSending} objCss={objCss} objStrings={objStrings} cleanUserData={cleanUserData} userData={userData} setReqState={setReqState} reqState={reqState} setPopUp={setPopUp} changeLanguage={changeLanguage} setUserData={setUserDataApp} />
             {
                 userData.type === 'newUser' &&
@@ -682,7 +730,7 @@ const UserCheck = (props) => {
                     {
                         userData.type === 'bioseptico' && userData.permisions.bioseptico &&
                         <>
-                            <CentroDeBiosepticos empresas={empresas} userModel={userModel} dataBioseptico={dataBioseptico} obras={obras} rutas={rutas} PedirBiosepticos={PedirBiosepticos} servicios={servicios} modeloBiosepticos={modeloBiosepticos} actualizarEstado={actualizarEstado} vehiculos={vehiculos} userData={userData} setReqState={setReqState} reqState={reqState} setPopUp={setPopUp} objCss={objCss} objStrings={objStrings} />
+                            <CentroDeBiosepticos onMobil={onMobil} empresas={empresas} userModel={userModel} dataBioseptico={dataBioseptico} obras={obras} rutas={rutas} PedirBiosepticos={PedirBiosepticos} servicios={servicios} modeloBiosepticos={modeloBiosepticos} actualizarEstado={actualizarEstado} vehiculos={vehiculos} userData={userData} setReqState={setReqState} reqState={reqState} setPopUp={setPopUp} objCss={objCss} objStrings={objStrings} />
 
                         </>
                     }
@@ -699,8 +747,8 @@ const UserCheck = (props) => {
                         </>
                     }
                 </>}
-            <ReqComponent userData={userData} setReqState={setReqState} reqState={reqState} objCss={objCss} />
-            <AbsoluteBox inSending={inSending} userData={userData} setReqState={setReqState} reqState={reqState} setPopUp={setPopUp} objCss={objCss} popUp={popUp} />
+            <ReqComponent onMobil={onMobil} userData={userData} setReqState={setReqState} reqState={reqState} objCss={objCss} />
+            <AbsoluteBox onMobil={onMobil} inSending={inSending} userData={userData} setReqState={setReqState} reqState={reqState} setPopUp={setPopUp} objCss={objCss} popUp={popUp} />
         </>
     )
 }

@@ -8,7 +8,7 @@ const userStructure = UserObj()
 const objCssInit = StylesObj()
 const objStringsInit = StringsObj()
 const UserData = (props) => {
-    const { misEmpresas = {
+    const { onMobil = { state: false, device: { iPhone: false, android: false, tablet: false, phone: false, mobile: false } },  misEmpresas = {
         seleccionada: '', empresas: [], itemSelectioned: EmpresaObj()
     }, setMisEmpresas = console.log, startCreating = false, PedirObras = console.log, pedirMisServicios = console.log, setStartCreating = console.log, misEmpresasRes = { array: [] }, objStrings = objStringsInit, userData = userStructure, setReqState = console.log, reqState = { reqId: Number(), state: false, peticion: '', type: ''  ,inList: [] }, setPopUp = console.log, cleanUserData = console.log, objCss = objCssInit, setUserData = console.log } = props
     return (
@@ -16,7 +16,7 @@ const UserData = (props) => {
             <div className={objCss.barraNav.dataContainer}>
                 {
                     userData.status === 'unRegistered' ?
-                        <UnRegistered setUserData={setUserData} objStrings={objStrings} /> : <Registered PedirObras={PedirObras}
+                        <UnRegistered setUserData={setUserData} objStrings={objStrings} /> : <Registered onMobil={onMobil} PedirObras={PedirObras}
                             pedirMisServicios={pedirMisServicios} misEmpresas={misEmpresas} setMisEmpresas={setMisEmpresas} startCreating={startCreating} setStartCreating={setStartCreating} setUserData={setUserData} userData={userData} setReqState={setReqState} reqState={reqState} setPopUp={setPopUp} objCss={objCss} objStrings={objStrings} cleanUserData={cleanUserData} />
 
                 }

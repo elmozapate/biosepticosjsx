@@ -310,7 +310,14 @@ const VisorTipoObra = (props) => {
                 e.preventDefault(); willShow(showed)
             }}>
                 {elPercent < 100 && elPercent > 0 && <><h2>RUTA PLANEADA :</h2><PercentComp elPercent={parseInt(elPercent)} /></>}
-
+                {showed.length === 2 && <span onClick={(e) => {
+                        e.preventDefault(), crearOptRuta()
+                    }} className="pointer">Ver ruta </span>}
+                    {showed.length > 2 && <span onClick={readyRuta ? (e) => {
+                        e.preventDefault(), crearOptRuta()
+                    } : (e) => {
+                        e.preventDefault(), makeRuta()
+                    }} className="pointer">{readyRuta ? 'Ver ruta recomendada' : 'crear ruta recomendada'}</span>}
                 {inObra.selected === '' ? <div className="dia">
                     <p className="centert flex-p-between">
                         <span className="treintraytres">{'Nombre'}</span>
@@ -372,14 +379,8 @@ const VisorTipoObra = (props) => {
                             </>
                         )
                     })}
-                    {showed.length === 2 && <span onClick={(e) => {
-                        e.preventDefault(), crearOptRuta()
-                    }} className="pointer">Ver ruta </span>}
-                    {showed.length > 2 && <span onClick={readyRuta ? (e) => {
-                        e.preventDefault(), crearOptRuta()
-                    } : (e) => {
-                        e.preventDefault(), makeRuta()
-                    }} className="pointer">{readyRuta ? 'Ver ruta recomendada' : 'crear ruta recomendada'}</span>}</div> : <>
+                   
+                    </div> : <>
                     {
                         inObra.action === 'contact' &&
                         <><h2> contacto obra {inObra.data.obra}</h2>
