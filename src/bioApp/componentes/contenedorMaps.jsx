@@ -152,19 +152,18 @@ const ContenedorMaps = (props) => {
             {
                 ((goPlace.funtionOk && !irPlace.state) || (irPlace.state && irPlace.coordenadas === { lat: 6.2476376, lng: -75.56581530000001 })) ?
                     <>
-                        s
                         {<span onClick={(e) => {
                             e.preventDefault();
                             irAelLugar()
-                        }}>{(!irPlace.state && irPlace.coordenadas === { lat: 6.2476376, lng: -75.56581530000001 }) ? 'LLEGAR' : 'ACCEDER A MI UBICACION'} </span>}
+                        }}>{(!irPlace.state && irPlace.coordenadas === { lat: 6.2476376, lng: -75.56581530000001 }) ? irPlace.using?'.':'LLEGAR' : irPlace.using?'.':'ACCEDER A MI UBICACION'} </span>}
                     </> :
                     <>
                         {goPlace.funtionOk && <span id="crearLaRuta" onClick={(e) => {
                             e.preventDefault(); goPlace.funtion()
-                        }}>VER RUTA </span>}
+                        }}>{irPlace.using?'.':'VER RUTA' }</span>}
                         {goPlace.ok && <span onClick={(e) => {
                             e.preventDefault(); irALugar()
-                        }}>llevame </span>}
+                        }}>{irPlace.using?'.':'llevame'} </span>}
                     </>
             }
         </>

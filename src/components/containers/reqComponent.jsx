@@ -67,7 +67,7 @@ const ReqComponent = (props) => {
             {
                 reqState.state ?
                     <div /* onClick={(e) => { e.preventDefault(); const popNew = PopUpObj(); reqState.funtions.setPopUp(popNew) }} */
-                        className={!onMobil.state ? `onMobil ${objCss.absoluteBox.main} zmayor` : `onMobil ${objCss.absoluteBox.main} `}>
+                        className={!onMobil.state ? ` ${objCss.absoluteBox.main} zmayor` : `onMobil ${objCss.absoluteBox.main} `}>
                         <div className={objCss.absoluteBox.reqBox}>
                             <div className="flex-column">
                                 <h1>

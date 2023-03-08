@@ -1,4 +1,3 @@
-
 import StylesObj from "@/styles/stylesObj"
 import StringsObj from "@/engine/content"
 import { useEffect, useState } from "react"
@@ -9,6 +8,7 @@ import PercentComp from "./percentComp"
 import { rewrites } from "next.config"
 const objCssInit = StylesObj()
 const objStringsInit = StringsObj()
+let userCoord = { lat: 0, lng: 0 }
 const VisorTipoObra = (props) => {
     const { userModel = ModeloUsuario, willShow = console.log, showed = [], objStrings = objStringsInit, objCss = objCssInit } = props
     const [inObra, setInObra] = useState({
@@ -18,6 +18,7 @@ const VisorTipoObra = (props) => {
     })
     const [readyRuta, setReadyRuta] = useState(false)
     const [times, setTimes] = useState([[]])
+    const [timesReady, setTimesReady] = useState([[]])
     const [inTimes, setInTimes] = useState(0)
     const [elPercent, setElPercent] = useState(0)
     const [inAdress, setInAdress] = useState({
@@ -25,14 +26,17 @@ const VisorTipoObra = (props) => {
     })
     const [irPlace, setIrPlace] = useState({
         funtionOk: false,
-        using: false, state: false, go: false, coordenadas: { lat: 6.2476376, lng: -75.56581530000001 }, coordenadasInicial: { lat: 6.2176376, lng: -75.56581530000001 }, funtion: async () => { console.log }
+        using: false, state: false, go: false, coordenadas: { obra: '', position: -1, lat: 6.2476376, lng: -75.56581530000001 }, coordenadasInicial: { obra: '', position: -1, lat: 6.2176376, lng: -75.56581530000001 }, funtion: async () => { console.log }
     })
     const [confirmMyDirection, setconfirmMyDirection] = useState(false)
     const [activeUser, setActiveUser] = useState({
         selectOp: '',
         userInfo: ModeloUsuario()
     })
+    let elTimeReady = [[]]
     let rutastime = []
+
+
     let inValue = 0
     let maxValue = showed.length
     const sheduleCreator = (array, father, valuesIn, tiempoIn, inStage) => {
@@ -44,7 +48,8 @@ const VisorTipoObra = (props) => {
             let tiempo = tiempoIn + key.item.time
             let newArreglo = []
             let newValues = key.values
-            times[key.position].map((keyMap, iMap) => {
+            console.log(elTimeReady);
+            elTimeReady[key.position].map((keyMap, iMap) => {
                 const keyMapVar = { ...keyMap, time: tiempo + keyMap.time }
                 console.log(keyMapVar, 'keyMapVar');
                 newValues = key.values
@@ -54,12 +59,12 @@ const VisorTipoObra = (props) => {
                         isShedule = true
                     }
                 })
-                if (!isShedule && newValues.length < times[key.position].length) {
+                if (!isShedule && newValues.length < elTimeReady[key.position].length) {
                     console.log(tiempo);
                     newValues.push(iMap)
                     newArreglo.push({ tiempo: parseInt(parseInt(tiempo)), item: keyMapVar, position: iMap, values: newValues })
                     let resArrayReq = sheduleCreator(newArreglo, father, [], parseInt(parseInt(tiempo)))
-                    newValues.length + 1 < times[key.position].length ? resArray.push(resArrayReq) : resArray.push({ tiempo: tiempo, item: keyMapVar, position: iMap, values: newValues })
+                    newValues.length + 1 < elTimeReady[key.position].length ? resArray.push(resArrayReq) : resArray.push({ tiempo: tiempo, item: keyMapVar, position: iMap, values: newValues })
 
                 }
             })
@@ -98,63 +103,6 @@ const VisorTipoObra = (props) => {
         console.log(res);
         return res
 
-        /*     let rutasRes = []
-            let valuesIn = values
-            let allRutasCalc = []
-            const stringMa = () => {
-                let stringOut = ''
-                values.map((keyIn, iIn) => {
-                    stringOut = stringOut + (iIn === 0 ? `f${keyIn}-` : `h-${iIn}-${keyIn} `)
-                })
-                return stringOut
-            }
-            const element = { estado: false, hijos: [], id: inStage === 0 ? `father-${father}` : stringMa(), tiempo: Number() }
-            for (let iM = 0; iM < times[father].length; iM++) {
-                console.log(father, iM, inStage, values);
-                let isSearchP = false
-                valuesIn = values
-                valuesIn.map((keyS, iS) => {
-                    if (iM === keyS) {
-                        isSearchP = true
-                    }
-                })
-                if (!isSearchP && valuesIn.length < times[father].length) {
-                    valuesIn.push(iM)
-    
-                    const keyM = array[iM]
-    
-                    for (let index = 0; index < times[father].length; index++) {
-                        let valuesInDeep = valuesIn
-                        const stringMakeD = () => {
-                            let stringOut = ''
-                            valuesIn.map((keyIn, iIn) => {
-                                stringOut = stringOut + (`h${inStage}-${keyIn}-`)
-                            })
-                            return stringOut
-                        }
-                        let isSearch = false
-                        valuesIn.map((keyS, iS) => {
-                            if (index === parseInt(keyS)) {
-                                isSearch = true
-                            }
-                        })
-                        if (valuesInDeep.length < times[father].length + 1 && !isSearch) {
-                            const elemento = times[iM][father]
-                            valuesInDeep.push(index)
-                            rutasRes.push({
-                                hijos: await sheduleCreators(array, valuesInDeep, parseInt(tiempo) + parseInt(elemento.time), index, inStage + 1),
-                                id: stringMakeD(),
-                                tiempo: parseInt(tiempo) + parseInt(elemento.time)
-                            })
-                            if (!(valuesInDeep.length < times[father].length)) {
-                                console.log(rutasRes[rutasRes.length - 1].hijos);
-                            }
-                        }
-                    }
-                }
-    
-            }
-            return rutasRes */
     }
 
     let newToSearchE = []
@@ -163,13 +111,24 @@ const VisorTipoObra = (props) => {
         newToSearchE = []
         let resSearhE = []
         setElPercent(0)
+        let newTimes = []
         let theFastest = { item: {}, tiempo: 0 }
+        for (let index = 1; index < showed.length + 1; index++) {
+            console.log(times);
+            const element = times[index];
+            newTimes.push(element)
 
+        }
+
+        console.log(newTimes);
+        elTimeReady = newTimes
+        setTimesReady(newTimes)
         if (showed.length > 2) {
             for (let index = 0; index < showed.length; index++) {
                 newToSearchE = []
                 newToSearchE.push(index)
-                resSearhE.push(await sheduleCreators(times, newToSearchE, 1, index))
+                console.log(times[0][index]);
+                resSearhE.push(await sheduleCreators(newTimes, newToSearchE, parseInt(times[0][index].time), index))
             }
             console.log(resSearhE[0][0].item.time);
             if (resSearhE[0] && resSearhE[0][0] && resSearhE[0][0].item && resSearhE[0][0].item.time) {
@@ -178,72 +137,115 @@ const VisorTipoObra = (props) => {
             }
             resSearhE.map((key, i) => {
                 key.map((keyComp, iComp) => {
-                    console.log(keyComp.item.time);
-                    if (keyComp.item.time + keyComp.tiempo < theFastest.tiempo) {
-                        console.log(keyComp, 'aca');
-                        theFastest = { item: keyComp, tiempo: keyComp.item.time + keyComp.tiempo }
+                    console.log(times[0][keyComp.values[0]].time, 'aca');
+                    if ((times[0][keyComp.values[0]].time + keyComp.item.time) < theFastest.tiempo) {
+                        theFastest = { item: keyComp, tiempo: (times[0][keyComp.values[0]].time + keyComp.item.time) }
                     }
                 })
             })
             console.log(theFastest);
         }
         let rutaPlaneadaArray = []
-        for (let index = 0; index < showed.length; index++) {
-            const element = showed[showed.length > 2 ? theFastest.item.values[index] : index];
-            rutaPlaneadaArray.push(element.direccion.coordenadas)
-
-        }
-        let url = 'https://www.google.com/maps/dir/'
-        for (let index = 0; index < showed.length; index++) {
-            const element = rutaPlaneadaArray[index];
-            url = url + `${element.lat},${element.lng}/`
-        }
-        window.open(url)
+          for (let index = 0; index < showed.length; index++) {
+              const element = showed[showed.length > 2 ? theFastest.item.values[index] : index];
+              rutaPlaneadaArray.push(element.direccion.coordenadas)
+  
+          }
+          let url = `https://www.google.com/maps/dir/${userCoord.lat},${userCoord.lng}/`
+          for (let index = 0; index < showed.length; index++) {
+              const element = rutaPlaneadaArray[index];
+              url = url + `${element.lat},${element.lng}/`
+          }
+          window.open(url)
 
     }
-    const makeRuta = async (time = 0) => {
+    const myPosition = () => {
+        navigator.geolocation.getCurrentPosition(
+            function (position) { // success cb
+                userCoord = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude,
+                    obra: 'userPosition',
+                    position: 0
+                }
+                setIrPlace({
+                    ...irPlace,
+                    state: true,
+                    using: true,
+                    coordenadasInicial: {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude,
+                        obra: 'userPosition',
+                        position: 0
+                    },
+                })
+                setTimeout(() => {
+                    setconfirmMyDirection(true)
+                    makeRuta(0, true)
+                }, 1000)
+            }
+
+        );
+
+    }
+
+    const makeRuta = async (time, init) => {
         maxValue = showed.length
         console.log(times);
-        if (time === 0) {
-            setElPercent(0)
-            inValue < maxValue && navigator.geolocation.getCurrentPosition(
-                function (position) { // success cb
-                    setIrPlace({
-                        ...irPlace,
-                        state: true,
-                        using: true,
-                        coordenadasInicial: {
-                            lat: position.coords.latitude,
-                            lng: position.coords.longitude
-                        },
-                        coordenadas: showed[inValue].direccion.coordenadas
-                    })
-                    console.log('asass');
-                    setElPercent(((100 / showed.length) * time) + (((100 / showed.length) / showed.length) * inValue))
-                }
-            );
-            if (time < maxValue && !(inValue < maxValue)) {
+        if (init) {
+            maxValue = showed.length
+
+            if (time < maxValue) {
+                console.log(showed[time]);
+                setIrPlace({
+                    ...irPlace,
+                    state: true,
+                    using: true,
+                    coordenadasInicial: {
+                        ...irPlace.coordenadasInicial,
+                        obra: 'userPosition',
+                        position: 0
+                    },
+                    coordenadas: {
+                        ...showed[time].direccion.coordenadas,
+                        obra: showed[time].nombre,
+                        position: time
+                    },
+                })
                 setTimeout(() => {
-                    inValue = 0;
-                    rutastime = (times);
-                    setInTimes(1)
-                    makeRuta(1);
-                }, 2000)
+                    if (time < maxValue) {
+                        setconfirmMyDirection(true)
+                        continueRuta(time, true)
+                    }
+                }, 1000);
+            } else {
+                setTimeout(() => {
+                    console.log('acabo con usuario', times);
+                    inValue = 0
+
+                    makeRuta(0);
+                }, 1000);
             }
         } else {
+
             if (time < maxValue && inValue < maxValue) {
                 setIrPlace({
                     ...irPlace,
                     state: true,
                     using: true,
-                    coordenadasInicial: showed[time].direccion.coordenadas,
-                    coordenadas: showed[inValue].direccion.coordenadas
+                    coordenadasInicial: {
+                        ...showed[time].direccion.coordenadas,
+                        obra: showed[time].nombre, position: time
+                    },
+                    coordenadas: {
+                        ...showed[inValue].direccion.coordenadas,
+                        obra: showed[inValue].nombre, position: inValue
+                    }
                 })
                 setElPercent(((100 / showed.length) * time) + (((100 / showed.length) / showed.length) * inValue))
 
             }
             if (time < maxValue && !(inValue < maxValue)) {
-
                 setTimeout(() => {
                     setElPercent(((100 / showed.length) * time + 1) + (((100 / showed.length) / showed.length) * inValue))
                     inValue = 0;
@@ -253,33 +255,33 @@ const VisorTipoObra = (props) => {
 
                 }, 2000)
             }
+            if (time < maxValue && inValue < maxValue) {
+                setTimeout(() => {
+                    if (inValue < maxValue) {
+                        setElPercent(((100 / showed.length) * time) + (((100 / showed.length) / showed.length) * inValue))
+
+                        setconfirmMyDirection(true)
+                        continueRuta(time)
+                    }
+                }, 1000);
+            } else {
+                setTimeout(() => {
+                    if ((((100 / showed.length) * time) + (((100 / showed.length) / showed.length) * inValue)) >= 100) {
+                        setElPercent(0)
+                        crearOptRuta();
+
+                        console.log('acabo', times);
+                        setReadyRuta(true)
+                    }
+                }, 2000);
+
+            }
         }
-        if (time < maxValue && inValue < maxValue) {
-            setTimeout(() => {
-                if (inValue < maxValue) {
-                    setElPercent(((100 / showed.length) * time) + (((100 / showed.length) / showed.length) * inValue))
-
-                    setconfirmMyDirection(true)
-                    continueRuta(time)
-                }
-            }, 1000);
-        } else {
-            setTimeout(() => {
-                if ((((100 / showed.length) * time) + (((100 / showed.length) / showed.length) * inValue)) >= 100) {
-                    setElPercent(0)
-                    crearOptRuta();
-                    setReadyRuta(true)
-                }
-            }, 2000);
-
-        }
-
     }
-    const continueRuta = async (time) => {
-        if (time < maxValue && inValue < maxValue) {
+    const continueRuta = async (time, init) => {
+        if (init) {
             setTimeout(() => {
                 setconfirmMyDirection(false)
-                inValue = inValue + 1
                 let clickBtn = document.getElementById('crearLaRuta')
                 clickBtn.click()
                 setTimeout(() => {
@@ -288,21 +290,43 @@ const VisorTipoObra = (props) => {
                         state: false,
                         using: false,
                     })
-                    makeRuta(time)
+                    makeRuta(time + 1, init)
                 }, 800);
             }, 800);
         } else {
+            if (time < maxValue && inValue < maxValue) {
+                setTimeout(() => {
+                    setconfirmMyDirection(false)
+                    inValue = inValue + 1
+                    let clickBtn = document.getElementById('crearLaRuta')
+                    clickBtn.click()
+                    setTimeout(() => {
+                        setIrPlace({
+                            ...irPlace,
+                            state: false,
+                            using: false,
+                        })
+                        makeRuta(time)
+                    }, 800);
+                }, 800);
+            } else {
 
-            setIrPlace({
-                ...irPlace,
-                state: false,
-                using: false,
-            })
+                setIrPlace({
+                    ...irPlace,
+                    state: false,
+                    using: false,
+                })
 
 
-/*             setTimes([])
- */        }
+    /*             setTimes([])
+     */        }
+        }
     }
+
+
+
+
+
 
     return (
         <>
@@ -311,13 +335,13 @@ const VisorTipoObra = (props) => {
             }}>
                 {elPercent < 100 && elPercent > 0 && <><h2>RUTA PLANEADA :</h2><PercentComp elPercent={parseInt(elPercent)} /></>}
                 {showed.length === 2 && <span onClick={(e) => {
-                        e.preventDefault(), crearOptRuta()
-                    }} className="pointer">Ver ruta </span>}
-                    {showed.length > 2 && <span onClick={readyRuta ? (e) => {
-                        e.preventDefault(), crearOptRuta()
-                    } : (e) => {
-                        e.preventDefault(), makeRuta()
-                    }} className="pointer">{readyRuta ? 'Ver ruta recomendada' : 'crear ruta recomendada'}</span>}
+                    e.preventDefault(), crearOptRuta()
+                }} className="pointer">Ver ruta </span>}
+                {showed.length > 2 && <span onClick={readyRuta ? (e) => {
+                    e.preventDefault(), crearOptRuta()
+                } : (e) => {
+                    e.preventDefault(), myPosition()
+                }} className="pointer">{readyRuta ? 'Ver ruta recomendada' : 'crear ruta recomendada'}</span>}
                 {inObra.selected === '' ? <div className="dia">
                     <p className="centert flex-p-between">
                         <span className="treintraytres">{'Nombre'}</span>
@@ -379,8 +403,8 @@ const VisorTipoObra = (props) => {
                             </>
                         )
                     })}
-                   
-                    </div> : <>
+
+                </div> : <>
                     {
                         inObra.action === 'contact' &&
                         <><h2> contacto obra {inObra.data.obra}</h2>
