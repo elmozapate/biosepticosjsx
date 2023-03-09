@@ -16,7 +16,7 @@ const objCssInit = StylesObj()
 const objStringsInit = StringsObj()
 const AdressAdd = (props) => {
 
-    const { inEmpresa = false, empresa = '', userData = userStructure, setReqState = console.log, reqState = { reqId: Number(), state: false, peticion: '', type: ''  ,inList: [] }, setPopUp = console.log, objStrings = objStringsInit, objCss = objCssInit, send = console.log, showed = 'inicio' } = props
+    const { inEmpresa = false, empresa = '', userData = userStructure, setReqState = console.log, reqState = { reqId: Number(), state: false, peticion: '', type: '', inList: [] }, setPopUp = console.log, objStrings = objStringsInit, objCss = objCssInit, send = console.log, showed = 'inicio' } = props
     const [placeInfo, setplaceInfo] = useState({ departamentos: [], ciudades: [], selected: '', selectedCity: '' })
 
     const [adressSend, setAdressSend] = useState(false)
@@ -128,7 +128,7 @@ const AdressAdd = (props) => {
                 sending ? <>ENVIANDO::::::</> :
                     <>{adressSend ?
                         <>
-                            direccion ={`${personalObj.direccion.departamento} ${personalObj.direccion.ciudad} ${personalObj.direccion.barrio} ${personalObj.direccion.viaSelecionada} ${personalObj.direccion.numero} ${personalObj.direccion.letra} ${personalObj.direccion.primerNumDireccion} ${personalObj.direccion.primerLetra} ${personalObj.direccion.segundoNumDireccion} ${personalObj.direccion.segundaLetra}`}
+                            direccion ={`${personalObj.direccion.otros} ${personalObj.direccion.departamento} ${personalObj.direccion.ciudad} ${personalObj.direccion.barrio} ${personalObj.direccion.viaSelecionada} ${personalObj.direccion.numero} ${personalObj.direccion.letra} ${personalObj.direccion.primerNumDireccion} ${personalObj.direccion.primerLetra} ${personalObj.direccion.segundoNumDireccion} ${personalObj.direccion.segundaLetra} ${personalObj.direccion.coordenadas.lat} ${personalObj.direccion.coordenadas.lng}`}
                         </> : <>
                             {adressView.map ? <>
                                 <div className="flex-row">
@@ -192,7 +192,7 @@ const AdressAdd = (props) => {
                                             DIRECCION
                                         </span>
                                         <span className="formInput-btn-small" onClick={(e) => {
-                                            e.preventDefault; setBuscarPorNombre(true); handleCreateAll();setReady(true); setPersonalObj({
+                                            e.preventDefault; setBuscarPorNombre(true); handleCreateAll(); setReady(true); setPersonalObj({
                                                 ...personalObj,
                                                 direccion: {
                                                     ...ObjDireccion,
