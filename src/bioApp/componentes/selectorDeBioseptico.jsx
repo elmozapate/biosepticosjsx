@@ -15,7 +15,7 @@ const userStructure = UserObj()
 const objCssInit = StylesObj()
 const objStringsInit = StringsObj()
 const SelectorDeBioseptico = (props) => {
-    const { dataBioseptico = {
+    const {onMobil= { state: false, device: { iPhone: false, android: false, tablet: false, phone: false, mobile: false } }, dataBioseptico = {
         servicios: [],
         rutas: [],
         obras: [],
@@ -313,8 +313,8 @@ const SelectorDeBioseptico = (props) => {
                                                     <p className="flex-p-between"><span>RUTA DE {keyS} :  {rutasMias[keyS].dia} </span> <span>{rutasMias[keyS].id}</span> </p>
                                                     <p >
                                                         <p className="flex-p-between"><span> SERVICIOS</span>  <span className="gap-min"><span>PENDIENTES : {rutasMias[keyS].servicios.length}</span><span>TOTAL : {rutasMias[keyS].servicios.length + rutasMias[keyS].serviciosListos.length}</span><span className='pointer' onClick={(e) => { e.preventDefault(); setSelectioned(`${keyS}-SERVICIOS`) }}>ver</span> </span></p>
-                                                        <p className="flex-p-between"><span> OBRAS</span> <span className="gap-min"><span>PENDIENTES : {rutasMias[keyS].obras.length}</span><span>TOTAL : {rutasMias[keyS].obras.length + rutasMias[keyS].obrasListas.length}</span><span className='pointer' onClick={(e) => { e.preventDefault(); setSelectioned(`${keyS}-OBRAS`) }}>ver</span> </span></p>
-                                                        <p className="flex-p-between"> <span> SECTORES</span> <span className="gap-min"><span>TOTAL : {rutasMias[keyS].sectores.length}</span><span className='pointer' onClick={(e) => { e.preventDefault(); setSelectioned(`${keyS}-SECTORES`) }}>ver</span> </span></p>
+                                                        <p className="flex-p-between"><span> OBRAS</span> <span className="gap-min"><span>PENDIENTES : {rutasMias[keyS].obras.length}</span>{!onMobil.state&&<span>TOTAL : {rutasMias[keyS].obras.length + rutasMias[keyS].obrasListas.length}</span>}<span className='pointer' onClick={(e) => { e.preventDefault(); setSelectioned(`${keyS}-OBRAS`) }}>ver</span> </span></p>
+                                                        <p className="flex-p-between"> <span> SECTORES</span> <span className="gap-min">{!onMobil.state&&<span>TOTAL : {rutasMias[keyS].sectores.length}</span>}<span className='pointer' onClick={(e) => { e.preventDefault(); setSelectioned(`${keyS}-SECTORES`) }}>ver</span> </span></p>
                                                     </p>
                                                 </div>
                                             </>
