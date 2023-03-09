@@ -66,7 +66,7 @@ const PlacesAutocomplete = (props) => {
         });
     };
     inAdressAdd && useEffect(() => {
-        setValue(adressData.otros.length > 3  ? adressData.otros : `${adressData.departamento} ${adressData.ciudad} ${adressData.barrio} ${adressData.viaSelecionada} ${adressData.numero} ${adressData.letra} ${adressData.primerNumDireccion} ${adressData.primerLetra} ${adressData.segundoNumDireccion} ${adressData.segundaLetra}`)
+        setValue(adressData.otros.length > 3 || !fullAdressSearch ? adressData.otros : `${adressData.departamento} ${adressData.ciudad} ${adressData.barrio} ${adressData.viaSelecionada} ${adressData.numero} ${adressData.letra} ${adressData.primerNumDireccion} ${adressData.primerLetra} ${adressData.segundoNumDireccion} ${adressData.segundaLetra}`)
     }, [adressData])
     return (
         <div className={''}>

@@ -192,7 +192,7 @@ const AdressAdd = (props) => {
                                             DIRECCION
                                         </span>
                                         <span className="formInput-btn-small" onClick={(e) => {
-                                            e.preventDefault; setBuscarPorNombre(true); setReady(true); setPersonalObj({
+                                            e.preventDefault; setBuscarPorNombre(true); handleCreateAll();setReady(true); setPersonalObj({
                                                 ...personalObj,
                                                 direccion: {
                                                     ...ObjDireccion,
