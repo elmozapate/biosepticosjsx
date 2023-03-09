@@ -10,7 +10,7 @@ const objCssInit = StylesObj()
 const objStringsInit = StringsObj()
 const FormularioDatosObra = (props) => {
 
-    const { obrasExistentes = [], activeEmpresa = EmpresaObj(), userData = userStructure, setReqState = console.log, reqState = { reqId: Number(), state: false, peticion: '', type: ''  ,inList: [] }, setPopUp = console.log, objStrings = objStringsInit, objCss = objCssInit, sendData = console.log, showed = 'inicio' } = props
+    const { obrasExistentes = [], activeEmpresa = EmpresaObj(), userData = userStructure, setReqState = console.log, reqState = { reqId: Number(), state: false, peticion: '', type: '', inList: [] }, setPopUp = console.log, objStrings = objStringsInit, objCss = objCssInit, sendData = console.log, showed = 'inicio' } = props
 
     const [sending, setSending] = useState(false)
     const [ready, setReady] = useState(false)
@@ -33,7 +33,7 @@ const FormularioDatosObra = (props) => {
         })
     }
     useEffect(() => {
-        if (personalObj.nombre.length > 3 && personalObj.obra.length > 3 && personalObj.correoElectronico !== '' && personalObj.telefonoPrincipal !== '' && personalObj.telefonoSecundario !== '' && personalObj.direccion.departamento !== '' && personalObj.direccion.ciudad !== '' && personalObj.direccion.barrio !== '') {
+        if (personalObj.nombre.length > 3 && personalObj.obra.length > 3 && personalObj.correoElectronico !== '' && personalObj.telefonoPrincipal !== ''(personalObj.direccion.coordenadas.lat !== 0 || (personalObj.direccion.departamento !== '' && personalObj.direccion.ciudad !== '' && personalObj.direccion.barrio !== ''))) {
             setReady(true)
         } else {
             setReady(false)
