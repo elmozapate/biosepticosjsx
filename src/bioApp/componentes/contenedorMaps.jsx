@@ -16,9 +16,8 @@ const ContenedorMaps = (props) => {
     })
     const setMapCenterFuntion = (value) => {
         if (inMapSelect) {
-            mapSelect(value)
             setMapCenter({ ...value })
-
+            mapSelect(value)
         } else {
             setMapCenter({ ...value })
             setMapCenterGo({
