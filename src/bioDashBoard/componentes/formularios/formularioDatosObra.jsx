@@ -33,7 +33,7 @@ const FormularioDatosObra = (props) => {
         })
     }
     useEffect(() => {
-        if (personalObj.nombre.length > 3 && personalObj.obra.length > 3 && personalObj.correoElectronico !== '' && personalObj.telefonoPrincipal !== ''(personalObj.direccion.coordenadas.lat !== 0 || (personalObj.direccion.departamento !== '' && personalObj.direccion.ciudad !== '' && personalObj.direccion.barrio !== ''))) {
+        if (personalObj.nombre.length > 3 && personalObj.obra.length > 3 && personalObj.correoElectronico !== '' && personalObj.telefonoPrincipal !== '' && (personalObj.direccion.coordenadas.lat !== 0 || (personalObj.direccion.departamento !== '' && personalObj.direccion.ciudad !== '' && personalObj.direccion.barrio !== ''))) {
             setReady(true)
         } else {
             setReady(false)
