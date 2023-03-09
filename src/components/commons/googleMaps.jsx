@@ -11,7 +11,7 @@ const socket = Socket
 
 const GooglMapsComp = (props) => {
     let start = false
-    const { inTimes = 0, times = [[]], setTimes = console.log, irPlace = {
+    const { inMapSelect = false, inTimes = 0, times = [[]], setTimes = console.log, irPlace = {
         funtionOk: false, using: false, state: false, go: false, coordenadas: { obra: '', position: -1, lat: 6.2476376, lng: -75.56581530000001 }, coordenadasInicial: { obra: '', position: -1, lat: 6.2476376, lng: -75.56581530000001 }, funtion: console.log
     }, goPlace = { funtionOk: false, go: false, ok: false, state: false, funtion: console.log }, setIrPlace = console.log, setGoPlace = console.log, adressViewIn = false, fullAdressSearch = false, adressView = { state: false, centre: { ltn: 6.1576585, lgn: -75872710271 } }, setAdressView = console.log, soloAdress = false, adressData = ObjContacto.direccion, visorObj = {}, setEnviar = console.log, enviar = { aReady: false, bReady: false, cReady: false, b: console.log, a: console.log, c: console.log, allReady: false }, rastreado = false, normal = false, receptor = false, mapCenterGo = { inicio: { lat: 27.672932021393862, lng: 85.31184012689732 }, final: { lat: 27.672932021393862, lng: 85.31184012689732 } }, irALugar = console.log, setMapCenterFuntion = console.log, mapCenter = { lat: 27.672932021393862, lng: 85.31184012689732 }, setMapCenter = console.log } = props
     const libraries = useMemo(() => ['places'], []);
@@ -50,6 +50,11 @@ const GooglMapsComp = (props) => {
         }
         if (normal) {
             setMapCenter({ lat: evt.latLng.lat(), lng: evt.latLng.lng() })
+        }
+        if (inMapSelect) {
+            setMapCenter({ lat: evt.latLng.lat(), lng: evt.latLng.lng() })
+
+            console.log({ lat: evt.latLng.lat(), lng: evt.latLng.lng() });
         }
     }
     const IrAplace = async () => {
@@ -117,19 +122,19 @@ const GooglMapsComp = (props) => {
 
     return (
         <>
-            {!irPlace.using&&soloAdress ? <PlacesAutocomplete fullAdressSearch={fullAdressSearch} inAdressAdd setAdressView={setAdressView} adressView={adressView} adressData={adressData}/* setMapCenter={setMapCenter} */ />
+            {!irPlace.using && soloAdress ? <PlacesAutocomplete fullAdressSearch={fullAdressSearch} inAdressAdd setAdressView={setAdressView} adressView={adressView} adressData={adressData}/* setMapCenter={setMapCenter} */ />
                 : <div className={`styles.homeWrapper ${irPlace.using ? 'hidden' : ''}`}>
                     <GoogleMap
                         onClick={(e) => console.log(e, 'MapaClick')}
                         options={mapOptions}
-                        zoom={adressViewIn ? 17.5 : adressView.state ? 17 : 14}
+                        zoom={inMapSelect ? 14 : adressViewIn ? 17.5 : adressView.state ? 17 : 14}
                         center={adressView.state ? adressView.centre : mapCenter}
                         mapTypeId={google.maps.MapTypeId.ROADMAP}
-                        mapContainerStyle={{ width: (adressViewIn || adressView.state) ? '300px' : '800px', height: (adressViewIn || adressView.state) ? '300px' : '500px' }}
+                        mapContainerStyle={{ width: inMapSelect ? '320px' : (adressViewIn || adressView.state) ? '300px' : '800px', height: inMapSelect ? '320px' : (adressViewIn || adressView.state) ? '300px' : '500px' }}
                         onLoad={() => console.log('Map Component Loaded...')}
                         id={'map-google'}
                     >
-                     {!irPlace.using&&   <MarkerF
+                        {!irPlace.using && <MarkerF
                             draggable={adressViewIn ? false : true}
                             position={adressViewIn ? mapCenter : adressView.state ? adressView.centre : mapCenter}
                             onDragEnd={loadDragInfo}
@@ -138,14 +143,16 @@ const GooglMapsComp = (props) => {
                         {!adressViewIn && !receptor && !rastreado && < DirectionsRenderer />}
 
                     </GoogleMap>
-                    {!adressViewIn && !receptor && !rastreado && !adressView.state && <>
+                    {!inMapSelect && !adressViewIn && !receptor && !rastreado && !adressView.state && <>
                         <PlacesAutocomplete setMapCenter={setMapCenter} />
                         <PlacesAutocomplete setMapCenter={setMapCenterFuntion} />
                     </>}
-
+                    {inMapSelect && <>
+                        <PlacesAutocomplete setMapCenter={setMapCenterFuntion} />
+                    </>}
                     {/* <DirectionsRenderer /> */}
 
-                    {!adressViewIn && !receptor && !rastreado && !adressView.state && <button onClick={(e) => { e.preventDefault(); IrAplace() }}>LLEGAR</button>}
+                    {!inMapSelect && !adressViewIn && !receptor && !rastreado && !adressView.state && <button onClick={(e) => { e.preventDefault(); IrAplace() }}>LLEGAR</button>}
                     {/*  {
                         receptor && <><button onClick={(e) => { e.preventDefault(); rastrear() }}>rastrear</button></>
                     } */}

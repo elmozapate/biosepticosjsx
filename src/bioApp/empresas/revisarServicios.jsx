@@ -116,8 +116,12 @@ const RevisarServicios = (props) => {
                                 </thead>
                                 <tbody>
                                     {(misServiciosSort[misServiciosSort.sort]) && (misServiciosSort[misServiciosSort.sort]).array && (misServiciosSort[misServiciosSort.sort]).array.map((key, i) => {
+                                        let nowDate = key.shedule.fechaDeInicio.split('T')[0].toString().split('-')
+                                        let diaAentrar = parseInt(new Date().toLocaleDateString().split('/')[0]),
+                                            mesAentrar = parseInt(new Date().toLocaleDateString().split('/')[1]),
+                                            anoAentrar = parseInt(new Date().toLocaleDateString().split('/')[2]);
                                         return (
-                                            key.id && ((inCalendario && key.shedule.activo) || !inCalendario) && <tr  id={`safe-${i}`
+                                            key.id && ((inCalendario && key.shedule.activo) || !inCalendario) && <tr className={(!(parseInt(nowDate[0]) >= anoAentrar && parseInt(nowDate[1]) >= mesAentrar && parseInt(nowDate[2]) >= diaAentrar) && (key.shedule.estado !== 'completado')) ?(key.shedule.estado === 'programado') ? 'bgColor-blue' : key.shedule.estado !== 'completado' ? 'bgColor-red' : '':key.shedule.estado !== 'completado'?!(parseInt(nowDate[0]) >= anoAentrar && parseInt(nowDate[1]) >= mesAentrar && parseInt(nowDate[2]) >= diaAentrar)?'bgColor-red':(parseInt(nowDate[0]) >= anoAentrar && parseInt(nowDate[1]) >= mesAentrar && parseInt(nowDate[2]) === diaAentrar)?'bgColor-yellow':'bgColor-blue':'bgColor-green'} id={`safe-${i}`
                                             }>
                                                 {!inCalendario ? <td className={inCalendario ? 'small' : "mediumSize"} id={`safeb-${i}`}>{` ${key.id.split('-')[1]}`}</td> : <></>}
                                                 <td className={inCalendario ? 'small' : "bigSize"} id={`safefdb-${i}`}>{inCalendario ? (key.tipoDeServicio.tipo === 'Alquiler de baños' ? 'SAB' : 'SRSO') : key.tipoDeServicio.tipo}</td>
@@ -136,9 +140,12 @@ const RevisarServicios = (props) => {
                                                     getDireccion(key, 'barrio')
 
                                                 }</td> : <></>}
-                                                {inCalendario ? <td className={inCalendario ? 'medium' : ""}>{key.ruta !== '' ? <>{key.ruta}<span className="pointer" onClick={(e) => {
+                                                {inCalendario ? <td className={inCalendario ? 'medium' : ""}>{key.ruta !== '' ? <>{key.ruta}{key.shedule.estado === 'programado' && (parseInt(nowDate[0]) >= anoAentrar && parseInt(nowDate[1]) >= mesAentrar && parseInt(nowDate[2]) >= diaAentrar) && <span className="pointer" onClick={(e) => {
                                                     e.preventDefault(); editarSevicio(key, true)
-                                                }}>DESASIGNAR</span></> : !inAsign.state ? <span className="pointer" onClick={(e) => { e.preventDefault(); verDiaVehiculo(key); setInAsign({ ...inAsign, state: true, obj: { ...inAsign.obj, id: key.id } }) }}>ASIGNAR</span> : <>{key.id === inAsign.obj.id && < SelectComp item={'encargado'} items={vehiculosDispo.array} funtions={(e) => {
+                                                }}>DESASIGNAR</span>}</> : !inAsign.state ? (parseInt(nowDate[0]) >= anoAentrar && parseInt(nowDate[1]) >= mesAentrar && parseInt(nowDate[2]) >= diaAentrar) && <span className="pointer" onClick={(e) => {
+                                                    e.preventDefault();
+                                                    verDiaVehiculo(key); setInAsign({ ...inAsign, state: true, obj: { ...inAsign.obj, id: key.id } })
+                                                }}>ASIGNAR</span> : <>{key.id === inAsign.obj.id && < SelectComp item={'encargado'} items={vehiculosDispo.array} funtions={(e) => {
                                                     e.preventDefault();
                                                     setInAsign({ ...inAsign, obj: { ...inAsign.obj, ready: true, value: e.target.value } })
 

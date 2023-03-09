@@ -14,7 +14,7 @@ const objStringsInit = StringsObj()
 const userStructure = UserObj()
 
 const ContenedorServicios = (props) => {
-    const { serviceStep={ data: {}, step: 0 }, seServiceStep=console.log,personalLogistico = false, actualizarEstado = console.log, modeloBiosepticos = ModeloBiosepticos, logistica = false, pedirMisServicios = console.log, sendNewServicio = console.log, creatingObra = console.log, misObras = { array: [] }, misServicios = { array: [] }, vehiculos = { array: [] }, setCreatingObra = console.log, activeEmpresa = EmpresaObj(), userData = userStructure, setReqState = console.log, reqState = { reqId: Number(), state: false, peticion: '', type: ''  ,inList: [] }, setPopUp = console.log, sideOpen = false, objStrings = objStringsInit, objCss = objCssInit, showed = 'inicio' } = props
+    const { serviceStep={ data: {}, step: 0 }, setServiceStep=console.log,personalLogistico = false, actualizarEstado = console.log, modeloBiosepticos = ModeloBiosepticos, logistica = false, pedirMisServicios = console.log, sendNewServicio = console.log, creatingObra = console.log, misObras = { array: [] }, misServicios = { array: [] }, vehiculos = { array: [] }, setCreatingObra = console.log, activeEmpresa = EmpresaObj(), userData = userStructure, setReqState = console.log, reqState = { reqId: Number(), state: false, peticion: '', type: ''  ,inList: [] }, setPopUp = console.log, sideOpen = false, objStrings = objStringsInit, objCss = objCssInit, showed = 'inicio' } = props
     const [misServiciosSort, setMisServiciosSort] = useState(personalLogistico ? EstadosUsersObj : EstadosServiciosObj)
 
     const countMany = () => {
@@ -111,7 +111,7 @@ const ContenedorServicios = (props) => {
                                         <button onClick={(e) => { e.preventDefault(); setCreatingObra(true) }}>CREAR SERVICIO</button>
                                     </>
                                     :
-                                    <FormularioDatosNuevoServicio serviceStep={serviceStep} seServiceStep={seServiceStep} setCreatingObra={setCreatingObra} sendData={sendNewServicio} misObras={misObras} userData={userData} setReqState={setReqState} reqState={reqState} setPopUp={setPopUp} sideOpen={sideOpen} activeEmpresa={activeEmpresa} objCss={objCss} objStrings={objStrings} showed={showed} back={setCreatingObra} />
+                                    <FormularioDatosNuevoServicio serviceStep={serviceStep} setServiceStep={setServiceStep} setCreatingObra={setCreatingObra} sendData={sendNewServicio} misObras={misObras} userData={userData} setReqState={setReqState} reqState={reqState} setPopUp={setPopUp} sideOpen={sideOpen} activeEmpresa={activeEmpresa} objCss={objCss} objStrings={objStrings} showed={showed} back={setCreatingObra} />
                             }                    </> : <>
                             {
                                 <RevisarServicios actualizarEstado={actualizarEstado} logistica={logistica} misServicios={misServicios} misServiciosSort={misServiciosSort} sortBy={sortBy} />

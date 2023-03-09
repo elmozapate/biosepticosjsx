@@ -32,7 +32,7 @@ const AppContainer = (props) => {
                     <div id={(parseInt(Math.random() * 9999999999)).toString()} className={onMobil.state?`onMobil ${objCss.app.main}`:objCss.app.main}>
                         {userData.type === 'bioseptico' ?
                             startTransition ? <>
-                                <SelectorDeBioseptico empresas={empresas} userModel={userModel} dataBioseptico={dataBioseptico} obras={obras} rutas={rutas} PedirBiosepticos={PedirBiosepticos} servicios={servicios} modeloBiosepticos={modeloBiosepticos} actualizarEstado={actualizarEstado} vehiculos={vehiculos} userData={userData} setReqState={setReqState} reqState={reqState} setPopUp={setPopUp} objCss={objCss} objStrings={objStrings} />
+                                <SelectorDeBioseptico  empresas={empresas} userModel={userModel} dataBioseptico={dataBioseptico} obras={obras} rutas={rutas} PedirBiosepticos={PedirBiosepticos} servicios={servicios} modeloBiosepticos={modeloBiosepticos} actualizarEstado={actualizarEstado} vehiculos={vehiculos} userData={userData} setReqState={setReqState} reqState={reqState} setPopUp={setPopUp} objCss={objCss} objStrings={objStrings} />
 
                             </> : <> {objStrings.app.introBio}</> : <></>
                         }

@@ -5,7 +5,7 @@ import { ContactData, EditCompanyPermisionData, EditPermisionData, EditSellPermi
 import { Socket } from "@/middleware/routes/connect/socket/socketOn"
 import { SetEmpresas } from "@/request/sendEmpresa"
 import { SetObras } from "@/request/sendObra"
-import { EditServicios, EditServiciosDelete, SetServicio } from "@/request/sendServicio"
+import { CompletarServicioReq, EditServicios, EditServiciosDelete, SetServicio } from "@/request/sendServicio"
 import { ActualizarEstadoVehiculo, CrearRutaVehiculo, SetVehiculo } from "@/request/sendVehiculo"
 import { GetVendedores } from "@/request/getVendedores"
 import { AskBioseptico, CrearCalendarioReq, CrearRutaDiariaReq, GetMisVehiculos } from "@/request/getBioseptico"
@@ -109,7 +109,10 @@ export const MiddlewareSelector = (props) => {
         case 'crearRutaDiaria':
             CrearRutaDiariaReq(socket, props, res)
             break
-
+        case 'completarServicio':
+            CompletarServicioReq(socket, props, res)
+            break
+            completarServicio
         default:
             break;
     }

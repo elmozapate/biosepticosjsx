@@ -33,6 +33,8 @@
 }
 .hidden {
     visibility: hidden !important;
+    max-height: 2px !important;
+    overflow: auto;
 }
 .column-abs-empresas {
     right: getRemSize(150px);
@@ -229,6 +231,21 @@ a {
     max-width: 33%;
     display: flex;
     flex-direction: column;
+}
+.cincuenta{
+    h2 {
+        padding: 0;
+        margin: 0;
+        width: 50%;
+        min-width: 50%;
+        max-width: 50%;
+        height: min-content;
+    }
+    width: 50%;
+    min-width: 50%;
+    max-width: 50%;
+    display: flex;
+    flex-direction: column; 
 }
 .flex-column-min {
     display: flex;

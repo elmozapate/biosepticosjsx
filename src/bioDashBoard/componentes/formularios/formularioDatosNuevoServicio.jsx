@@ -16,7 +16,7 @@ const objCssInit = StylesObj()
 const objStringsInit = StringsObj()
 const FormularioDatosNuevoServicio = (props) => {
 
-    const {serviceStep={ data: {}, step: 0 }, seServiceStep=console.log, misObras = { array: [] }, userData = userStructure, setReqState = console.log, reqState = { reqId: Number(), state: false, peticion: '', type: ''  ,inList: [] }, setCreatingObra = console.log, setPopUp = console.log, objStrings = objStringsInit, objCss = objCssInit, sendData = console.log, showed = 'inicio', activeEmpresa = EmpresaObj() } = props
+    const {serviceStep={ data: {}, step: 0 }, setServiceStep=console.log, misObras = { array: [] }, userData = userStructure, setReqState = console.log, reqState = { reqId: Number(), state: false, peticion: '', type: ''  ,inList: [] }, setCreatingObra = console.log, setPopUp = console.log, objStrings = objStringsInit, objCss = objCssInit, sendData = console.log, showed = 'inicio', activeEmpresa = EmpresaObj() } = props
     const [obrasExistentes, setObrasExistentes] = useState([])
     const [endDate, setEndDate] = useState({ state: false })
 
@@ -122,7 +122,7 @@ const FormularioDatosNuevoServicio = (props) => {
         if (serviceStep.step === 0 && personalObj.servicio.obra === 'NUEVA OBRA') {
 
         } else {
-            seServiceStep({ ...serviceStep, step: value === '+' ? (inStep + 1) : (inStep - 1) })
+            setServiceStep({ ...serviceStep, step: value === '+' ? (inStep + 1) : (inStep - 1) })
         }
     }
     useEffect(() => {
@@ -189,7 +189,7 @@ const FormularioDatosNuevoServicio = (props) => {
                             {serviceStep.step === 3 && <div className="form-default formInput">
                                 Fecha De Inicio
 
-                                <DateSelect Btype MinDate={new Date(new Date().setDate(new Date().getDate() + 1))} MaxDate={new Date(new Date().setMonth(new Date().getMonth() + 3))} personalObj={personalObj} startDate={personalObj.servicio.shedule.fechaDeInicio} setStartDate={setPersonalObj} />
+                                <DateSelect Btype MinDate={new Date(new Date().setDate(new Date().getDate()))} MaxDate={new Date(new Date().setMonth(new Date().getMonth() + 3))} personalObj={personalObj} startDate={personalObj.servicio.shedule.fechaDeInicio} setStartDate={setPersonalObj} />
                                 {personalObj.servicio.shedule.fechaDeInicio !== '' && <>
                                     <p onClick={(e) => {
                                         e.preventDefault; setEndDate({ ...endDate, state: !endDate.state })

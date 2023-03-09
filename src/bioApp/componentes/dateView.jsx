@@ -35,7 +35,7 @@ const DateView = (props) => {
     }, setInOperativo = console.log, setModoCrearVehiculo = console.log, verRuta = false, inTest = false, vehiculo = ModeloVehiculo, modo = 'dia', crearRuta = false, rutasIn = false, obras = { array: [] }, rutas = { array: [] }, objStrings = objStringsInit, objCss = objCssInit, userData = userStructure, setReqState = console.log, reqState = { reqId: Number(), state: false, peticion: '', type: '', inList: [] }, servicios = { array: [] }, modeloBiosepticos = ModeloBiosepticos, calendario = false } = props
     const [misServiciosSort, setMisServiciosSort] = useState(EstadosServiciosObj)
     const [diasDeVehiculoMes, setDiasDeVehiculoMes] = useState([])
-
+    const [Calendario, setCalendario] = useState(false)
     const [rutaDia, setRutaDia] = useState('')
     const [rutaSelected, setRutaSelected] = useState({
         modo: modo,
@@ -619,7 +619,20 @@ const DateView = (props) => {
             array: modeloBiosepticos.calendario.ano[fecha.mesAentrar].mesObj
         })
     }
+    setCalendario
+    useEffect(() => {
+        if (calendario && !Calendario) {
+            setTimeout(() => {
+                setCalendario(true)
+            }, 1000);
+        }else{
+            if (!calendario) {
+                setCalendario(false)
 
+            }
+        }
+
+    }, [calendario,rutasIn])
     useEffect(() => {
 
         rutasIn && modeloBiosepticos.calendario.ano[fecha.mesAentrar] && modeloBiosepticos.calendario.ano[fecha.mesAentrar].mesObj && setelmes()
@@ -632,7 +645,7 @@ const DateView = (props) => {
 
         {inTest ?
             <> <button onClick={(e) => { e.preventDefault(); crearNuevoAnoRutas() }}>crear</button></>
-            : <>  {<>
+            : <>  {!((calendario && Calendario) || !calendario) ?<>CARGANDO CALENDARIO.....</>: <>
                 {dateSelected.active ? <div className='absolutedialog flex-row center'>
                     <div className="flex-column">
                         {
@@ -732,7 +745,7 @@ const DateView = (props) => {
                                         <ServiceSelector userSort={false} misServiciosSort={misServiciosSort} sortBy={sortBy} />
 
                                     </div>
-                                    <RevisarServicios modeloBiosepticos={modeloBiosepticos} dateSelected={dateSelected} setDateSelected={setDateSelected} setReqState={setReqState} reqState={reqState} rutaDia={rutaDia} vehiculosDispo={vehiculosDispo} verDiaVehiculo={verDiaVehiculo} obras={obras} rutas={rutas} inCalendario logistica={false} misServicios={dateSelected.servicios} sortBy={sortBy} misServiciosSort={misServiciosSort} />
+                                    <RevisarServicios modeloBiosepticos={modeloBiosepticos} dateSelected={dateSelected} setDateSelected={setDateSelected} setReqState={setReqState} reqState={reqState} rutaDia={rutaDia} vehiculosDispo={vehiculosDispo} verDiaVehiculo={verDiaVehiculo} obras={obras} rutas={rutas} CnCalendario logistica={false} misServicios={dateSelected.servicios} sortBy={sortBy} misServiciosSort={misServiciosSort} />
                                 </>
                         }
 
@@ -742,8 +755,8 @@ const DateView = (props) => {
 
                 </div> : <></>}
                 <div className='flex-row'>
-                    {calendario && mes.array && mes.array.length > 0 && <div className="stadistics-column">
-                        {calendario && <div
+                    {Calendario && mes.array && mes.array.length > 0 && <div className="stadistics-column">
+                        {Calendario && <div
                             id={`idds-`} className={'row-space'}>
                             {fecha.mesAentrar > 0 ? <span onClick={(e) => {
                                 e.preventDefault();
@@ -786,19 +799,19 @@ const DateView = (props) => {
                     </div>}
                     <div id={`iddsas`}
                         className='column'>
-                        {!calendario && !crearRuta && <div div >
+                        {!Calendario && !crearRuta && <div div >
                             <p>
                                 SELECCIONE El MES                </p>
 
                             <SelectComp item={'mesAentrar'} items={[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]} funtions={handle} id={'mesAentrar'} required month />
                             <p> SELECCIONE El AÑO
                             </p>
-                            {!calendario && <InputComp type={'number'} id={'anoAentrar'} userData={fecha} value={fecha.anoAentrar} placeholder={'año'} funtions={handle} required />}
-                            {!calendario && <h2>MES : {Meses[fecha.mesAentrar]}</h2>}
+                            {!Calendario && <InputComp type={'number'} id={'anoAentrar'} userData={fecha} value={fecha.anoAentrar} placeholder={'año'} funtions={handle} required />}
+                            {!Calendario && <h2>MES : {Meses[fecha.mesAentrar]}</h2>}
 
                         </div>}
                         <div id={`idds-`}
-                            className={calendario ? 'rowBig-header rowBig' : 'row'}>
+                            className={Calendario ? 'rowBig-header rowBig' : 'row'}>
 
                             {modo === 'mes' && !verRuta &&
                                 <span className={`pointer ${rutaSelected.modo === 'dia' ? 'bgColor-green' : ''}`} onClick={(e) => { e.preventDefault(); crearMesRutaVehiculo() }}> CREAR RUTA MENSUAL</span>
@@ -810,7 +823,7 @@ const DateView = (props) => {
                                 laSemana.map((keySemana, iSemana) => {
                                     return (
                                         <>
-                                            {(keySemana === 'servicios' && calendario) || (keySemana !== 'servicios' && calendario) && <div
+                                            {(keySemana === 'servicios' && Calendario) || (keySemana !== 'servicios' && Calendario) && <div
                                                 className='day-header' id={`iddssh-${iSemana}`}>
                                                 {keySemana}
 
@@ -865,11 +878,11 @@ const DateView = (props) => {
                                     <>
 
                                         <div id={`idds-`}
-                                            className={calendario ? 'rowBig' : 'row'}
-                                            onClick={(e)=>{
+                                            className={Calendario ? 'rowBig' : 'row'}
+                                            onClick={(e) => {
                                                 e.preventDefault();
                                             }}
-                                            >
+                                        >
 
                                             {
                                                 laSemana.map((keySemana, iSemana) => {
@@ -878,7 +891,7 @@ const DateView = (props) => {
                                                     }
                                                     return (
                                                         <>
-                                                            {(keySemana !== 'servicios' && !calendario) || (keySemana !== 'servicios' && calendario) ?
+                                                            {(keySemana !== 'servicios' && !Calendario) || (keySemana !== 'servicios' && Calendario) ?
 
                                                                 <div onClick={crearRuta ? rutaSelected.modo !== 'semana' ? (e) => {
                                                                     e.preventDefault(); key && key.dias && key.dias[iSemana] && setDiasRuta(key.dias[iSemana].dia)
@@ -893,7 +906,7 @@ const DateView = (props) => {
                                                                 diaAentrar: parseInt(key.dias[iSemana].dia)
                                                             }) */) : console.log;
 
-                                                                } : calendario ? (e) => {
+                                                                } : Calendario ? (e) => {
                                                                     e.preventDefault();
                                                                     key && key.dias && key.dias[iSemana] && key.dias[iSemana].dia !== 'off' ? verDiaDeRuta(key.dias[iSemana].dia) : console.log;
                                                                     key && key.dias && key.dias[iSemana] && key.dias[iSemana].dia !== 'off' ? (checkDia(key.dias[iSemana], iSemana)/* , setfecha({
@@ -909,14 +922,14 @@ const DateView = (props) => {
                                                                     })) : console.log;
 
                                                                 }
-                                                                } className={`day ${key.dias[iSemana].dia!=='off'?'pointer':''} ${crearRuta ? key && key.dias && key.dias[iSemana] && (inOperativo.inMode === 'ver' ? (parseInt(key.dias[iSemana].dia) >= parseInt(fecha.diaAentrar) || parseInt(key.dias[iSemana].dia) <= parseInt(fecha.diaAentrar)) : (parseInt(key.dias[iSemana].dia) >= parseInt(fecha.diaAentrar))) ? getStateDiaRuta(key.dias[iSemana].dia) ? getStateDiaRuta(key.dias[iSemana].dia) === 'true' ? 'bgColor-orange' : 'bgColor-green' : 'bgColor-yellow' : 'bgColor-blue' : rutasIn ? (getDayRutas(key, iSemana)) ? (getDayRutas(key, iSemana)) === 'warning' ? 'bgColor-red' : (getDayRutas(key, iSemana)) === 'ready' ? 'bgColor-green' : 'bgColor-yellow' : 'bgColor-blue' : (key.dias && key.dias[iSemana] && key.dias[iSemana].hoy ? 'bgColor-yellow' : '')}`}
+                                                                } className={`day ${key.dias[iSemana].dia !== 'off' ? 'pointer' : ''} ${crearRuta ? key && key.dias && key.dias[iSemana] && (inOperativo.inMode === 'ver' ? (parseInt(key.dias[iSemana].dia) >= parseInt(fecha.diaAentrar) || parseInt(key.dias[iSemana].dia) <= parseInt(fecha.diaAentrar)) : (parseInt(key.dias[iSemana].dia) >= parseInt(fecha.diaAentrar))) ? getStateDiaRuta(key.dias[iSemana].dia) ? getStateDiaRuta(key.dias[iSemana].dia) === 'true' ? 'bgColor-orange' : 'bgColor-green' : 'bgColor-yellow' : 'bgColor-blue' : rutasIn ? (getDayRutas(key, iSemana)) ? (getDayRutas(key, iSemana)) === 'warning' ? 'bgColor-red' : (getDayRutas(key, iSemana)) === 'ready' ? 'bgColor-green' : 'bgColor-yellow' : 'bgColor-blue' : (key.dias && key.dias[iSemana] && key.dias[iSemana].hoy ? 'bgColor-yellow' : '')}`}
                                                                     id={`iddss-${iSemana}-${i}`}>
                                                                     {key.dias && key.dias[iSemana] && key.dias[iSemana].dia !== 'off' ?
                                                                         <>
                                                                             {key.dias[iSemana].dia}
                                                                             <br />
                                                                             {crearRuta ? key && key.dias && key.dias[iSemana] && ((parseInt(key.dias[iSemana].dia) >= parseInt(fecha.diaAentrar)) || (parseInt(key.dias[iSemana].dia) <= parseInt(fecha.diaAentrar))) ? getStateDiaRuta(key.dias[iSemana].dia) ? getStateDiaRuta(key.dias[iSemana].dia) === 'true' ? 'ver' : '' : '' : '' : ''}
-                                                                            {calendario &&
+                                                                            {Calendario &&
                                                                                 <div className="stadistics">
                                                                                     <span className="bgColor-blue">{key.dias && key.dias[iSemana] && key.dias[iSemana].totalServicios}</span>
                                                                                     <span className="bgColor-yellow">{key.dias && key.dias[iSemana] && key.dias[iSemana].serviciosActivos}</span>
@@ -927,7 +940,7 @@ const DateView = (props) => {
                                                                             }
 
                                                                         </> : '.'}
-                                                                </div> : calendario ?
+                                                                </div> : Calendario ?
                                                                     <div className="stadisticsLarge" >
 
                                                                         <p>totalServicios: <span className="bgColor-blue">{key.totalServicios && key.totalServicios}</span></p>
@@ -959,7 +972,7 @@ const DateView = (props) => {
 
                             }) :
                                 <>
-                                    {calendario && <button onClick={(e) => { e.preventDefault(); crearNuevoAno() }}>
+                                    {Calendario && <button onClick={(e) => { e.preventDefault(); crearNuevoAno() }}>
                                         CREAR PRIMER AÑO
                                     </button>}
                                 </>
@@ -977,7 +990,7 @@ const DateView = (props) => {
                                                 diaAentrar: parseInt(new Date().toLocaleDateString().split('/')[0]),
                                                 mesAentrar: (dateOf) - 1
                                             });
-                                            makeMonth(fecha.anoAentrar, (dateOf) - 1, fecha.diaAentrar, false, calendario)
+                                            makeMonth(fecha.anoAentrar, (dateOf) - 1, fecha.diaAentrar, false, Calendario)
                                             setRutaSelected({
                                                 ...rutaSelected,
                                                 mes: (dateOf) - 1
@@ -997,7 +1010,7 @@ const DateView = (props) => {
                                                 ...rutaSelected,
                                                 mes: (dateOf) + 1
                                             });
-                                            makeMonth(fecha.anoAentrar, (dateOf) - 1, fecha.diaAentrar, false, calendario)
+                                            makeMonth(fecha.anoAentrar, (dateOf) - 1, fecha.diaAentrar, false, Calendario)
                                             newDiasReq()
                                             setDiasRuta(diasDeVehiculoMes.length > 0 ? diasDeVehiculoMes[0] : 1)
                                         }}>MES SIGUIENTE</span> : <></>}

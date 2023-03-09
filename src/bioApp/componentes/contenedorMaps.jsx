@@ -6,20 +6,27 @@ import { useEffect, useState } from "react"
 const socket = Socket
 let asks = []
 const ContenedorMaps = (props) => {
-    const {inTimes=0,ruteando=false,times=[[]],setTimes=console.log,irPlace = {            funtionOk: false,        using: false, state: false, go: false, coordenadas: { lat: 6.2476376, lng: -75.56581530000001 }, coordenadasInicial: { lat: 6.2476376, lng: -75.56581530000001 } , funtion: console.log }, setIrPlace = console.log, inOperacion = { state: false, inicio: { lat: 6.2476376, lng: -75.56581530000001 }, final: { lat: 6.2476376, lng: -75.56581530000001 } }, adressViewIn = false, defaultLocation = { lat: 6.2476376, lng: -75.56581530000001 }, getId = console.log, normal = false, rastreado = false, receptor = false, visorObj = {} } = props
+    const { mapSelect = console.log, inMapSelect = false, inTimes = 0, ruteando = false, times = [[]], setTimes = console.log, irPlace = { funtionOk: false, using: false, state: false, go: false, coordenadas: { lat: 6.2476376, lng: -75.56581530000001 }, coordenadasInicial: { lat: 6.2476376, lng: -75.56581530000001 }, funtion: console.log }, setIrPlace = console.log, inOperacion = { state: false, inicio: { lat: 6.2476376, lng: -75.56581530000001 }, final: { lat: 6.2476376, lng: -75.56581530000001 } }, adressViewIn = false, defaultLocation = { lat: 6.2476376, lng: -75.56581530000001 }, getId = console.log, normal = false, rastreado = false, receptor = false, visorObj = {} } = props
     const [mapCenter, setMapCenter] = useState(defaultLocation)
     const [goPlace, setGoPlace] = useState({ funtionOk: false, go: false, ok: false, state: false, funtion: console.log })
-    const [mapCenterGo, setMapCenterGo] = useState(ruteando?{ inicio:irPlace.coordenadasInicial, final: irPlace.coordenadas }:{ inicio: inOperacion.inicio, final: inOperacion.final })
+    const [mapCenterGo, setMapCenterGo] = useState(ruteando ? { inicio: irPlace.coordenadasInicial, final: irPlace.coordenadas } : { inicio: inOperacion.inicio, final: inOperacion.final })
     const [lasDireccionesResult, setLasDireccionesResult] = useState({
         state: false,
         direcciones: []
     })
     const setMapCenterFuntion = (value) => {
-        setMapCenter({ ...value })
-        setMapCenterGo({
-            ...mapCenterGo,
-            inicio: { ...value }
-        })
+        if (inMapSelect) {
+            mapSelect(value)
+            setMapCenter({ ...value })
+
+        } else {
+            setMapCenter({ ...value })
+            setMapCenterGo({
+                ...mapCenterGo,
+                inicio: { ...value }
+            })
+        }
+
     }
     const setMapCenterFuntionDos = (value) => {
         setMapCenter({ ...value })
@@ -148,22 +155,22 @@ const ContenedorMaps = (props) => {
 
     return (
         <>
-            <GooglMapsComp inTimes={inTimes} times={times} setTimes={setTimes} setIrPlace={setIrPlace} irPlace={irPlace} goPlace={goPlace} setGoPlace={setGoPlace} adressViewIn={adressViewIn} visorObj={visorObj} normal={normal} rastreado={rastreado} receptor={receptor} setLasDireccionesResult={setLasDireccionesResult} lasDireccionesResult={lasDireccionesResult} mapCenterGo={mapCenterGo} irALugar={irALugar} mapCenter={mapCenter} setMapCenterFuntion={setMapCenterFuntionDos} setMapCenter={setMapCenterFuntion} />
+            <GooglMapsComp inMapSelect={inMapSelect} inTimes={inTimes} times={times} setTimes={setTimes} setIrPlace={setIrPlace} irPlace={irPlace} goPlace={goPlace} setGoPlace={setGoPlace} adressViewIn={adressViewIn} visorObj={visorObj} normal={normal} rastreado={rastreado} receptor={receptor} setLasDireccionesResult={setLasDireccionesResult} lasDireccionesResult={lasDireccionesResult} mapCenterGo={mapCenterGo} irALugar={irALugar} mapCenter={mapCenter} setMapCenterFuntion={setMapCenterFuntionDos} setMapCenter={setMapCenterFuntion} />
             {
-                ((goPlace.funtionOk && !irPlace.state) || (irPlace.state && irPlace.coordenadas === { lat: 6.2476376, lng: -75.56581530000001 })) ?
+                !inMapSelect && ((goPlace.funtionOk && !irPlace.state) || (irPlace.state && irPlace.coordenadas === { lat: 6.2476376, lng: -75.56581530000001 })) ?
                     <>
                         {<span onClick={(e) => {
                             e.preventDefault();
                             irAelLugar()
-                        }}>{(!irPlace.state && irPlace.coordenadas === { lat: 6.2476376, lng: -75.56581530000001 }) ? irPlace.using?'.':'LLEGAR' : irPlace.using?'.':'ACCEDER A MI UBICACION'} </span>}
+                        }}>{(!irPlace.state && irPlace.coordenadas === { lat: 6.2476376, lng: -75.56581530000001 }) ? irPlace.using ? '.' : 'LLEGAR' : irPlace.using ? '.' : 'ACCEDER A MI UBICACION'} </span>}
                     </> :
                     <>
-                        {goPlace.funtionOk && <span id="crearLaRuta" onClick={(e) => {
+                        {!inMapSelect && goPlace.funtionOk && <span id="crearLaRuta" onClick={(e) => {
                             e.preventDefault(); goPlace.funtion()
-                        }}>{irPlace.using?'.':'VER RUTA' }</span>}
-                        {goPlace.ok && <span onClick={(e) => {
+                        }}>{irPlace.using ? '.' : 'VER RUTA'}</span>}
+                        {!inMapSelect && goPlace.ok && <span onClick={(e) => {
                             e.preventDefault(); irALugar()
-                        }}>{irPlace.using?'.':'llevame'} </span>}
+                        }}>{irPlace.using ? '.' : 'llevame'} </span>}
                     </>
             }
         </>

@@ -25,3 +25,11 @@ export const EditServiciosDelete = (socket, props, res) => {
     });
 
 }
+export const CompletarServicioReq = (socket, props, res) => {
+    socket.emit('bioSepticos', {
+        'dataIn': props.data,
+        actionTodo: "completarServicio",
+        reqId: res
+    });
+
+}
