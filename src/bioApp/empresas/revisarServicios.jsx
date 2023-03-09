@@ -140,9 +140,9 @@ const RevisarServicios = (props) => {
                                                     getDireccion(key, 'barrio')
 
                                                 }</td> : <></>}
-                                                {inCalendario ? <td className={inCalendario ? 'medium' : ""}>{key.ruta !== '' ? <>{key.ruta}{key.shedule.estado === 'programado' && (parseInt(nowDate[0]) >= anoAentrar && parseInt(nowDate[1]) >= mesAentrar && parseInt(nowDate[2]) >= diaAentrar) && <span className="pointer" onClick={(e) => {
+                                                {inCalendario ? <td className={inCalendario ? 'medium' : ""}>{key.ruta !== '' ? <>{key.ruta}{key.shedule.estado === 'programado' && (parseInt(nowDate[0]) >= anoAentrar && parseInt(nowDate[1]) >= mesAentrar && parseInt(nowDate[2]) > diaAentrar) && <span className="pointer" onClick={(e) => {
                                                     e.preventDefault(); editarSevicio(key, true)
-                                                }}>DESASIGNAR</span>}</> : !inAsign.state ? (parseInt(nowDate[0]) >= anoAentrar && parseInt(nowDate[1]) >= mesAentrar && parseInt(nowDate[2]) > diaAentrar) && <span className="pointer" onClick={(e) => {
+                                                }}>DESASIGNAR</span>}</> : !inAsign.state ? (parseInt(nowDate[0]) >= anoAentrar && parseInt(nowDate[1]) >= mesAentrar && parseInt(nowDate[2]) >= diaAentrar) && <span className="pointer" onClick={(e) => {
                                                     e.preventDefault();
                                                     verDiaVehiculo(key); setInAsign({ ...inAsign, state: true, obj: { ...inAsign.obj, id: key.id } })
                                                 }}>ASIGNAR</span> : <>{key.id === inAsign.obj.id && < SelectComp item={'encargado'} items={vehiculosDispo.array} funtions={(e) => {
