@@ -197,12 +197,13 @@ const VisorTipoObra = (props) => {
         localPercent = 1
         newTimes = []
         let theFastest = { item: {}, tiempo: 0 }
-        if (irPlace.obraSelect && !irPlace.ubicacionMapSelected.mapSelectactive && !irPlace.biosepticosSelect && !irPlace.mapSelect && !irPlace.ubicacionMapSelected.state) {
+        if (irPlace.obraSelect) {
             newTimes = times
         } if (!irPlace.obraSelect) {
             for (let index = 1; index < showed.length + 1; index++) {
                 const element = times[index];
                 newTimes.push(element)
+
             }
         }
         elTimeReady = newTimes
@@ -295,54 +296,6 @@ const VisorTipoObra = (props) => {
                 cargando = false
                 setinSearching({ ...inSearching, state: false })
                 setTimesReady([[]])
-                
-                elTimeReady = [[]]
-                rutastime = []
-                inValue = 0
-                setInTimes(0)
-                setResultsArray({ state: true, array: allDatas })
-            } else {
-                console.log(userCoord.position);
-                let inLaRuta = -1
-                let inElChoose = 0
-                resOrderedTime.map((key, i) => {
-                    if (inLaRuta !== key.ruta) {
-                        inLaRuta = key.ruta
-                        inElChoose = 0
-                    } else {
-                        inElChoose = inElChoose + 1
-                    }
-
-                    let finalTime = 0
-                    let finalDistance = 0
-                    finalDistance = key.distance 
-                    finalTime = key.time 
-                    finalResults.push({ time: finalTime, distance: finalDistance, search: key.ruta, choose: inElChoose })
-
-                })
-                orderedFinalFixArray = []
-                orderedFinalArray = []
-                finalResults.map((key, i) => {
-                    orderedFinalArray.push({})
-                    orderedFinalFixArray.push(key.time)
-                })
-                orderedFinalFixArraySort = orderedFinalFixArray.sort()
-                orderedFinalFixArraySort.map((key, i) => {
-                    finalResults.map((keyComp, iComp) => {
-                        if (key === keyComp.time) {
-                            orderedFinalArray[i] = keyComp
-                        }
-                    })
-                })
-                allDatas = []
-                for (let index = 0; index < orderedFinalArray.length; index++) {
-                    const element = resultados[orderedFinalArray[index].search].searchs[orderedFinalArray[index].choose]
-                    allDatas.push({ order: element, distance: orderedFinalArray[index].distance, time: orderedFinalArray[index].time })
-                }
-                setTimes([[]])
-                cargando = false
-                setinSearching({ ...inSearching, state: false })
-                setTimesReady([[]])
                 setIrPlace({
                     ...irPlace,
                     ubicacionActual: false, mapSelectactiveState: false, funtionOk: false, biosepticosSelect: false, inSelect: false, mapSelect: false, obraSelect: false, obraSelected: '', obrasName: [], ubicacionMapSelected: { lat: 6.2019443, lng: -75.5892001, state: false, mapSelectactive: false },
@@ -353,6 +306,8 @@ const VisorTipoObra = (props) => {
                 inValue = 0
                 setInTimes(0)
                 setResultsArray({ state: true, array: allDatas })
+            } else {
+                console.log(userCoord.position);
             }
         }
 
@@ -367,7 +322,7 @@ const VisorTipoObra = (props) => {
             const element = showed[showed.length > 2 ? fastestNew[index] : index];
             rutaPlaneadaArray.push(element.direccion.coordenadas)
         }
-        let url = `https://www.google.com/maps/dir/${choose.obraSelect ? '' : `${userCoord.lat},${userCoord.lng}/`}`
+        let url = `https://www.google.com/maps/dir/${irPlace.obraSelect ? '' : `${userCoord.lat},${userCoord.lng}/`}`
         for (let index = 0; index < showed.length; index++) {
             const element = rutaPlaneadaArray[index];
             url = url + `${element.lat},${element.lng}/`
@@ -558,8 +513,8 @@ const VisorTipoObra = (props) => {
                 }, 600);
             }
         } else {
+            setStartSearching(true)
             if (time < maxValue && inValue < maxValue) {
-                setStartSearching(true)
                 setElPercent(((100 / (showed.length)) * time) + (((100 / (showed.length)) / (showed.length)) * inValue))
                 state ? setIrPlace({
                     ...irPlace,
@@ -593,7 +548,6 @@ const VisorTipoObra = (props) => {
             }
             if (time < maxValue && !(inValue < maxValue)) {
                 setTimeout(() => {
-                    setElPercent(((100 / (showed.length)) * time) + (((100 / (showed.length)) / (showed.length)) * inValue))
                     localPercent = ((100 / (showed.length)) * time) + (((100 / (showed.length)) / (showed.length)) * inValue) > 0 ? ((100 / (showed.length)) * time) + (((100 / (showed.length)) / (showed.length)) * inValue) : 1
                     inValue = 0;
                     rutastime = (times);
@@ -612,7 +566,6 @@ const VisorTipoObra = (props) => {
                     }
                 }, 1000);
             } else {
-                setStartSearching(false)
                 setTimeout(() => {
                     if ((((100 / (showed.length)) * time) + (((100 / (showed.length)) / (showed.length)) * inValue)) >= 100) {
                         setElPercent(0)
@@ -682,11 +635,6 @@ const VisorTipoObra = (props) => {
     }
     const back = () => {
         setReadyRuta(false)
-        setIrPlace({
-            ...irPlace,
-            ubicacionActual: false, mapSelectactiveState: false, funtionOk: false, biosepticosSelect: false, inSelect: false, mapSelect: false, obraSelect: false, obraSelected: '', obrasName: [], ubicacionMapSelected: { lat: 6.2019443, lng: -75.5892001, state: false, mapSelectactive: false },
-            using: false, state: false, go: false, funtion: async () => { console.log }
-        })
         setResultsArray({ ...resultsArray, state: false })
         userCoord = {
             lat: 0, lng: 0, obra: '',
@@ -936,7 +884,7 @@ const VisorTipoObra = (props) => {
                     </>}
                     </>
                 }
-                {resultsArray.state && <><BioRuta  irPlace={irPlace} elTiempo={elTiempo} doRuta={doRuta} showed={showed} resultsArray={resultsArray} back={back} /></>}
+                {resultsArray.state && <><BioRuta elTiempo={elTiempo} doRuta={doRuta} showed={showed} resultsArray={resultsArray} back={back} /></>}
             </div>
             {irPlace.using && <>
 
