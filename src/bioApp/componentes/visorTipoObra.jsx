@@ -558,8 +558,8 @@ const VisorTipoObra = (props) => {
                 }, 600);
             }
         } else {
-            setStartSearching(true)
             if (time < maxValue && inValue < maxValue) {
+                setStartSearching(true)
                 setElPercent(((100 / (showed.length)) * time) + (((100 / (showed.length)) / (showed.length)) * inValue))
                 state ? setIrPlace({
                     ...irPlace,
@@ -611,10 +611,10 @@ const VisorTipoObra = (props) => {
                     }
                 }, 1000);
             } else {
+                setStartSearching(false)
                 setTimeout(() => {
                     if ((((100 / (showed.length)) * time) + (((100 / (showed.length)) / (showed.length)) * inValue)) >= 100) {
                         setElPercent(0)
-                        setStartSearching(false)
                         crearOptRuta();
                         setReadyRuta(true)
                     }
