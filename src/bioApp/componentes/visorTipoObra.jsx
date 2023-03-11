@@ -614,6 +614,7 @@ const VisorTipoObra = (props) => {
                 setTimeout(() => {
                     if ((((100 / (showed.length)) * time) + (((100 / (showed.length)) / (showed.length)) * inValue)) >= 100) {
                         setElPercent(0)
+                        setStartSearching(false)
                         crearOptRuta();
                         setReadyRuta(true)
                     }
