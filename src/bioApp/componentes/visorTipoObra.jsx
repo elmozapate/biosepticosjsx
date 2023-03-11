@@ -593,6 +593,7 @@ const VisorTipoObra = (props) => {
             }
             if (time < maxValue && !(inValue < maxValue)) {
                 setTimeout(() => {
+                    setElPercent(((100 / (showed.length)) * time) + (((100 / (showed.length)) / (showed.length)) * inValue))
                     localPercent = ((100 / (showed.length)) * time) + (((100 / (showed.length)) / (showed.length)) * inValue) > 0 ? ((100 / (showed.length)) * time) + (((100 / (showed.length)) / (showed.length)) * inValue) : 1
                     inValue = 0;
                     rutastime = (times);
