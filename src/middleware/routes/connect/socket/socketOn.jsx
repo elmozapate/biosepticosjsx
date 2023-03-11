@@ -6,10 +6,6 @@ import { useEffect } from "react";
 const envM = EnvM()
 export const Socket = io(envM.hostBack)
 let reqs = []
-export const disconnectSocket = (socket) => {
-    console.log('Disconnecting socket...');
-/*     if (socket) socket.disconnect();
- */}
 export const SocketOn = (props) => {
     const { socketDo = console.log, funtions = { setPopUp: console.log, acept: console.log }, setPopUp = console.log } = props
     Socket.on("bioApp", (msg) => {

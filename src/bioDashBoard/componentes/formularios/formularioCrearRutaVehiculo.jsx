@@ -65,7 +65,6 @@ const FormularioCrearRutaVehiculo = (props) => {
                 let isOcuped = false
                 ocupedUsers.map((keyO, iO) => {
                     if (key.id === keyO.conductores) {
-                        console.log('esta aca conductor', keyO.dia);
                         isOcuped = true
                     }
                 })
@@ -75,15 +74,12 @@ const FormularioCrearRutaVehiculo = (props) => {
                 let isOcuped = false
                 ocupedUsers.map((keyO, iO) => {
                     if (key.id === keyO.auxiliares) {
-                        console.log('esta aca auxiliar', keyO.dia);
                         isOcuped = true
                     }
                 })
                 !isOcuped && losConductores.auxiliares.push(key.id)
             }
         })
-        console.log(losConductores);
-
         return losConductores
     }))
     const equipos = IdsEqipo()

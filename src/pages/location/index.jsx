@@ -57,8 +57,8 @@ export default function Home(props) {
                 switch (actionTodo) {
                     case 'dataRes-userObj':
                         if (reqId === resId) {
-                            console.log('correcto');
-                        }
+/*                             console.log('correcto');
+ */                        }
                         break;
                     default:
                         break;

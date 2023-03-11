@@ -143,11 +143,6 @@ const ContenedorMaps = (props) => {
                         lng: position.coords.longitude
                     }
                 })
-                console.log('0k', {
-                    lat: position.coords.latitude,
-                    lng: position.coords.longitude
-                });
-
             }
         );
     }

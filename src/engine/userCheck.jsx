@@ -623,7 +623,6 @@ const UserCheck = (props) => {
         }
     }
     useEffect(() => {
-        console.log(onMobil)
         if (userModel.userObj.emailConfirmation && userData.type !== 'newUser' !== userData.type !== '') {
             setPopUp({
                 ...popUp,
@@ -641,17 +640,17 @@ const UserCheck = (props) => {
     }, [userData.type])
     useEffect(() => {
         if (onMobil.state && userData.status !== 'unRegistered' && userModel.userObj.type !== 'bioseptico' && userData.type !== 'bioseptico') {
-                setUserName({
-                    ...userData,
+            setUserName({
+                ...userData,
+                type: 'bioseptico'
+            })
+            setUserModel({
+                ...userModel,
+                userObj: {
+                    ...userModel.userObj,
                     type: 'bioseptico'
-                })
-                setUserModel({
-                    ...userModel,
-                    userObj: {
-                        ...userModel.userObj,
-                        type: 'bioseptico'
-                    }
-                })
+                }
+            })
         }
     }, [onMobil, userData, userModel])
     useEffect(() => {

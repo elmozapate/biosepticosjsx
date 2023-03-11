@@ -9,12 +9,10 @@ const VisorTipoServicio = (props) => {
         let elname = 'sinnombreaun'
         empresas.array.map((key, i) => {
             if (key.id === cliente) {
-                console.log(key.contact.nombre);
                 elname = key.contact.nombre
             }
         })
         return elname
-
     }
     const verLaObra = (obra) => {
         let elname = 'sinnombreaun'

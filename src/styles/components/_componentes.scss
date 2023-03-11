@@ -1,3 +1,6 @@
+@function getRemSize($sizePx) {
+    @return ($sizePx / 16px) * 1rem;
+}
 .onMobil {
     @media (orientation: landscape) {
         .div-main {
@@ -55,17 +58,19 @@
             width: 100vw !important;
             max-width: 100vw;
         }
-        .flex-column-entregas .container-bio {
+        .flex-column-entregas {
             width: calc(100vw - 20px) !important;
-            max-width: calc(100vw - 20px) 100vw;
+            max-width: calc(100vw - 20px);
             min-height: calc(100vh - getRemSize(260px)) !important;
             height: calc(100vw - getRemSize(260px)) !important;
             max-height: calc(100vw - getRemSize(260px)) !important;
         }
+        .container-bio {
+            max-width: getRemSize(600px) !important ;
+        }
     }
-    .flex-p-between{
+    .flex-p-between {
         margin: 3px 0;
-        
     }
     h2 {
         font-size: 20px;

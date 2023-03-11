@@ -21,13 +21,12 @@ const ObrasSelector = (props) => {
             {!isRecharging && showedClon.array.map((key, i) => {
                 return (
                     <>
-                        <p className={showedClon.maped[i] === true ?"centert flex-p-between relative isReady":"centert flex-p-between relative"}>
+                        <p className={showedClon.maped[i] === true ? "centert flex-p-between relative isReady" : "centert flex-p-between relative"}>
                             {showedClon.inMap && <> {showedClon.maped[i] === true ? <div className="absolute-map"><div className="maped-true">✔</div></div> : <div className="absolute-map"><div className="maped-false">X</div></div>}</>}
                             <span className="treintraytres"><h2>{key.contact.obra}</h2> </span>
                             <span className="treintraytres"  >
                                 <span>-{key.contact.nombre}</span>
                                 <span onClick={(e) => {
-                                    e.preventDefault(); console.log(activeUser.userInfo.datosContacto.direccion, key);
                                     setActiveUser({
                                         ...activeUser,
                                         userInfo: {

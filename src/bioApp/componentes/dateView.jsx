@@ -526,12 +526,6 @@ const DateView = (props) => {
     const verDiaDeRuta = (dia) => {
         let laRuta = ''
         modeloBiosepticos.rutas.map((key, i) => {
-            /*     console.log(
-                    parseInt(key.fecha.split('T')[0].toString().split('-')[0]),
-                    parseInt(key.fecha.split('T')[0].toString().split('-')[1]),
-    
-                ); */
-
             if ((parseInt(key.fecha.split('T')[0].toString().split('-')[0]) === fecha.anoAentrar && parseInt(key.fecha.split('T')[0].toString().split('-')[1]) === fecha.mesAentrar + 1 && parseInt(key.fecha.split('T')[0].toString().split('-')[2]) === parseInt(dia))) {
                 laRuta = key.id
             }
@@ -625,14 +619,14 @@ const DateView = (props) => {
             setTimeout(() => {
                 setCalendario(true)
             }, 1000);
-        }else{
+        } else {
             if (!calendario) {
                 setCalendario(false)
 
             }
         }
 
-    }, [calendario,rutasIn])
+    }, [calendario, rutasIn])
     useEffect(() => {
 
         rutasIn && modeloBiosepticos.calendario.ano[fecha.mesAentrar] && modeloBiosepticos.calendario.ano[fecha.mesAentrar].mesObj && setelmes()
@@ -645,7 +639,7 @@ const DateView = (props) => {
 
         {inTest ?
             <> <button onClick={(e) => { e.preventDefault(); crearNuevoAnoRutas() }}>crear</button></>
-            : <>  {!((calendario && Calendario) || !calendario) ?<>CARGANDO CALENDARIO.....</>: <>
+            : <>  {!((calendario && Calendario) || !calendario) ? <>CARGANDO CALENDARIO.....</> : <>
                 {dateSelected.active ? <div className='absolutedialog flex-row center'>
                     <div className="flex-column">
                         {
@@ -745,7 +739,7 @@ const DateView = (props) => {
                                         <ServiceSelector userSort={false} misServiciosSort={misServiciosSort} sortBy={sortBy} />
 
                                     </div>
-                                    <RevisarServicios modeloBiosepticos={modeloBiosepticos} dateSelected={dateSelected} setDateSelected={setDateSelected} setReqState={setReqState} reqState={reqState} rutaDia={rutaDia} vehiculosDispo={vehiculosDispo} verDiaVehiculo={verDiaVehiculo} obras={obras} rutas={rutas} CnCalendario logistica={false} misServicios={dateSelected.servicios} sortBy={sortBy} misServiciosSort={misServiciosSort} />
+                                    <RevisarServicios modeloBiosepticos={modeloBiosepticos} dateSelected={dateSelected} setDateSelected={setDateSelected} setReqState={setReqState} reqState={reqState} rutaDia={rutaDia} vehiculosDispo={vehiculosDispo} verDiaVehiculo={verDiaVehiculo} obras={obras} rutas={rutas} inCalendario logistica={false} misServicios={dateSelected.servicios} sortBy={sortBy} misServiciosSort={misServiciosSort} />
                                 </>
                         }
 

@@ -53,16 +53,12 @@ const GooglMapsComp = (props) => {
         }
         if (inMapSelect) {
             setMapCenter({ lat: evt.latLng.lat(), lng: evt.latLng.lng() })
-
-            console.log({ lat: evt.latLng.lat(), lng: evt.latLng.lng() });
         }
     }
     const IrAplace = async () => {
-        console.log('eoooo');
         map = map ? map : new google.maps.Map(document.getElementById('map-google'), mapOptions);
         let directionsDisplay = new google.maps.DirectionsRenderer({ map: map });
         let directionsService = new google.maps.DirectionsService;
-
         let request = {
             origin: { ...mapCenterGo.inicio },
             destination: { ...mapCenterGo.final },
@@ -76,20 +72,20 @@ const GooglMapsComp = (props) => {
             if (status == google.maps.DirectionsStatus.OK) {
                 let route = response.routes[0];
                 let duration = 0;
-
+                let distance = 0;
                 route.legs.forEach(function (leg) {
                     // The leg duration in seconds.
                     duration += leg.duration.value;
+                    distance += leg.distance.value
                 });
-                directionsDisplay.setMap(map)
-                directionsDisplay.setDirections(response);
+                !irPlace.using && directionsDisplay.setMap(map)
+                !irPlace.using && directionsDisplay.setDirections(response);
                 let alltime = times
                 !times[(irPlace.coordenadasInicial.obra === 'userPosition' ? 0 : irPlace.coordenadasInicial.position + 1)] && alltime.push([])
                 let oldTimes = alltime[(irPlace.coordenadasInicial.obra === 'userPosition' ? 0 : irPlace.coordenadasInicial.position + 1)]
-                oldTimes.push({ obraInicio: { obra: irPlace.coordenadasInicial.obra, position: irPlace.coordenadasInicial.position }, obraFinal: { obra: irPlace.coordenadas.obra, position: irPlace.coordenadas.position }, time: duration, timeInMin: `${parseInt(duration / 60)} : ${(duration - (parseInt(duration / 60) * 60))}` })
+                oldTimes.push({ obraInicio: { obra: irPlace.coordenadasInicial.obra, position: irPlace.coordenadasInicial.position }, obraFinal: { obra: irPlace.coordenadas.obra, position: irPlace.coordenadas.position }, time: duration, distance: distance, timeInMin: `${parseInt(duration / 60)} : ${(duration - (parseInt(duration / 60) * 60))}` })
                 alltime[(irPlace.coordenadasInicial.obra === 'userPosition' ? 0 : irPlace.coordenadasInicial.position + 1)] = oldTimes
                 setTimes(alltime)
-                console.log(parseInt(duration / 60), ':', duration - (parseInt(duration / 60) * 60));
                 setGoPlace({
                     ...goPlace,
                     ok: true
@@ -106,41 +102,35 @@ const GooglMapsComp = (props) => {
             funtionOk: true,
             funtion: IrAplace
         })
-
-
     }
     if (!irPlace.funtionOk) {
-        console.log('cargo');
         setIrPlace({
             ...irPlace,
             funtionOk: true,
             funtion: IrAplace
         })
     }
-
-
-
     return (
         <>
             {!irPlace.using && soloAdress ? <PlacesAutocomplete fullAdressSearch={fullAdressSearch} inAdressAdd setAdressView={setAdressView} adressView={adressView} adressData={adressData}/* setMapCenter={setMapCenter} */ />
                 : <div className={`styles.homeWrapper ${irPlace.using ? 'hidden' : ''}`}>
                     <GoogleMap
-                        onClick={(e) => console.log(e, 'MapaClick')}
+                        onClick={(e) => { e.preventDefault(); }}
                         options={mapOptions}
                         zoom={inMapSelect ? 14 : adressViewIn ? 17.5 : adressView.state ? 17 : 14}
                         center={adressView.state ? adressView.centre : mapCenter}
                         mapTypeId={google.maps.MapTypeId.ROADMAP}
                         mapContainerStyle={{ width: inMapSelect ? '320px' : (adressViewIn || adressView.state) ? '300px' : '800px', height: inMapSelect ? '320px' : (adressViewIn || adressView.state) ? '300px' : '500px' }}
-                        onLoad={() => console.log('Map Component Loaded...')}
+                        /* onLoad={() => console.log('Map Component Loaded...')} */
                         id={'map-google'}
                     >
                         {!irPlace.using && <MarkerF
                             draggable={adressViewIn ? false : true}
                             position={adressViewIn ? mapCenter : adressView.state ? adressView.centre : mapCenter}
                             onDragEnd={loadDragInfo}
-                            onLoad={() => console.log('Marker Loaded')}
+                        /* onLoad={() => console.log('Marker Loaded')} */
                         />}
-                        {!adressViewIn && !receptor && !rastreado && < DirectionsRenderer />}
+                        {!irPlace.using && !adressViewIn && !receptor && !rastreado && < DirectionsRenderer />}
 
                     </GoogleMap>
                     {!inMapSelect && !adressViewIn && !receptor && !rastreado && !adressView.state && <>
