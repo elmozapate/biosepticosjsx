@@ -895,9 +895,20 @@ const VisorTipoObra = (props) => {
                             inicio: irPlace.coordenadasInicial,
                             final: irPlace.coordenadas
                         }} adressViewIn defaultLocation={irPlace.coordenadas} />
-                        {inAdress && (irPlace.state) && irPlace.coordenadasInicial !== { lat: 6.2476376, lng: -75.565815100000001 } && <>
-                            <span onClick={(e) => { e.preventDefault(); setconfirmMyDirection(true) }} className='pointer'>
-                            </span></>}
+                        {inAdress &&
+                            irPlace?.state &&
+                            (irPlace.coordenadasInicial?.lat !== 6.2476376 || irPlace.coordenadasInicial?.lng !== -75.5658151) && (
+                                <span
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        setconfirmMyDirection(true);
+                                    }}
+                                    className="pointer"
+                                >
+                                    {/* contenido opcional aquí */}
+                                </span>
+                            )}
+
                     </>
                     :
                     <>

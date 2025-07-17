@@ -151,13 +151,27 @@ const ContenedorMaps = (props) => {
         <>
             <GooglMapsComp inMapSelect={inMapSelect} inTimes={inTimes} times={times} setTimes={setTimes} setIrPlace={setIrPlace} irPlace={irPlace} goPlace={goPlace} setGoPlace={setGoPlace} adressViewIn={adressViewIn} visorObj={visorObj} normal={normal} rastreado={rastreado} receptor={receptor} setLasDireccionesResult={setLasDireccionesResult} lasDireccionesResult={lasDireccionesResult} mapCenterGo={mapCenterGo} irALugar={irALugar} mapCenter={mapCenter} setMapCenterFuntion={setMapCenterFuntionDos} setMapCenter={setMapCenterFuntion} />
             {
-                !inMapSelect && ((goPlace.funtionOk && !irPlace.state) || (irPlace.state && irPlace.coordenadas === { lat: 6.2476376, lng: -75.56581530000001 })) ?
+                !inMapSelect && ((goPlace.funtionOk && !irPlace.state) || (irPlace.state &&
+                    irPlace.coordenadas?.lat === 6.2476376 &&
+                    irPlace.coordenadas?.lng === -75.5658153)) ?
                     <>
-                        {<span onClick={(e) => {
-                            e.preventDefault();
-                            irAelLugar()
-                        }}>{(!irPlace.state && irPlace.coordenadas === { lat: 6.2476376, lng: -75.56581530000001 }) ? irPlace.using ? '.' : 'LLEGAR' : irPlace.using ? '.' : 'ACCEDER A MI UBICACION'} </span>}
-                    </> :
+                        <span
+                            onClick={(e) => {
+                                e.preventDefault();
+                                irAelLugar();
+                            }}
+                            className="pointer"
+                        >
+                            {
+                                !irPlace.state &&
+                                    irPlace.coordenadas?.lat === 6.2476376 &&
+                                    irPlace.coordenadas?.lng === -75.5658153
+                                    ? (irPlace.using ? '.' : 'LLEGAR')
+                                    : (irPlace.using ? '.' : 'ACCEDER A MI UBICACIÓN')
+                            }
+                        </span>
+                    </>
+                    :
                     <>
                         {!inMapSelect && goPlace.funtionOk && <span id="crearLaRuta" onClick={(e) => {
                             e.preventDefault(); goPlace.funtion()

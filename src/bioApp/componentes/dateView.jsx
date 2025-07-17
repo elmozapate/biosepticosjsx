@@ -11,6 +11,9 @@ import { crearMesPlaneado, ModeloBiosepticos } from "../models/modeloBiosepticos
 import { ObjRutaDia } from "../models/modeloRutaIndividual"
 import { ModeloVehiculo } from "../models/modeloVehiculo"
 import { EstadosServicios, EstadosServiciosObj, EstadosUsersObj, Meses } from "../models/selectores"
+const elano = () => {
+    return new Date().getFullYear();
+};
 const objCssInit = StylesObj()
 const objStringsInit = StringsObj()
 const userStructure = UserObj()
@@ -191,9 +194,9 @@ const DateView = (props) => {
         let ultimaSemana = 0
         rutasDiarias = []
         for (let index = 0; index < 12; index++) {
-            const mesNuevo = makeMonth(2023, index, -1, ultimaSemana, false, true)
+            const mesNuevo = makeMonth(elano(), index, -1, ultimaSemana, false, true)
             ultimaSemana = mesNuevo[mesNuevo.length - 1].dias[mesNuevo[mesNuevo.length - 1].dias.length - 1].dia === 'off' ? (mesNuevo[mesNuevo.length - 1].numSemana) - 1 : (mesNuevo[mesNuevo.length - 1].numSemana);
-            añoPlaeando.push(crearMesPlaneado(2023, index, mesNuevo))
+            añoPlaeando.push(crearMesPlaneado(elano(), index, mesNuevo))
 
         }
         CrearRutaDiaria(rutasDiarias)
@@ -204,9 +207,9 @@ const DateView = (props) => {
         let ultimaSemana = 0
         rutasDiarias = []
         for (let index = 0; index < 12; index++) {
-            const mesNuevo = makeMonth(2023, index, -1, ultimaSemana, false, true)
+            const mesNuevo = makeMonth(elano(), index, -1, ultimaSemana, false, true)
             ultimaSemana = mesNuevo[mesNuevo.length - 1].dias[mesNuevo[mesNuevo.length - 1].dias.length - 1].dia === 'off' ? (mesNuevo[mesNuevo.length - 1].numSemana) - 1 : (mesNuevo[mesNuevo.length - 1].numSemana);
-            añoPlaeando.push(crearMesPlaneado(2023, index, mesNuevo))
+            añoPlaeando.push(crearMesPlaneado(elano(), index, mesNuevo))
 
         }
         CrearRutaDiaria(rutasDiarias)

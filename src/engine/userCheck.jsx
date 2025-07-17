@@ -432,6 +432,7 @@ const UserCheck = (props) => {
             }
         }
         if (actionTodo === 'dataRes-allEmpresaData' /* && parseInt(res) === parseInt(msg.resId) */) {
+            let userComeData = { userObj: { appPermisions: ObjPermisos } }
             if (msg.res === 'ok') {
                 userActual = { ...userData, ...msg.body, passwordRepeat: '', status: 'registered', type: onMobil.state ? 'bioseptico' : msg.body.type, appPermisions: userComeData.userObj.appPermisions }
                 modelActual = {

@@ -29,13 +29,27 @@ const AdressAdd = (props) => {
         e.preventDefault()
         const value = e.target.value
         const id = e.target.id
-        setPersonalObj({
-            ...personalObj,
-            direccion: {
-                ...personalObj.direccion,
-                [id]: value
-            }
-        })
+        if ((id === 'coordenadaslng') || (id === 'coordenadaslat')) {
+            setPersonalObj({
+                ...personalObj,
+                direccion: {
+                    ...personalObj.direccion,
+                    coordenadas: {
+                        ...personalObj.direccion.coordenadas,
+                        [id === 'coordenadaslng' ? 'lng' : 'lat']: parseFloat?.(value)
+                    }
+                }
+            })
+        } else {
+            setPersonalObj({
+                ...personalObj,
+                direccion: {
+                    ...personalObj.direccion,
+                    [id]: value
+                }
+            })
+        }
+
         if (id === 'barrio') {
             send(personalObj)
         }
@@ -233,7 +247,15 @@ const AdressAdd = (props) => {
                                                         {
                                                             placeInfo.selectedCity !== '' && <InputCompAdress setAdressView={setAdressView} adressView={adressView} personalObj={personalObj} value={personalObj.direccion} placeholder={'barrio'} funtions={handleCreateAll} required />
                                                         }
-
+                                                        {
+                                                            placeInfo.selectedCity !== '' && <InputComp type={'number'} id={'coordenadaslat'} value={personalObj.direccion.coordenadas.lat} placeholder={'latitud'} funtions={handleCreate} required />
+                                                        }       {
+                                                            placeInfo.selectedCity !== '' && <InputComp type={'number'} id={'coordenadaslng'} value={personalObj.direccion.coordenadas.lng} placeholder={'longitud'} funtions={handleCreate} required />
+                                                        }
+                                                        <button onClick={(e) => {
+                                                            e.preventDefault(); console.log(personalObj);
+                                                            send(personalObj)
+                                                        }}>Enviar dir</button>
                                                     </>
                                                 }
                                             </>

@@ -15,9 +15,12 @@ const ObjRutaIndividual = (vehiculo, equipo = { conductor: '', auxiliar: '' }, f
         fecha: fecha
     })
 }
+const elano = () => {
+    return new Date().getFullYear();
+};
 export const ObjRutaDia = (fecha, idCreador) => {
     let dateToIn = new Date()
-    dateToIn.setFullYear(2023)
+    dateToIn.setFullYear(elano())
     dateToIn.setMonth(fecha.mes)
     dateToIn.setDate(fecha.dia)
     return ({

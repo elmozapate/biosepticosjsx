@@ -46,6 +46,8 @@ const SelectorDeBioseptico = (props) => {
         const diaAentrar = parseInt(new Date().toLocaleDateString().split('/')[0])
         const mesAentrar = parseInt(new Date().toLocaleDateString().split('/')[1])
         const anoAentrar = parseInt(new Date().toLocaleDateString().split('/')[2])
+        console.log(diaAentrar,mesAentrar,anoAentrar);
+        
         let newData = {
             hoy: modeloDia,
             manana: modeloDia,
@@ -56,6 +58,7 @@ const SelectorDeBioseptico = (props) => {
             const newdiaAentrar = parseInt(key.fecha.split('-')[0])
             const newmesAentrar = parseInt(key.fecha.split('-')[1])
             const newanoAentrar = parseInt(key.fecha.split('-')[2])
+            console.log(newdiaAentrar,newmesAentrar,newanoAentrar,key);
             if (diaAentrar === newdiaAentrar &&
                 mesAentrar === newmesAentrar &&
                 anoAentrar === newanoAentrar) {
