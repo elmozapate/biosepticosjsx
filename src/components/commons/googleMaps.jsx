@@ -24,7 +24,7 @@ const GooglMapsComp = (props) => {
     }
 
     const { isLoaded } = useLoadScript({
-        googleMapsApiKey: 'AIzaSyDNqyPEwK3t5FMGBYrRuvVGp8hyN7uaJ8c',
+        googleMapsApiKey: 'AIzaSyBE0Y1gpJ-P0Fu_hPUEP-mBrlu7fQFBWsQ',
         libraries: libraries,
     });
 
