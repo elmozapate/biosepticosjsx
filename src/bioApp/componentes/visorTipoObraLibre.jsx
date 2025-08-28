@@ -7,7 +7,7 @@ import ContenedorMaps from "./contenedorMaps"
 import PercentComp from "./percentComp"
 import { rewrites } from "next.config"
 import SelectComp from "@/components/commons/selector"
-import BioRutaLibre from "./bioRutaLibre"
+import BioRuta from "./bioRuta"
 const objCssInit = StylesObj()
 const objStringsInit = StringsObj()
 let cargando = false
@@ -33,7 +33,7 @@ let choose = {
     mapSelectactiveState: false,
 }
 let localPercent = 1
-const VisorTipoObraLibre = (props) => {
+const VisorTipoObra = (props) => {
     const { userModel = ModeloUsuario, willShow = console.log, listos = [], showed = [], objStrings = objStringsInit, objCss = objCssInit } = props
     const [inObra, setInObra] = useState({
         selected: '',
@@ -322,7 +322,7 @@ const VisorTipoObraLibre = (props) => {
             const element = showed[showed.length > 2 ? fastestNew[index] : index];
             rutaPlaneadaArray.push(element.direccion.coordenadas)
         }
-        let url = `https://www.google.com/maps/dir/`
+        let url = `https://www.google.com/maps/dir/${irPlace.obraSelect ? '' : `${userCoord.lat},${userCoord.lng}/`}`
         for (let index = 0; index < showed.length; index++) {
             const element = rutaPlaneadaArray[index];
             url = url + `${element.lat},${element.lng}/`
@@ -650,30 +650,30 @@ const VisorTipoObraLibre = (props) => {
     }, [])
     return (
         <>
-            <div id={`idShow-${parseInt(Math.random() * 9999)}`} style={{backgroundColor:'white',color:'black'}} className='container-bio' onClick={(e) => {
+            <div id={`idShow-${parseInt(Math.random() * 9999)}`} style={{ backgroundColor: 'white', color: 'black' }} className='container-bio' onClick={(e) => {
                 e.preventDefault(); willShow(showed)
             }}>
-                {inSearching.state && <div style={{backgroundColor:'white',color:'black'}} className="loading-ruta">
-                    <div style={{backgroundColor:'white',color:'black'}} className='loader-body'>
+                {inSearching.state && <div style={{ backgroundColor: 'white', color: 'black' }} className="loading-ruta">
+                    <div style={{ backgroundColor: 'white', color: 'black' }} className='loader-body'>
                         {!(startSearching) ? <span >PREPARANDO TODO</span> : <span>CREANDO TODAS LAS RUTAS
                         </span>}
 
                         <br />
                         <p>
                         </p>
-                        <div style={{backgroundColor:'white',color:'black'}} className='loader-container'>
-                            <div style={{backgroundColor:'white',color:'black'}} className='loader'></div>
-                            <div style={{backgroundColor:'white',color:'black'}} className='loader2'>                            </div>
-                            {elPercent < 100 && elPercent > 0 && <div style={{backgroundColor:'white',color:'black'}} className="center-value">
+                        <div style={{ backgroundColor: 'white', color: 'black' }} className='loader-container'>
+                            <div style={{ backgroundColor: 'white', color: 'black' }} className='loader'></div>
+                            <div style={{ backgroundColor: 'white', color: 'black' }} className='loader2'>                            </div>
+                            {elPercent < 100 && elPercent > 0 && <div style={{ backgroundColor: 'white', color: 'black' }} className="center-value">
                                 <span><PercentComp elPercent={parseInt(elPercent)} /></span>
                             </div>}
                         </div>
                         {elTiempo.seg > 0 && elTiempo.restante > 0 && <p>
-                            <span style={{backgroundColor:'white',color:'black'}} className="text-center">Transcurrido {elTiempo.hora}h {elTiempo.min}m {elTiempo.seg}s</span>
+                            <span style={{ backgroundColor: 'white', color: 'black' }} className="text-center">Transcurrido {elTiempo.hora}h {elTiempo.min}m {elTiempo.seg}s</span>
                             <br />
-                            <span style={{backgroundColor:'white',color:'black'}} className="text-center">  TIEMPO APROXIMADO</span>
+                            <span style={{ backgroundColor: 'white', color: 'black' }} className="text-center">  TIEMPO APROXIMADO</span>
                             <br />
-                            <span style={{backgroundColor:'white',color:'black'}} className="text-center"> {elTiempo.mensaje}</span>
+                            <span style={{ backgroundColor: 'white', color: 'black' }} className="text-center"> {elTiempo.mensaje}</span>
                         </p>}
                     </div>
                 </div>}
@@ -682,52 +682,52 @@ const VisorTipoObraLibre = (props) => {
                     <>
                         {showed.length === 2 && <span onClick={(e) => {
                             e.preventDefault(); crearOptRuta()
-                        }} className="pointer">Ver ruta </span>}
+                        }} style={{ backgroundColor: 'white', color: 'black' }} className="pointer">Ver ruta </span>}
                         {showed.length > 2 && <span onClick={readyRuta ? (e) => {
                             e.preventDefault(); crearOptRuta()
                         } : (e) => {
                             e.preventDefault(); setIrPlace({ ...irPlace, inSelect: true })
-                        }} className="pointer">{readyRuta ? 'Ver ruta recomendada' : 'crear ruta recomendada'}</span>}
+                        }} style={{ backgroundColor: 'white', color: 'black' }} className="pointer">{readyRuta ? 'Ver ruta recomendada' : 'crear ruta recomendada'}</span>}
                         {showed.length > 2 && irPlace.inSelect && <>
                             {!irPlace.mapSelect && !irPlace.obraSelect && <span onClick={readyRuta ? (e) => {
                                 e.preventDefault(); crearOptRuta()
                             } : (e) => {
                                 e.preventDefault(); setIrPlace({ ...irPlace, ubicacionMapSelected: { ...irPlace.ubicacionMapSelected, mapSelectactive: false, state: false }, mapSelect: false, obraSelect: false, obraSelected: '', biosepticosSelect: false }); myPosition()
-                            }} className="pointer">DESDE MI UBICACION</span>}
+                            }} style={{ backgroundColor: 'white', color: 'black' }} className="pointer">DESDE MI UBICACION</span>}
                             {!irPlace.mapSelect && !irPlace.obraSelect && <span onClick={readyRuta ? (e) => {
                                 e.preventDefault(); crearOptRuta()
                             } : (e) => {
                                 e.preventDefault(); setIrPlace({ ...irPlace, ubicacionMapSelected: { ...irPlace.ubicacionMapSelected, mapSelectactive: false, state: false }, mapSelect: false, obraSelect: false, obraSelected: '', biosepticosSelect: true }); myPosition('true')
-                            }} className="pointer">DESDE BIOSEPTICOS</span>}
+                            }} style={{ backgroundColor: 'white', color: 'black' }} className="pointer">DESDE BIOSEPTICOS</span>}
                             {irPlace.mapSelect ? <span onClick={(e) => {
                                 e.preventDefault(); setIrPlace({ ...irPlace, ubicacionMapSelected: { ...irPlace.ubicacionMapSelected, mapSelectactive: false, state: false }, mapSelect: false, obraSelect: false, obraSelected: '', biosepticosSelect: false });
-                            }} className="pointer">VOLVER</span> : !irPlace.obraSelect && <span onClick={readyRuta ? (e) => {
+                            }} style={{ backgroundColor: 'white', color: 'black' }} className="pointer">VOLVER</span> : !irPlace.obraSelect && <span onClick={readyRuta ? (e) => {
                                 e.preventDefault(); crearOptRuta()
                             } : (e) => {
                                 e.preventDefault(); setIrPlace({ ...irPlace, mapSelect: true, obraSelect: false, ubicacionMapSelected: { ...irPlace.ubicacionMapSelected, state: true }, obraSelected: '' })
-                            }} className="pointer">ESCOGER EN EL MAPA</span>}
+                            }} style={{ backgroundColor: 'white', color: 'black' }} className="pointer">ESCOGER EN EL MAPA</span>}
                             {irPlace.obraSelect && <span onClick={(e) => {
                                 e.preventDefault(); setIrPlace({ ...irPlace, ubicacionMapSelected: { ...irPlace.ubicacionMapSelected, mapSelectactive: false, state: false, active: false }, mapSelect: false, obraSelect: false, obraSelected: '', biosepticosSelect: false });
-                            }} className="pointer">VOLVER</span>}
+                            }} style={{ backgroundColor: 'white', color: 'black' }} className="pointer">VOLVER</span>}
                             {!irPlace.mapSelect &&
                                 <span onClick={readyRuta ? (e) => {
                                     e.preventDefault(); crearOptRuta()
                                 } : (e) => {
                                     e.preventDefault();
                                     setIrPlace({ ...irPlace, ubicacionMapSelected: { ...irPlace.ubicacionMapSelected, mapSelectactive: false, state: false }, mapSelect: false, biosepticosSelect: false });
-                                }} className="pointer">{irPlace.obraSelected !== '' ? 'OBRA EN ESPECIFICO ' : <SelectComp funtions={((e) => { e.preventDefault; setIrPlace({ ...irPlace, obraSelect: true, obraSelected: e.target.value }) })} items={irPlace.obrasName} />} </span>}
+                                }} style={{ backgroundColor: 'white', color: 'black' }} className="pointer">{irPlace.obraSelected !== '' ? 'OBRA EN ESPECIFICO ' : <SelectComp funtions={((e) => { e.preventDefault; setIrPlace({ ...irPlace, obraSelect: true, obraSelected: e.target.value }) })} items={irPlace.obrasName} />} </span>}
                         </>}
                         {
                             irPlace.obraSelected !== '' && <><span onClick={(e) => {
                                 e.preventDefault(); myPosition(false, 'true')
-                            }} className="pointer">EMPEZAR EN {irPlace.obraSelected} </span></>
+                            }} style={{ backgroundColor: 'white', color: 'black' }} className="pointer">EMPEZAR EN {irPlace.obraSelected} </span></>
                         }
                         {
                             irPlace.ubicacionMapSelected.state && <><span onClick={readyRuta ? (e) => {
                                 e.preventDefault(); crearOptRuta()
                             } : (e) => {
                                 e.preventDefault(); ubicacionIni = { ...ubicacionIni, state: true, mapSelectactive: true }; setIrPlace({ ...irPlace, ubicacionMapSelected: { ...irPlace.ubicacionMapSelected, ...ubicacionIni } }); myPosition(false, false, 'true')
-                            }} className="pointer">DESDE latitud : {irPlace.ubicacionMapSelected.lat} longitud :{irPlace.ubicacionMapSelected.lng} </span></>
+                            }} style={{ backgroundColor: 'white', color: 'black' }} className="pointer">DESDE latitud : {irPlace.ubicacionMapSelected.lat} longitud :{irPlace.ubicacionMapSelected.lng} </span></>
                         }
                     </>
                 }
@@ -737,18 +737,18 @@ const VisorTipoObraLibre = (props) => {
                     </>
                 }
                 {
-                    !inSearching.state && <>  {inObra.selected === '' ? <div className="dia">
-                        <p style={{backgroundColor:'white',color:'black'}}  className="centert flex-p-between">
-                            <span className="treintraytres">{'Nombre'}</span>
-                            <span className="treintraytres">{'contacto'}</span>
-                            <span className="treintraytres">{'zona'}</span></p>
+                    !inSearching.state && <>  {inObra.selected === '' ? <div style={{ backgroundColor: 'white', color: 'black' }} className="dia">
+                        <p style={{ backgroundColor: 'white', color: 'black' }} className="centert flex-p-between">
+                            <span style={{ backgroundColor: 'white', color: 'black' }} className="treintraytres">{'Nombre'}</span>
+                            <span style={{ backgroundColor: 'white', color: 'black' }} className="treintraytres">{'contacto'}</span>
+                            <span style={{ backgroundColor: 'white', color: 'black' }} className="treintraytres">{'zona'}</span></p>
 
                         {showed.map((key, i) => {
                             return (
                                 <>
-                                    <p className="centert flex-p-between ">
-                                        <span className="treintraytres"><h2>{key.contact.obra}</h2> </span>
-                                        <span className="treintraytres"  >
+                                    <p style={{ backgroundColor: 'white', color: 'black' }} className="centert flex-p-between ">
+                                        <span style={{ backgroundColor: 'white', color: 'black' }} className="treintraytres"><h2>{key.contact.obra}</h2> </span>
+                                        <span style={{ backgroundColor: 'white', color: 'black' }} className="treintraytres"  >
                                             <span>-{key.contact.nombre}</span>
                                             <span onClick={(e) => {
                                                 e.preventDefault();
@@ -769,9 +769,9 @@ const VisorTipoObraLibre = (props) => {
                                                     ...inObra,
                                                     selected: key.id, action: 'contact', data: key.contact
                                                 })
-                                            }} className="pointer">ver info</span>
+                                            }} style={{ backgroundColor: 'white', color: 'black' }} className="pointer">ver info</span>
                                         </span>
-                                        <span className="treintraytres">
+                                        <span style={{ backgroundColor: 'white', color: 'black' }} className="treintraytres">
                                             <span>{key.direccion.ciudad}-{key.direccion.barrio}</span>
                                             <span onClick={(e) => {
                                                 e.preventDefault();
@@ -792,7 +792,7 @@ const VisorTipoObraLibre = (props) => {
                                                     ...inObra,
                                                     selected: key.id, action: 'direccion', data: key.direccion
                                                 })
-                                            }} className="pointer">mas</span>
+                                            }} style={{ backgroundColor: 'white', color: 'black' }} className="pointer">mas</span>
                                         </span>
                                     </p>
                                 </>
@@ -804,9 +804,9 @@ const VisorTipoObraLibre = (props) => {
                                 {listos.map((key, i) => {
                                     return (
                                         <>
-                                            <p className="bgColor-green centert flex-p-between ">
-                                                <span className="treintraytres"><h2>{key.contact.obra}</h2> </span>
-                                                <span className="treintraytres"  >
+                                            <p style={{ backgroundColor: 'white', color: 'black' }} className="bgColor-green centert flex-p-between ">
+                                                <span style={{ backgroundColor: 'white', color: 'black' }} className="treintraytres"><h2>{key.contact.obra}</h2> </span>
+                                                <span style={{ backgroundColor: 'white', color: 'black' }} className="treintraytres"  >
                                                     <span>-{key.contact.nombre}</span>
                                                     <span onClick={(e) => {
                                                         e.preventDefault();
@@ -827,9 +827,9 @@ const VisorTipoObraLibre = (props) => {
                                                             ...inObra,
                                                             selected: key.id, action: 'contact', data: key.contact
                                                         })
-                                                    }} className="pointer">ver info</span>
+                                                    }} style={{ backgroundColor: 'white', color: 'black' }} className="pointer">ver info</span>
                                                 </span>
-                                                <span className="treintraytres">
+                                                <span style={{ backgroundColor: 'white', color: 'black' }} className="treintraytres">
                                                     <span>{key.direccion.ciudad}-{key.direccion.barrio}</span>
                                                     <span onClick={(e) => {
                                                         e.preventDefault();
@@ -850,7 +850,7 @@ const VisorTipoObraLibre = (props) => {
                                                             ...inObra,
                                                             selected: key.id, action: 'direccion', data: key.direccion
                                                         })
-                                                    }} className="pointer">mas</span>
+                                                    }} style={{ backgroundColor: 'white', color: 'black' }} className="pointer">mas</span>
                                                 </span>
                                             </p>
                                         </>
@@ -880,11 +880,11 @@ const VisorTipoObraLibre = (props) => {
                                 ...inObra,
                                 selected: '', action: '', data: ''
                             })
-                        }} className="pointer">volver</span>
+                        }} style={{ backgroundColor: 'white', color: 'black' }} className="pointer">volver</span>
                     </>}
                     </>
                 }
-                {resultsArray.state && <><BioRutaLibre elTiempo={elTiempo} doRuta={doRuta} showed={showed} resultsArray={resultsArray} back={back} /></>}
+                {resultsArray.state && <><BioRuta elTiempo={elTiempo} doRuta={doRuta} showed={showed} resultsArray={resultsArray} back={back} /></>}
             </div>
             {irPlace.using && <>
 
@@ -903,7 +903,7 @@ const VisorTipoObraLibre = (props) => {
                                         e.preventDefault();
                                         setconfirmMyDirection(true);
                                     }}
-                                    className="pointer"
+                                    style={{ backgroundColor: 'white', color: 'black' }} className="pointer"
                                 >
                                     {/* contenido opcional aquí */}
                                 </span>
@@ -920,13 +920,13 @@ const VisorTipoObraLibre = (props) => {
                             }} adressViewIn defaultLocation={irPlace.coordenadasInicial} />
                             </>}
 
-                        <span onClick={(e) => { e.preventDefault(); setconfirmMyDirection(false) }} className='pointer'>
+                        <span onClick={(e) => { e.preventDefault(); setconfirmMyDirection(false) }} style={{ backgroundColor: 'white', color: 'black' }} className='pointer'>
                         </span>
-                        <span onClick={(e) => { e.preventDefault(); setconfirmMyDirection(false) }} className='pointer'>
+                        <span onClick={(e) => { e.preventDefault(); setconfirmMyDirection(false) }} style={{ backgroundColor: 'white', color: 'black' }} className='pointer'>
                         </span>
                     </>}
             </>}
         </>
     )
 }
-export default VisorTipoObraLibre
+export default VisorTipoObra
