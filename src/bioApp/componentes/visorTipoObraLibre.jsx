@@ -8,6 +8,7 @@ import PercentComp from "./percentComp"
 import { rewrites } from "next.config"
 import SelectComp from "@/components/commons/selector"
 import BioRuta from "./bioRuta"
+import BioRutaLibre from "./bioRutaLibre"
 const objCssInit = StylesObj()
 const objStringsInit = StringsObj()
 let cargando = false
@@ -33,7 +34,7 @@ let choose = {
     mapSelectactiveState: false,
 }
 let localPercent = 1
-const VisorTipoObra = (props) => {
+const VisorTipoObraLibre = (props) => {
     const { userModel = ModeloUsuario, willShow = console.log, listos = [], showed = [], objStrings = objStringsInit, objCss = objCssInit } = props
     const [inObra, setInObra] = useState({
         selected: '',
@@ -314,21 +315,75 @@ const VisorTipoObra = (props) => {
 
     }
 
-    const doRuta = (position) => {
-        let fastestNew = []
-        fastestNew = resultados[orderedFinalArray[position].search].searchs[orderedFinalArray[position].choose]
-        let rutaPlaneadaArray = []
-        for (let index = 0; index < showed.length; index++) {
-            const element = showed[showed.length > 2 ? fastestNew[index] : index];
-            rutaPlaneadaArray.push(element.direccion.coordenadas)
+
+    const buildMapsDirUrl = (coords) => {
+        // https://www.google.com/maps/dir/<lat,lng>/<lat,lng>/...
+        const parts = coords.map(({ lat, lng }) => `${lat},${lng}`);
+        return `https://www.google.com/maps/dir/${parts.join('/')}`;
+    };
+
+    /**
+     * position: índice del resultado elegido en resultsArray.array
+     * opts:
+     *  - startCoord: {lat, lng} para iniciar en una coordenada custom (opcional)
+     *  - includeReturn: true para regresar al punto inicial al final (opcional)
+     *  - open: true para abrir la ruta en una nueva pestaña (default true)
+     */
+    const doRuta = (position, opts = {}) => {
+        const { startCoord = null, includeReturn = false, open = true } = opts;
+
+        if (!resultsArray?.array?.length) {
+            console.error('resultsArray vacío o inválido');
+            return;
         }
-        let url = `https://www.google.com/maps/dir/${irPlace.obraSelect ? '' : `${userCoord.lat},${userCoord.lng}/`}`
-        for (let index = 0; index < showed.length; index++) {
-            const element = rutaPlaneadaArray[index];
-            url = url + `${element.lat},${element.lng}/`
+        const choice = resultsArray.array[position];
+        if (!choice) {
+            console.error('No existe ese índice en resultsArray.array:', position);
+            return;
         }
-        window.open(url)
-    }
+        if (!Array.isArray(showed) || showed.length === 0) {
+            console.error('showed vacío o inválido');
+            return;
+        }
+        if (!Array.isArray(choice.order) || choice.order.length === 0) {
+            console.error('El resultado no trae un order válido:', choice);
+            return;
+        }
+
+        // 1) Orden de visita según el resultado elegido
+        //    choice.order son índices dentro de showed
+        const orderedPoints = choice.order.map(i => {
+            const obra = showed[i];
+            const c = obra?.direccion?.coordenadas;
+            if (!c || typeof c.lat !== 'number' || typeof c.lng !== 'number') {
+                throw new Error(`Coordenadas inválidas en showed[${i}]`);
+            }
+            return { lat: c.lat, lng: c.lng };
+        });
+
+        // 2) Inserta origen si te interesa arrancar en un punto específico (tu ubicación, base, etc.)
+        const path = startCoord ? [startCoord, ...orderedPoints] : [...orderedPoints];
+
+        // 3) Cierra el circuito (opcional)
+        if (includeReturn && path.length > 1) {
+            path.push(path[0]);
+        }
+
+        // 4) Construye URL y abre
+        const url = buildMapsDirUrl(path);
+        console.log('Ruta seleccionada:', {
+            position,
+            order: choice.order,
+            distance_m: choice.distance,
+            time_s: choice.time,
+            url
+        });
+
+        if (open && typeof window !== 'undefined') {
+            window.open(url, '_blank', 'noopener');
+        }
+        return url; // por si quieres usarla sin abrir pestaña
+    };
     const myPosition = (biosepticos, selected, coordenadas) => {
         newToSearchE = []; finalResults = []; orderedFinalFixArraySort = []; allDatas = []; resSearhE = []; orderedFinalFixArray = []; orderedFinalArray = []; resOrderedTime = []; resOrdered = []; resultados = []; newTimes = [];
         cargando = true
@@ -884,7 +939,7 @@ const VisorTipoObra = (props) => {
                     </>}
                     </>
                 }
-                {resultsArray.state && <><BioRuta elTiempo={elTiempo} doRuta={doRuta} showed={showed} resultsArray={resultsArray} back={back} /></>}
+                {resultsArray.state && <><BioRutaLibre elTiempo={elTiempo} doRuta={doRuta} showed={showed} resultsArray={resultsArray} back={back} /></>}
             </div>
             {irPlace.using && <>
 
@@ -929,4 +984,4 @@ const VisorTipoObra = (props) => {
         </>
     )
 }
-export default VisorTipoObra
+export default VisorTipoObraLibre
