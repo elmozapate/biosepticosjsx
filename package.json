@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@googlemaps/js-api-loader": "^1.16.10",
     "@next/font": "13.1.2",
     "@react-google-maps/api": "^2.18.1",
     "cookies-next": "^2.1.1",
@@ -23,6 +24,7 @@
     "sass": "^1.57.1",
     "socket.io": "^4.5.4",
     "socket.io-client": "^4.5.4",
-    "use-places-autocomplete": "^4.0.0"
+    "use-places-autocomplete": "^4.0.0",
+    "xlsx": "^0.18.5"
   }
 }

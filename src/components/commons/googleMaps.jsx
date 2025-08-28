@@ -115,7 +115,9 @@ const GooglMapsComp = (props) => {
             {!irPlace.using && soloAdress ? <PlacesAutocomplete fullAdressSearch={fullAdressSearch} inAdressAdd setAdressView={setAdressView} adressView={adressView} adressData={adressData}/* setMapCenter={setMapCenter} */ />
                 : <div className={`styles.homeWrapper ${irPlace.using ? 'hidden' : ''}`}>
                     <GoogleMap
-                        onClick={(e) => { e.preventDefault(); }}
+                        onClick={(e) => {
+                            console.log(e);
+                        }}
                         options={mapOptions}
                         zoom={inMapSelect ? 14 : adressViewIn ? 17.5 : adressView.state ? 17 : 14}
                         center={adressView.state ? adressView.centre : mapCenter}
