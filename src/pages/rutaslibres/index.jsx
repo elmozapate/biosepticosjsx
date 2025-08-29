@@ -612,11 +612,8 @@ function MapVehicles({ apiKey, vehicles = [], fences = [], bbox = DEFAULT_BBOX }
                 <MarkerF
                     key={v.id}
                     position={{ lat: v.gps.lat, lng: v.gps.lng }}
-                    title={`${v.placa} • ${v.marca} ${v.modelo}`}
-                    label={{
-                        text: v.fenceId ? (v.fenceId.split("_").pop() || "") : "",
-                        fontSize: "12px",
-                    }}
+                    title={`${v.placa} • ${v.fenceName || v.fenceId || "—"} • Obras: ${v.route?.length || 0}`}
+                    label={{ text: String(v.route?.length || ""), fontSize: "12px" }}
                     onClick={() => setSelectedId(v.id)}
                 />
             ))}
@@ -863,11 +860,11 @@ const roundN = (x, n = 2) => Number(x.toFixed(n));
 // Simula un paquete de láminas para una obra
 function simularCargaLaminas(obra) {
     // 1) objetivo de peso (20–300 kg)
-    const pesoObjetivoKg = Math.round(rand(20, 100));
+    const pesoObjetivoKg = Math.round(rand(5, 100));
 
     // 2) dimensiones de la lámina (máx 4 x 2 m), granulares a 0.1 m
-    const largo_m = roundN(rand(1.0, 2.0), 1);
-    const ancho_m = roundN(rand(0.5, 1.0), 1);
+    const largo_m = roundN(rand(0.5, 1.0), 1);
+    const ancho_m = roundN(rand(0.3, 0.5), 1);
 
     // 3) espesor típico (m)
     const espesores = [0.012, 0.015, 0.018, 0.021, 0.025];
@@ -914,6 +911,7 @@ export default function Home() {
     // obras ya listas para el visor
     const [listas, setListas] = useState([]);          // <- NUEVO
     const [showed, setShowed] = useState([]);          // espejo del visor; lo llenamos desde `listas`
+    const [vehiculoss, setVehiculoss] = useState(10);          // espejo del visor; lo llenamos desde `listas`
     const [importadas, setImportadas] = useState([]);  // pendientes por confirmar coords
     const [busy, setBusy] = useState(false);
     const [vista, setVista] = useState('rutas');
@@ -947,7 +945,7 @@ export default function Home() {
     const zonificacion = useMemo(() => assignObrasToFences(listas, fences), [listas, fences]);
 
     // === estado “Vehículos”
-    const [fleet, setFleet] = useState(() => buildFleet(20)); // buildFleet SIN cercas (solo specs)
+    const [fleet, setFleet] = useState(() => buildFleet(vehiculoss)); // buildFleet SIN cercas (solo specs)
     // edición puntual (confirmar dirección de una obra)
     const [inRuta, setInRuta] = useState(null); // <- usar null; 0 es válido
     const [adressView, setAdressView] = useState({ state: false, centre: { ltn: 6.1576585, lgn: -75872710271 }, map: false });
@@ -956,7 +954,7 @@ export default function Home() {
     const [filtroObras, setFiltroObras] = useState("todas");
     const [loadedFromLS, setLoadedFromLS] = useState(false); // 👈 flag
 
-    const regenerateFleet = (n = 20) => {
+    const regenerateFleet = (n = vehiculoss) => {
         setFleet(assignVehiclesToFences(buildFleet(n), fences));
     };
     // === estado “Vehículos”
@@ -1184,6 +1182,44 @@ export default function Home() {
         }, [fences]);
     */
     // si cambias bbox/bandas, reubica la flota dentro de las nuevas cercas:
+    // Index rápido de todas las obras que conocemos (para reconstruir desde route.obraId)
+    const allObrasIndex = useMemo(() => {
+        const idx = new Map();
+        const push = (o) => { if (o?.id && !idx.has(o.id)) idx.set(o.id, o); };
+        (zonificacion?.tagged || []).forEach(push);
+        (listas || []).forEach(push);
+        (importadas || []).forEach(push);
+        (showed || []).forEach(push);
+        return idx;
+    }, [zonificacion?.tagged, listas, importadas, showed]);
+
+    // Pasa al visor las obras asignadas a un vehículo
+    const generarRutaParaVehiculo = (veh) => {
+        if (!veh?.route?.length) return;
+        const obras = veh.route.map(r => {
+            const base = allObrasIndex.get(r.obraId);
+            if (base) return base;
+            // Fallback: crea un Obra-like si no está en índices
+            return new Obra({
+                id: r.obraId,
+                nombre: r.nombre,
+                empresa: "",
+                contact: {},
+                direccion: {
+                    ciudad: "Medellín",
+                    otros: "",
+                    coordenadas: r.coords || null,
+                },
+                legal: {},
+            });
+        });
+
+        // Igual que "Usar obras listas" pero con las del vehículo
+        setShowed(obras);
+
+        // (Opcional) si quieres saltar de una a otra vista:
+        // setVista("rutas"); // o como se llame tu vista del visor
+    };
     useEffect(() => {
         setFleet(prev => assignVehiclesToFencesCenter(prev, fences));
     }, [fences]);
@@ -1821,60 +1857,146 @@ export default function Home() {
                     </div>
                 )}
 
-
                 {vista === "vehiculos" && (
                     <div className="grid">
                         <section className="card">
                             <h2>Vehículos 2–5 t (10)</h2>
 
-                            {/* Botón opcional para resembrar posiciones dentro de cercas */}
-                            <div className="flex" style={{ marginBottom: 8, gap: 8 }}>
-                                <button className="tabbtn" onClick={(e) => { e.preventDefault(); reseedPositions() }}>
-                                    Reubicar aleatorio en su cerca
-                                </button>
-                                <button className="tabbtn" onClick={(e) => { e.preventDefault(); regenerateFleet(20) }}>
-                                    Generar 20 vehículos
-                                </button>
-                                <button className="tabbtn" onClick={(e) => { e.preventDefault(); setFleet(prev => assignVehiclesToFencesCenter(prev, fences)) }}>
-                                    Re-centrar vehículos en su cerca
-                                </button>
-                                <button className="tabbtn" onClick={(e) => { e.preventDefault(); setFleet(buildFleet(20, fences)) }}>
-                                    Re-centrar vehículos en su cerca Aleatorio
-                                </button>
+                            {/** usamos la flota asignada si existe, si no la base */}
+                            {/** si necesitas que a veces se vea la base aunque haya asignación, agrega un toggle */}
+                            {(() => {
+                                const asignacionActiva = fleetAsignada.length > 0;
+                                const vehiclesView = asignacionActiva ? fleetAsignada : fleet;
 
-                            </div>
+                                // helpers de fallback para tabla
+                                const deckTotal = (v) => {
+                                    if (typeof v?.deck_total_m2 === "number") return v.deck_total_m2;
+                                    const L = v?.dimensiones_furgon_m?.largo ?? 0;
+                                    const W = v?.dimensiones_furgon_m?.ancho ?? 0;
+                                    const area = Number((L * W).toFixed(2));
+                                    return isFinite(area) ? area : 0;
+                                };
+                                const capTotalKg = (v) => {
+                                    if (typeof v?.carga_total_kg === "number") return v.carga_total_kg;
+                                    return v?.capacidad_carga_kg ?? 0;
+                                };
 
-                            <MapVehicles apiKey={GOOGLE_MAPS_KEY} vehicles={fleet} fences={fences} />
+                                return (
+                                    <>
+                                        {/* Controles */}
+                                        <div className="flex" style={{ marginBottom: 8, gap: 8, flexWrap: "wrap" }}>
+                                            <button
+                                                className="tabbtn"
+                                                disabled={asignacionActiva}
+                                                title={asignacionActiva ? "Desactiva la asignación para reubicar" : ""}
+                                                onClick={(e) => { e.preventDefault(); reseedPositions(); }}
+                                            >
+                                                Reubicar aleatorio en su cerca
+                                            </button>
 
-                            <div className="card" style={{ marginTop: 12 }}>
-                                <table className="table">
-                                    <thead>
-                                        <tr>
-                                            <th>#</th><th>Placa</th><th>Marca/Modelo</th><th>Color</th>
-                                            <th>Cap. (kg / t)</th><th>Volumen (m³)</th><th>Dim (L×A×H m)</th>
-                                            <th>Ubicación</th><th>Cerca</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {fleet.map((v, i) => (
-                                            <tr key={v.id}>
-                                                <td>{i + 1}</td>
-                                                <td>{v.placa}</td>
-                                                <td>{v.marca} {v.modelo}</td>
-                                                <td>{v.color}</td>
-                                                <td>{v.capacidad_carga_kg} / {v.capacidad_carga_t}</td>
-                                                <td>{v.volumen_util_m3}</td>
-                                                <td>{v.dimensiones_furgon_m.largo}×{v.dimensiones_furgon_m.ancho}×{v.dimensiones_furgon_m.alto}</td>
-                                                <td>{v.gps.lat}, {v.gps.lng}</td>
-                                                <td>{v.fenceId || "—"}<br /><span className="muted">{v.fenceName || ""}</span></td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </div>
+                                            <button
+                                                className="tabbtn"
+                                                disabled={asignacionActiva}
+                                                title={asignacionActiva ? "Desactiva la asignación para regenerar" : ""}
+                                                onClick={(e) => { e.preventDefault(); regenerateFleet(vehiculoss); }}
+                                            >
+                                                Generar vehiculoss vehículos
+                                            </button>
+
+                                            <button
+                                                className="tabbtn"
+                                                disabled={asignacionActiva}
+                                                title={asignacionActiva ? "Desactiva la asignación para re-centrar" : ""}
+                                                onClick={(e) => { e.preventDefault(); setFleet(prev => assignVehiclesToFencesCenter(prev, fences)); }}
+                                            >
+                                                Re-centrar vehículos en su cerca
+                                            </button>
+
+                                            <button
+                                                className="tabbtn"
+                                                disabled={asignacionActiva}
+                                                title={asignacionActiva ? "Desactiva la asignación para resembrar" : ""}
+                                                onClick={(e) => { e.preventDefault(); setFleet(buildFleet(vehiculoss, fences)); }}
+                                            >
+                                                Re-centrar vehículos en su cerca Aleatorio
+                                            </button>
+
+                                            {asignacionActiva && (
+                                                <button
+                                                    className="tabbtn"
+                                                    style={{ background: "#f55", color: "#fff", border: 0 }}
+                                                    onClick={(e) => { e.preventDefault(); setFleetAsignada([]); }}
+                                                    title="Quita rutas y vuelve a ver la flota base"
+                                                >
+                                                    Limpiar asignación
+                                                </button>
+                                            )}
+                                        </div>
+
+                                        {/* Mapa con las cercas y esta lista de vehículos (asignados si existen) */}
+                                        <MapVehicles apiKey={GOOGLE_MAPS_KEY} vehicles={vehiclesView} fences={fences} />
+
+                                        {/* Tabla */}
+                                        <div className="card" style={{ marginTop: 12 }}>
+                                            <table className="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th>Placa</th>
+                                                        <th>Marca/Modelo</th>
+                                                        <th>Color</th>
+                                                        <th>Cap. (kg / t)</th>
+                                                        <th>Volumen (m³)</th>
+                                                        <th>Dim (L×A×H m)</th>
+                                                        <th>Ubicación</th>
+                                                        <th>Cerca</th>
+                                                        <th># Obras</th>
+                                                        <th>Kg usados / cap</th>
+                                                        <th>Área usada / deck (m²)</th>
+                                                        <th>Max pila (m)</th>
+                                                        <th>Generar ruta</th> {/* 👈 nueva */}
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {vehiclesView.map((v, i) => (
+                                                        <tr key={v.id}>
+                                                            <td>{i + 1}</td>
+                                                            <td>{v.placa}</td>
+                                                            <td>{v.marca} {v.modelo}</td>
+                                                            <td>{v.color}</td>
+                                                            <td>{v.capacidad_carga_kg} / {v.capacidad_carga_t}</td>
+                                                            <td>{v.volumen_util_m3}</td>
+                                                            <td>{v.dimensiones_furgon_m.largo}×{v.dimensiones_furgon_m.ancho}×{v.dimensiones_furgon_m.alto}</td>
+                                                            <td>{v.gps.lat}, {v.gps.lng}</td>
+                                                            <td>{v.fenceId || "—"}<br /><span className="muted">{v.fenceName || ""}</span></td>
+                                                            <td>{v.route?.length ?? 0}</td>
+                                                            <td>{(v.carga_utilizada_kg ?? 0)} / {capTotalKg(v)}</td>
+                                                            <td>{(v.deck_usado_m2 ?? 0)} / {deckTotal(v)}</td>
+                                                            <td>{v.max_stack_m ?? 0}</td>
+                                                            <td>
+                                                                <button
+                                                                    className="tabbtn"
+                                                                    style={{ padding: '6px 10px' }}
+                                                                    disabled={!(v.route?.length)}
+                                                                    onClick={() => generarRutaParaVehiculo(v)}
+                                                                    title={v.route?.length ? "Pasa las obras de este vehículo al visor" : "Este vehículo no tiene obras asignadas"}
+                                                                >
+                                                                    Generar ruta
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                    ))}
+                                                </tbody>
+
+                                            </table>
+                                        </div>
+                                    </>
+                                );
+                            })()}
                         </section>
                     </div>
                 )}
+
 
 
                 {vista === "geocercasconrutas" && (

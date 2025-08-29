@@ -106,7 +106,7 @@
 .flex-column-entregas {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     min-height: calc(100vh - getRemSize(60px)) !important;
     height: calc(100vh - getRemSize(60px)) !important;
     max-height: calc(100vh - getRemSize(60px)) !important;
