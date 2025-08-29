@@ -932,3 +932,15 @@ a {
     width: getRemSize(40px) !important;
     max-width: getRemSize(40px) !important;
 }
+.tabbtn {
+    padding: 6px 12px;
+    border: 1px solid #aaa;
+    border-radius: 6px;
+    background: #f5f5f5;
+    cursor: pointer;
+}
+.tabbtn.active {
+    background: #0b5;
+    color: #fff;
+    border-color: #0b5;
+}

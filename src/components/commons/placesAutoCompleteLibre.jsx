@@ -44,7 +44,7 @@ const PlacesAutocompleteLibre = (props) => {
       }
 
       const loader = new Loader({
-        apiKey:'AIzaSyBE0Y1gpJ-P0Fu_hPUEP-mBrlu7fQFBWsQ',
+        apiKey: 'AIzaSyBE0Y1gpJ-P0Fu_hPUEP-mBrlu7fQFBWsQ',
         libraries: ['places'],
         version: 'weekly',
       });
@@ -109,7 +109,7 @@ const PlacesAutocompleteLibre = (props) => {
 
   // Render de sugerencias
   const renderSuggestions = () =>
-    data.map((suggestion) => {
+    data.map((suggestion, i) => {
       const {
         place_id,
         structured_formatting: { main_text, secondary_text },
@@ -118,6 +118,7 @@ const PlacesAutocompleteLibre = (props) => {
 
       return (
         <li
+          id={`sugestion-${String(i)}`}
           key={place_id}
           onClick={() => {
             setValue(description, false);
@@ -125,8 +126,9 @@ const PlacesAutocompleteLibre = (props) => {
             onAddressSelect && onAddressSelect(description);
             getLocation(place_id);
           }}
-          style={{ cursor: 'pointer', padding: '6px 8px' }}
+          style={{ cursor: 'pointer', position: 'relative', padding: '6px 8px' }}
         >
+          <input style={{ visibility: 'hidden', position: 'absolute' }} value={`${main_text + '' + secondary_text}`} />
           <strong>{main_text}</strong> <small>{secondary_text}</small>
         </li>
       );
@@ -146,7 +148,7 @@ const PlacesAutocompleteLibre = (props) => {
       )}
 
       {/* Lista de sugerencias */}
-      {status === 'OK' && <ul style={{ margin: 0, padding: 0, listStyle: 'none' }}>{renderSuggestions()}</ul>}
+      {status === 'OK' && <ul id='rendersdirections' style={{ margin: 0, padding: 0, listStyle: 'none' }}>{renderSuggestions()}</ul>}
     </div>
   );
 };
