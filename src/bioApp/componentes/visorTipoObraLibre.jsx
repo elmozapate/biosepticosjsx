@@ -9,6 +9,7 @@ import { rewrites } from "next.config"
 import SelectComp from "@/components/commons/selector"
 import BioRuta from "./bioRuta"
 import BioRutaLibre from "./bioRutaLibre"
+import RutasMatrizGoogle from "@/components/commons/googlertutas"
 const objCssInit = StylesObj()
 const objStringsInit = StringsObj()
 let cargando = false
@@ -52,6 +53,7 @@ const VisorTipoObraLibre = (props) => {
     const [inSearching, setinSearching] = useState({ state: false })
     const [readyRuta, setReadyRuta] = useState(false)
     const [times, setTimes] = useState([[]])
+    const [timesa, setTimesa] = useState(0);
     const [timesReady, setTimesReady] = useState([[]])
     const [inTimes, setInTimes] = useState(0)
     const [elPercent, setElPercent] = useState(0)
@@ -126,7 +128,6 @@ const VisorTipoObraLibre = (props) => {
         const elArreglo = arrgelado()
 
         const res = sheduleCreator(elArreglo, father, [], 0, 0)
-        console.log(res);
         return res
 
     }
@@ -146,7 +147,6 @@ const VisorTipoObraLibre = (props) => {
                 segundosCountAprox = segundosCountAprox + 1
                 segundosCount = segundosCount + 1
                 segundosCountIn = segundosCountIn + 1
-                console.log('segundo mas', segundosCount);
                 setElTiempo({
                     ...elTiempo,
                     hora: parseInt(parseInt(segundosCountIn / 60) / 60),
@@ -160,7 +160,6 @@ const VisorTipoObraLibre = (props) => {
             if (segundosCount === 60) {
                 segundosCount = 0
                 minutesCount = minutesCount + 1
-                console.log('minuto mas', minutesCount);
             }
             if (segundosCountAprox === 10) {
                 let dataPercent = localPercent - lastPercent
@@ -168,7 +167,6 @@ const VisorTipoObraLibre = (props) => {
                 let aproximado = !isNaN((parseInt((faltante) / (dataPercent / 10)))) ? (parseInt((faltante) / (dataPercent / 10))) : 99.9
                 lastPercent = localPercent
                 let mensaje = aproximado > 0 ? `${parseInt(parseInt(aproximado / 60) / 60)} horas con ${parseInt(parseInt(parseInt(aproximado / 60) - parseInt(parseInt(parseInt(aproximado / 60) / 60) * 60)))} minutos con ${parseInt(aproximado - parseInt(parseInt(aproximado / 60) * 60)) < 9 ? 0 : ''}${parseInt(aproximado - parseInt(parseInt(aproximado / 60) * 60))} segundos ` : lastMensaje
-                console.log(mensaje, 'mensaje');
                 restante = aproximado
                 segundosCountAprox = 0
                 setElTiempo({
@@ -322,6 +320,32 @@ const VisorTipoObraLibre = (props) => {
         return `https://www.google.com/maps/dir/${parts.join('/')}`;
     };
 
+    // 2) Construye 1 o 2 URLs. Si hay >20 puntos, divide en dos:
+    //    - url1: primeros 20
+    //    - url2: desde el punto 20 en adelante, arrancando en el último punto de url1
+    const buildMapsDirUrlsSplit = (path, maxFirst = 20) => {
+        if (!Array.isArray(path) || path.length === 0) return [];
+
+        if (path.length <= maxFirst) {
+            return [buildMapsDirUrl(path)];
+        }
+
+        // Primer tramo: primeros 20
+        const firstLeg = path.slice(0, maxFirst);
+
+        // Segundo tramo:
+        // Comienza en el último punto del primer tramo para que sea continuidad visual,
+        // y luego continúa con el resto de puntos
+        const secondStart = firstLeg[firstLeg.length - 1];
+        const secondLegRest = path.slice(maxFirst);
+        const secondLeg = [secondStart, ...secondLegRest];
+
+        const url1 = buildMapsDirUrl(firstLeg);
+        const url2 = buildMapsDirUrl(secondLeg);
+        return [url1, url2];
+    };
+
+
     /**
      * position: índice del resultado elegido en resultsArray.array
      * opts:
@@ -351,7 +375,6 @@ const VisorTipoObraLibre = (props) => {
         }
 
         // 1) Orden de visita según el resultado elegido
-        //    choice.order son índices dentro de showed
         const orderedPoints = choice.order.map(i => {
             const obra = showed[i];
             const c = obra?.direccion?.coordenadas;
@@ -361,7 +384,7 @@ const VisorTipoObraLibre = (props) => {
             return { lat: c.lat, lng: c.lng };
         });
 
-        // 2) Inserta origen si te interesa arrancar en un punto específico (tu ubicación, base, etc.)
+        // 2) Inserta origen si aplica
         const path = startCoord ? [startCoord, ...orderedPoints] : [...orderedPoints];
 
         // 3) Cierra el circuito (opcional)
@@ -369,21 +392,25 @@ const VisorTipoObraLibre = (props) => {
             path.push(path[0]);
         }
 
-        // 4) Construye URL y abre
-        const url = buildMapsDirUrl(path);
+        // 4) Construye 1 o 2 URLs según el tamaño
+        const urls = buildMapsDirUrlsSplit(path, 20);
+
         console.log('Ruta seleccionada:', {
             position,
             order: choice.order,
             distance_m: choice.distance,
             time_s: choice.time,
-            url
+            urls
         });
 
         if (open && typeof window !== 'undefined') {
-            window.open(url, '_blank', 'noopener');
+            // abre todas las URLs (1 o 2)
+            urls.forEach(u => window.open(u, '_blank', 'noopener'));
         }
-        return url; // por si quieres usarla sin abrir pestaña
+
+        return urls; // devuelve array de 1 o 2 URLs
     };
+
     const myPosition = (biosepticos, selected, coordenadas) => {
         newToSearchE = []; finalResults = []; orderedFinalFixArraySort = []; allDatas = []; resSearhE = []; orderedFinalFixArray = []; orderedFinalArray = []; resOrderedTime = []; resOrdered = []; resultados = []; newTimes = [];
         cargando = true
@@ -394,7 +421,7 @@ const VisorTipoObraLibre = (props) => {
             state: true
         })
         irPlace.mapSelect && setIrPlace({ ...irPlace, ubicacionMapSelected: { ...irPlace.ubicacionMapSelected, mapSelectactive: true } })
-
+        return
         if (!biosepticos && !selected && !coordenadas) {
             navigator.geolocation.getCurrentPosition(
                 function (position) { // success cb
@@ -420,7 +447,7 @@ const VisorTipoObraLibre = (props) => {
                     setTimeout(() => {
                         setconfirmMyDirection(true)
                         makeRuta(0, true, 'ubicacionActual')
-                    }, 1000)
+                    }, 10)
                 }
 
             );
@@ -449,7 +476,7 @@ const VisorTipoObraLibre = (props) => {
                 setTimeout(() => {
                     setconfirmMyDirection(true)
                     makeRuta(0, true, 'biosepticosSelect')
-                }, 1000)
+                }, 10)
             }
             if (selected && selected === 'true' && !biosepticos && !coordenadas) {
                 userCoord = {
@@ -472,7 +499,7 @@ const VisorTipoObraLibre = (props) => {
                 setTimeout(() => {
                     setconfirmMyDirection(true)
                     makeRuta(0, false, 'obraSelect')
-                }, 1000)
+                }, 10)
             }
             if (coordenadas && coordenadas === 'true' && !selected && !biosepticos) {
                 setIrPlace({
@@ -494,7 +521,7 @@ const VisorTipoObraLibre = (props) => {
                 setTimeout(() => {
                     setconfirmMyDirection(true)
                     makeRuta(0, true, 'mapSelectactiveState')
-                }, 1000)
+                }, 10)
             }
 
         }
@@ -503,7 +530,7 @@ const VisorTipoObraLibre = (props) => {
     }
 
     const makeRuta = async (time, init, state) => {
-
+        setTimesa(time)
         maxValue = showed.length
         if (init) {
             maxValue = showed.length
@@ -560,12 +587,12 @@ const VisorTipoObraLibre = (props) => {
                         setconfirmMyDirection(true)
                         continueRuta(time, true)
                     }
-                }, 600);
+                }, 10);
             } else {
                 setTimeout(() => {
                     inValue = 0
                     makeRuta(0);
-                }, 600);
+                }, 10);
             }
         } else {
             setStartSearching(true)
@@ -609,7 +636,7 @@ const VisorTipoObraLibre = (props) => {
                     setInTimes(time + 1)
                     makeRuta(time + 1);
 
-                }, 1000)
+                }, 10)
             }
             if (time < maxValue && inValue < maxValue) {
                 setTimeout(() => {
@@ -619,7 +646,7 @@ const VisorTipoObraLibre = (props) => {
                         setconfirmMyDirection(true)
                         continueRuta(time)
                     }
-                }, 1000);
+                }, 10);
             } else {
                 setTimeout(() => {
                     if ((((100 / (showed.length)) * time) + (((100 / (showed.length)) / (showed.length)) * inValue)) >= 100) {
@@ -627,7 +654,7 @@ const VisorTipoObraLibre = (props) => {
                         crearOptRuta();
                         setReadyRuta(true)
                     }
-                }, 1000);
+                }, 10);
 
             }
         }
@@ -648,8 +675,8 @@ const VisorTipoObraLibre = (props) => {
                         using: false,
                     })
                     makeRuta(time + 1, init)
-                }, 600);
-            }, 600);
+                }, 10);
+            }, 10);
         } else {
             if (time < maxValue && inValue < maxValue) {
                 setTimeout(() => {
@@ -664,8 +691,8 @@ const VisorTipoObraLibre = (props) => {
                             using: false,
                         })
                         makeRuta(time)
-                    }, 600);
-                }, 600);
+                    }, 10);
+                }, 10);
             } else {
 
                 setIrPlace({
@@ -697,6 +724,8 @@ const VisorTipoObraLibre = (props) => {
         }
     }
     useEffect(() => {
+        console.log(showed);
+
         let obrasName = []
         showed.map((key, i) => {
             obrasName.push(key.nombre)
@@ -705,242 +734,8 @@ const VisorTipoObraLibre = (props) => {
     }, [])
     return (
         <>
-            <div id={`idShow-${parseInt(Math.random() * 9999)}`} style={{ backgroundColor: 'white', color: 'black' }} className='container-bio' onClick={(e) => {
-                e.preventDefault(); willShow(showed)
-            }}>
-                {inSearching.state && <div style={{ backgroundColor: 'white', color: 'black' }} className="loading-ruta">
-                    <div style={{ backgroundColor: 'white', color: 'black' }} className='loader-body'>
-                        {!(startSearching) ? <span >PREPARANDO TODO</span> : <span>CREANDO TODAS LAS RUTAS
-                        </span>}
+            {resultsArray.state && <><BioRutaLibre elTiempo={elTiempo} doRuta={doRuta} showed={showed} resultsArray={resultsArray} back={back} /></>}
 
-                        <br />
-                        <p>
-                        </p>
-                        <div style={{ backgroundColor: 'white', color: 'black' }} className='loader-container'>
-                            <div style={{ backgroundColor: 'white', color: 'black' }} className='loader'></div>
-                            <div style={{ backgroundColor: 'white', color: 'black' }} className='loader2'>                            </div>
-                            {elPercent < 100 && elPercent > 0 && <div style={{ backgroundColor: 'white', color: 'black' }} className="center-value">
-                                <span><PercentComp elPercent={parseInt(elPercent)} /></span>
-                            </div>}
-                        </div>
-                        {elTiempo.seg > 0 && elTiempo.restante > 0 && <p>
-                            <span style={{ backgroundColor: 'white', color: 'black' }} className="text-center">Transcurrido {elTiempo.hora}h {elTiempo.min}m {elTiempo.seg}s</span>
-                            <br />
-                            <span style={{ backgroundColor: 'white', color: 'black' }} className="text-center">  TIEMPO APROXIMADO</span>
-                            <br />
-                            <span style={{ backgroundColor: 'white', color: 'black' }} className="text-center"> {elTiempo.mensaje}</span>
-                        </p>}
-                    </div>
-                </div>}
-
-                {!inSearching.state &&
-                    <>
-                        {showed.length === 2 && <span onClick={(e) => {
-                            e.preventDefault(); crearOptRuta()
-                        }} style={{ backgroundColor: 'white', color: 'black' }} className="pointer">Ver ruta </span>}
-                        {showed.length > 2 && <span onClick={readyRuta ? (e) => {
-                            e.preventDefault(); crearOptRuta()
-                        } : (e) => {
-                            e.preventDefault(); setIrPlace({ ...irPlace, inSelect: true })
-                        }} style={{ backgroundColor: 'white', color: 'black' }} className="pointer">{readyRuta ? 'Ver ruta recomendada' : 'crear ruta recomendada'}</span>}
-                        {showed.length > 2 && irPlace.inSelect && <>
-                            {!irPlace.mapSelect && !irPlace.obraSelect && <span onClick={readyRuta ? (e) => {
-                                e.preventDefault(); crearOptRuta()
-                            } : (e) => {
-                                e.preventDefault(); setIrPlace({ ...irPlace, ubicacionMapSelected: { ...irPlace.ubicacionMapSelected, mapSelectactive: false, state: false }, mapSelect: false, obraSelect: false, obraSelected: '', biosepticosSelect: false }); myPosition()
-                            }} style={{ backgroundColor: 'white', color: 'black' }} className="pointer">DESDE MI UBICACION</span>}
-                            {!irPlace.mapSelect && !irPlace.obraSelect && <span onClick={readyRuta ? (e) => {
-                                e.preventDefault(); crearOptRuta()
-                            } : (e) => {
-                                e.preventDefault(); setIrPlace({ ...irPlace, ubicacionMapSelected: { ...irPlace.ubicacionMapSelected, mapSelectactive: false, state: false }, mapSelect: false, obraSelect: false, obraSelected: '', biosepticosSelect: true }); myPosition('true')
-                            }} style={{ backgroundColor: 'white', color: 'black' }} className="pointer">DESDE BIOSEPTICOS</span>}
-                            {irPlace.mapSelect ? <span onClick={(e) => {
-                                e.preventDefault(); setIrPlace({ ...irPlace, ubicacionMapSelected: { ...irPlace.ubicacionMapSelected, mapSelectactive: false, state: false }, mapSelect: false, obraSelect: false, obraSelected: '', biosepticosSelect: false });
-                            }} style={{ backgroundColor: 'white', color: 'black' }} className="pointer">VOLVER</span> : !irPlace.obraSelect && <span onClick={readyRuta ? (e) => {
-                                e.preventDefault(); crearOptRuta()
-                            } : (e) => {
-                                e.preventDefault(); setIrPlace({ ...irPlace, mapSelect: true, obraSelect: false, ubicacionMapSelected: { ...irPlace.ubicacionMapSelected, state: true }, obraSelected: '' })
-                            }} style={{ backgroundColor: 'white', color: 'black' }} className="pointer">ESCOGER EN EL MAPA</span>}
-                            {irPlace.obraSelect && <span onClick={(e) => {
-                                e.preventDefault(); setIrPlace({ ...irPlace, ubicacionMapSelected: { ...irPlace.ubicacionMapSelected, mapSelectactive: false, state: false, active: false }, mapSelect: false, obraSelect: false, obraSelected: '', biosepticosSelect: false });
-                            }} style={{ backgroundColor: 'white', color: 'black' }} className="pointer">VOLVER</span>}
-                            {!irPlace.mapSelect &&
-                                <span onClick={readyRuta ? (e) => {
-                                    e.preventDefault(); crearOptRuta()
-                                } : (e) => {
-                                    e.preventDefault();
-                                    setIrPlace({ ...irPlace, ubicacionMapSelected: { ...irPlace.ubicacionMapSelected, mapSelectactive: false, state: false }, mapSelect: false, biosepticosSelect: false });
-                                }} style={{ backgroundColor: 'white', color: 'black' }} className="pointer">{irPlace.obraSelected !== '' ? 'OBRA EN ESPECIFICO ' : <SelectComp funtions={((e) => { e.preventDefault; setIrPlace({ ...irPlace, obraSelect: true, obraSelected: e.target.value }) })} items={irPlace.obrasName} />} </span>}
-                        </>}
-                        {
-                            irPlace.obraSelected !== '' && <><span onClick={(e) => {
-                                e.preventDefault(); myPosition(false, 'true')
-                            }} style={{ backgroundColor: 'white', color: 'black' }} className="pointer">EMPEZAR EN {irPlace.obraSelected} </span></>
-                        }
-                        {
-                            irPlace.ubicacionMapSelected.state && <><span onClick={readyRuta ? (e) => {
-                                e.preventDefault(); crearOptRuta()
-                            } : (e) => {
-                                e.preventDefault(); ubicacionIni = { ...ubicacionIni, state: true, mapSelectactive: true }; setIrPlace({ ...irPlace, ubicacionMapSelected: { ...irPlace.ubicacionMapSelected, ...ubicacionIni } }); myPosition(false, false, 'true')
-                            }} style={{ backgroundColor: 'white', color: 'black' }} className="pointer">DESDE latitud : {irPlace.ubicacionMapSelected.lat} longitud :{irPlace.ubicacionMapSelected.lng} </span></>
-                        }
-                    </>
-                }
-                {
-                    irPlace.mapSelect && !irPlace.mapSelectactiveState &&
-                    <><ContenedorMaps mapSelect={mapSelect} inMapSelect irPlace={irPlace} defaultLocation={irPlace.coordenadasInicial} />
-                    </>
-                }
-                {
-                    !inSearching.state && <>  {inObra.selected === '' ? <div style={{ backgroundColor: 'white', color: 'black' }} className="dia">
-                        <p style={{ backgroundColor: 'white', color: 'black' }} className="centert flex-p-between">
-                            <span style={{ backgroundColor: 'white', color: 'black' }} className="treintraytres">{'Nombre'}</span>
-                            <span style={{ backgroundColor: 'white', color: 'black' }} className="treintraytres">{'contacto'}</span>
-                            <span style={{ backgroundColor: 'white', color: 'black' }} className="treintraytres">{'zona'}</span></p>
-
-                        {showed.map((key, i) => {
-                            return (
-                                <>
-                                    <p style={{ backgroundColor: 'white', color: 'black' }} className="centert flex-p-between ">
-                                        <span style={{ backgroundColor: 'white', color: 'black' }} className="treintraytres"><h2>{key.contact.obra}</h2> </span>
-                                        <span style={{ backgroundColor: 'white', color: 'black' }} className="treintraytres"  >
-                                            <span>-{key.contact.nombre}</span>
-                                            <span onClick={(e) => {
-                                                e.preventDefault();
-                                                setActiveUser({
-                                                    ...activeUser,
-                                                    userInfo: {
-                                                        ...activeUser.userInfo,
-                                                        datosContacto: {
-                                                            ...activeUser.userInfo.datosContacto,
-                                                            ...key.contact,
-                                                            direccion: {
-                                                                ...activeUser.userInfo.datosContacto.direccion,
-                                                                ...key.direccion
-                                                            }
-                                                        }
-                                                    }
-                                                }); setInObra({
-                                                    ...inObra,
-                                                    selected: key.id, action: 'contact', data: key.contact
-                                                })
-                                            }} style={{ backgroundColor: 'white', color: 'black' }} className="pointer">ver info</span>
-                                        </span>
-                                        <span style={{ backgroundColor: 'white', color: 'black' }} className="treintraytres">
-                                            <span>{key.direccion.ciudad}-{key.direccion.barrio}</span>
-                                            <span onClick={(e) => {
-                                                e.preventDefault();
-                                                setActiveUser({
-                                                    ...activeUser,
-                                                    userInfo: {
-                                                        ...activeUser.userInfo,
-                                                        datosContacto: {
-                                                            ...activeUser.userInfo.datosContacto,
-                                                            direccion: {
-                                                                ...activeUser.userInfo.datosContacto.direccion,
-                                                                ...key.direccion
-
-                                                            }
-                                                        }
-                                                    }
-                                                }); setInObra({
-                                                    ...inObra,
-                                                    selected: key.id, action: 'direccion', data: key.direccion
-                                                })
-                                            }} style={{ backgroundColor: 'white', color: 'black' }} className="pointer">mas</span>
-                                        </span>
-                                    </p>
-                                </>
-                            )
-                        })}
-                        {!(listos.length > 0) ? <>SIN ACTVIVIDAD</> :
-                            <>
-                                COMPLETADOS
-                                {listos.map((key, i) => {
-                                    return (
-                                        <>
-                                            <p style={{ backgroundColor: 'white', color: 'black' }} className="bgColor-green centert flex-p-between ">
-                                                <span style={{ backgroundColor: 'white', color: 'black' }} className="treintraytres"><h2>{key.contact.obra}</h2> </span>
-                                                <span style={{ backgroundColor: 'white', color: 'black' }} className="treintraytres"  >
-                                                    <span>-{key.contact.nombre}</span>
-                                                    <span onClick={(e) => {
-                                                        e.preventDefault();
-                                                        setActiveUser({
-                                                            ...activeUser,
-                                                            userInfo: {
-                                                                ...activeUser.userInfo,
-                                                                datosContacto: {
-                                                                    ...activeUser.userInfo.datosContacto,
-                                                                    ...key.contact,
-                                                                    direccion: {
-                                                                        ...activeUser.userInfo.datosContacto.direccion,
-                                                                        ...key.direccion
-                                                                    }
-                                                                }
-                                                            }
-                                                        }); setInObra({
-                                                            ...inObra,
-                                                            selected: key.id, action: 'contact', data: key.contact
-                                                        })
-                                                    }} style={{ backgroundColor: 'white', color: 'black' }} className="pointer">ver info</span>
-                                                </span>
-                                                <span style={{ backgroundColor: 'white', color: 'black' }} className="treintraytres">
-                                                    <span>{key.direccion.ciudad}-{key.direccion.barrio}</span>
-                                                    <span onClick={(e) => {
-                                                        e.preventDefault();
-                                                        setActiveUser({
-                                                            ...activeUser,
-                                                            userInfo: {
-                                                                ...activeUser.userInfo,
-                                                                datosContacto: {
-                                                                    ...activeUser.userInfo.datosContacto,
-                                                                    direccion: {
-                                                                        ...activeUser.userInfo.datosContacto.direccion,
-                                                                        ...key.direccion
-
-                                                                    }
-                                                                }
-                                                            }
-                                                        }); setInObra({
-                                                            ...inObra,
-                                                            selected: key.id, action: 'direccion', data: key.direccion
-                                                        })
-                                                    }} style={{ backgroundColor: 'white', color: 'black' }} className="pointer">mas</span>
-                                                </span>
-                                            </p>
-                                        </>
-                                    )
-                                })}
-                            </>}
-
-                    </div> : <>
-                        {
-                            inObra.action === 'contact' &&
-                            <><h2> contacto obra {inObra.data.obra}</h2>
-                                persona a cargo : {inObra.data.nombre}
-                                <PersComp adress contact inselected={'contactData'} actualizeData={console.log} setActiveUser={console.log} activeUser={activeUser} permision={activeUser.userInfo.userObj.appPermisions} objCss={objCss} objStrings={objStrings} />
-                            </>
-
-                        }
-                        {
-                            inObra.action === 'direccion' &&
-                            <><h2>direccion obra {inObra.data.obra}</h2>
-                                <PersComp inselected={'contactData'} adress actualizeData={console.log} setActiveUser={console.log} activeUser={activeUser} permision={activeUser.userInfo.userObj.appPermisions} objCss={objCss} objStrings={objStrings} />
-                            </>
-
-                        }
-
-                        <span onClick={(e) => {
-                            e.preventDefault(); setInObra({
-                                ...inObra,
-                                selected: '', action: '', data: ''
-                            })
-                        }} style={{ backgroundColor: 'white', color: 'black' }} className="pointer">volver</span>
-                    </>}
-                    </>
-                }
-                {resultsArray.state && <><BioRutaLibre elTiempo={elTiempo} doRuta={doRuta} showed={showed} resultsArray={resultsArray} back={back} /></>}
-            </div>
             {irPlace.using && <>
 
                 {!confirmMyDirection ?
@@ -981,6 +776,502 @@ const VisorTipoObraLibre = (props) => {
                         </span>
                     </>}
             </>}
+            <div className="bio-wrap">
+                <div className="headers">
+                    <div style={{ width: '100%' }}>
+                        <div className="title">Rutas</div>
+                        <div className="subtitle">Selecciona origen y visualiza la recomendada</div>
+                    </div>
+                </div>
+
+                <section className="cards" style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
+                    <div className="filters" style={{ display: 'flex', width: 'fit-content' }}>
+                        {/* Caso: exactamente 2 puntos */}
+                        {showed.length === 2 && (
+                            <button
+                                className="btn"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    doFrame();
+                                    setinSearching({ ...inSearching, state: true });
+                                }}
+                            >
+                                Ver ruta
+                            </button>
+                        )}
+
+                        {/* Caso: más de 2 puntos */}
+                        {showed.length > 2 && (
+                            <button
+                                className="btn"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    if (readyRuta) {
+                                        doFrame();
+                                        setinSearching({ ...inSearching, state: true });
+                                    } else {
+                                        setIrPlace({ ...irPlace, inSelect: true });
+                                    }
+                                }}
+                            >
+                                {readyRuta ? "Ver ruta recomendada" : "Crear ruta recomendada"}
+                            </button>
+                        )}
+                    </div>
+
+                    {/* Flujo de selección de origen cuando aún no está lista la ruta */}
+                    {showed.length > 2 && irPlace.inSelect && (
+                        <div className="steps" style={{ width: '100%',display:'flex' , gap:'20px',alignItems:'center' }}>
+                            <div className="step muted"  style={{ width: 'fit-content' }}>Elige el punto de inicio de la ruta:</div>
+
+                            {/* Grupo: desde mi ubicación / desde BioSépticos */}
+                            {!irPlace.mapSelect && !irPlace.obraSelect && (
+                                <div className="filters" style={{ display: 'flex', width: 'fit-content' }}>
+                                    <button
+                                        className="btn secondary"
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            if (readyRuta) {
+                                                doFrame();
+                                                setinSearching({ ...inSearching, state: true });
+                                            } else {
+                                                setIrPlace({
+                                                    ...irPlace,
+                                                    ubicacionMapSelected: { ...irPlace.ubicacionMapSelected, mapSelectactive: false, state: false },
+                                                    mapSelect: false,
+                                                    obraSelect: false,
+                                                    obraSelected: "",
+                                                    biosepticosSelect: false,
+                                                });
+                                                myPosition();
+                                            }
+                                        }}
+                                    >
+                                        Desde mi ubicación
+                                    </button>
+
+                                    <button
+                                        className="btn secondary"
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            if (readyRuta) {
+                                                doFrame();
+                                                setinSearching({ ...inSearching, state: true });
+                                            } else {
+                                                setIrPlace({
+                                                    ...irPlace,
+                                                    ubicacionMapSelected: { ...irPlace.ubicacionMapSelected, mapSelectactive: false, state: false },
+                                                    mapSelect: false,
+                                                    obraSelect: false,
+                                                    obraSelected: "",
+                                                    biosepticosSelect: true,
+                                                });
+                                                myPosition("true");
+                                            }
+                                        }}
+                                    >
+                                        Desde BioSépticos
+                                    </button>
+                                </div>
+                            )}
+
+                            {/* Botón Volver para selección en mapa */}
+                            <div className="filters" style={{ display: 'flex', width: 'fit-content' }}>
+                                {irPlace.mapSelect ? (
+                                    <button
+                                        className="btn"
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            setIrPlace({
+                                                ...irPlace,
+                                                ubicacionMapSelected: { ...irPlace.ubicacionMapSelected, mapSelectactive: false, state: false },
+                                                mapSelect: false,
+                                                obraSelect: false,
+                                                obraSelected: "",
+                                                biosepticosSelect: false,
+                                            });
+                                        }}
+                                    >
+                                        Volver
+                                    </button>
+                                ) : (
+                                    !irPlace.obraSelect && (
+                                        <button
+                                            className="btn"
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                if (readyRuta) {
+                                                    doFrame();
+                                                    setinSearching({ ...inSearching, state: true });
+                                                } else {
+                                                    setIrPlace({
+                                                        ...irPlace,
+                                                        mapSelect: true,
+                                                        obraSelect: false,
+                                                        ubicacionMapSelected: { ...irPlace.ubicacionMapSelected, state: true },
+                                                        obraSelected: "",
+                                                    });
+                                                }
+                                            }}
+                                        >
+                                            Escoger en el mapa
+                                        </button>
+                                    )
+                                )}
+
+                                {/* Botón Volver para selección por obra */}
+                                {irPlace.obraSelect && (
+                                    <button
+                                        className="btn"
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            setIrPlace({
+                                                ...irPlace,
+                                                ubicacionMapSelected: { ...irPlace.ubicacionMapSelected, mapSelectactive: false, state: false, active: false },
+                                                mapSelect: false,
+                                                obraSelect: false,
+                                                obraSelected: "",
+                                                biosepticosSelect: false,
+                                            });
+                                        }}
+                                    >
+                                        Volver
+                                    </button>
+                                )}
+                            </div>
+
+                            {/* Selector de obra específica / limpieza selección */}
+                            <div className="filters" style={{ display: 'flex', width: 'fit-content' }}>
+                                {!irPlace.mapSelect && (
+                                    <>
+                                        {irPlace.obraSelected !== "" ? (
+                                            <span className="pill">Obra en específico</span>
+                                        ) : (
+                                            <SelectComp
+                                                funtions={(e) => {
+                                                    e.preventDefault;
+                                                    setIrPlace({ ...irPlace, obraSelect: true, obraSelected: e.target.value });
+                                                }}
+                                                items={irPlace.obrasName}
+                                            />
+                                        )}
+                                        {!irPlace.mapSelect && (
+                                            <button
+                                                className="btn secondary"
+                                                onClick={(e) => {
+                                                    e.preventDefault();
+                                                    if (readyRuta) {
+                                                        doFrame();
+                                                        setinSearching({ ...inSearching, state: true });
+                                                    } else {
+                                                        setIrPlace({
+                                                            ...irPlace,
+                                                            ubicacionMapSelected: { ...irPlace.ubicacionMapSelected, mapSelectactive: false, state: false },
+                                                            mapSelect: false,
+                                                            biosepticosSelect: false,
+                                                        });
+                                                    }
+                                                }}
+                                            >
+                                                {readyRuta ? "Ver recomendada" : "Confirmar selección"}
+                                            </button>
+                                        )}
+                                    </>
+                                )}
+                            </div>
+
+                            {/* Acción: empezar desde obra seleccionada */}
+                            {irPlace.obraSelected !== "" && (
+                                <div className="filters" style={{ display: 'flex', width: 'fit-content' }}>
+                                    <button
+                                        className="btn"
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            myPosition(false, "true");
+                                        }}
+                                    >
+                                        Empezar en {irPlace.obraSelected}
+                                    </button>
+                                </div>
+                            )}
+
+                            {/* Acción: empezar desde coordenadas elegidas en mapa */}
+                            {irPlace.ubicacionMapSelected.state && (
+                                <div className="filters" style={{ display: 'flex', width: 'fit-content' }}>
+                                    <span className="pill">
+                                        lat: {irPlace.ubicacionMapSelected.lat} · lng: {irPlace.ubicacionMapSelected.lng}
+                                    </span>
+                                    <button
+                                        className="btn"
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            if (readyRuta) {
+                                                doFrame();
+                                                setinSearching({ ...inSearching, state: true });
+                                            } else {
+                                                const ubicacionIni = { ...irPlace.ubicacionMapSelected, state: true, mapSelectactive: true };
+                                                setIrPlace({
+                                                    ...irPlace,
+                                                    ubicacionMapSelected: { ...ubicacionIni },
+                                                });
+                                                myPosition(false, false, "true");
+                                            }
+                                        }}
+                                    >
+                                        Usar este punto como inicio
+                                    </button>
+                                </div>
+                            )}
+                        </div>
+                    )}
+                </section>
+                {!inSearching.state ? (
+                    <>
+                        <div className="headers">
+                            <div>
+                                <div className="title">Obras</div>
+                                <div className="subtitle">Pendientes y completadas</div>
+                            </div>
+                        </div>
+
+                        {/* Tabla “pendientes” */}
+                        <div className="gridsc">
+                            <section className="cards">
+                                <div className="rowss muted" style={{ fontWeight: 600 }}>
+                                    <span className="pill">Nombre</span>
+                                    <span className="pill">Contacto</span>
+                                    <span className="pill">Zona</span>
+                                </div>
+
+                                {showed.map((obra) => (
+                                    <div className="rowss" key={obra.id}>
+                                        <span className="fzx">
+                                            <strong>{obra?.contact?.obra}</strong>
+                                        </span>
+
+                                        <span style={{ display: "flex", gap: 8, alignItems: "center" }}>
+                                            <span>— {obra?.contact?.nombre}</span>
+                                            <button
+                                                className="btn secondary"
+                                                onClick={(e) => {
+                                                    e.preventDefault();
+                                                    setActiveUser((prev) => ({
+                                                        ...prev,
+                                                        userInfo: {
+                                                            ...prev.userInfo,
+                                                            datosContacto: {
+                                                                ...prev.userInfo.datosContacto,
+                                                                ...(obra?.contact || {}),
+                                                                direccion: {
+                                                                    ...prev.userInfo.datosContacto.direccion,
+                                                                    ...(obra?.direccion || {}),
+                                                                },
+                                                            },
+                                                        },
+                                                    }));
+                                                    setInObra({
+                                                        ...inObra,
+                                                        selected: obra.id,
+                                                        action: "contact",
+                                                        data: obra.contact,
+                                                    });
+                                                }}
+                                            >
+                                                ver info
+                                            </button>
+                                        </span>
+
+                                        <span style={{ display: "flex", gap: 8, alignItems: "center" }}>
+                                            <span>
+                                                {obra?.direccion?.ciudad}-{obra?.direccion?.barrio}
+                                            </span>
+                                            <button
+                                                className="btn secondary"
+                                                onClick={(e) => {
+                                                    e.preventDefault();
+                                                    setActiveUser((prev) => ({
+                                                        ...prev,
+                                                        userInfo: {
+                                                            ...prev.userInfo,
+                                                            datosContacto: {
+                                                                ...prev.userInfo.datosContacto,
+                                                                direccion: {
+                                                                    ...prev.userInfo.datosContacto.direccion,
+                                                                    ...(obra?.direccion || {}),
+                                                                },
+                                                            },
+                                                        },
+                                                    }));
+                                                    setInObra({
+                                                        ...inObra,
+                                                        selected: obra.id,
+                                                        action: "direccion",
+                                                        data: obra.direccion,
+                                                    });
+                                                }}
+                                            >
+                                                más
+                                            </button>
+                                        </span>
+                                    </div>
+                                ))}
+                            </section>
+
+                            {/* Completados */}
+                            {!(listos?.length > 0) ? (
+                                <div className="cards">
+                                    <div className="muted">SIN ACTIVIDAD</div>
+                                </div>
+                            ) : (
+                                <section className="cards">
+                                    <div className="rowss">
+                                        <span className="pill">COMPLETADOS</span>
+                                    </div>
+
+                                    {listos.map((obra) => (
+                                        <div className="rowss" key={obra.id}>
+                                            <span className="fzx">
+                                                <strong>{obra?.contact?.obra}</strong>
+                                            </span>
+
+                                            <span style={{ display: "flex", gap: 8, alignItems: "center" }}>
+                                                <span>— {obra?.contact?.nombre}</span>
+                                                <button
+                                                    className="btn secondary"
+                                                    onClick={(e) => {
+                                                        e.preventDefault();
+                                                        setActiveUser((prev) => ({
+                                                            ...prev,
+                                                            userInfo: {
+                                                                ...prev.userInfo,
+                                                                datosContacto: {
+                                                                    ...prev.userInfo.datosContacto,
+                                                                    ...(obra?.contact || {}),
+                                                                    direccion: {
+                                                                        ...prev.userInfo.datosContacto.direccion,
+                                                                        ...(obra?.direccion || {}),
+                                                                    },
+                                                                },
+                                                            },
+                                                        }));
+                                                        setInObra({
+                                                            ...inObra,
+                                                            selected: obra.id,
+                                                            action: "contact",
+                                                            data: obra.contact,
+                                                        });
+                                                    }}
+                                                >
+                                                    ver info
+                                                </button>
+                                            </span>
+
+                                            <span style={{ display: "flex", gap: 8, alignItems: "center" }}>
+                                                <span>
+                                                    {obra?.direccion?.ciudad}-{obra?.direccion?.barrio}
+                                                </span>
+                                                <button
+                                                    className="btn secondary"
+                                                    onClick={(e) => {
+                                                        e.preventDefault();
+                                                        setActiveUser((prev) => ({
+                                                            ...prev,
+                                                            userInfo: {
+                                                                ...prev.userInfo,
+                                                                datosContacto: {
+                                                                    ...prev.userInfo.datosContacto,
+                                                                    direccion: {
+                                                                        ...prev.userInfo.datosContacto.direccion,
+                                                                        ...(obra?.direccion || {}),
+                                                                    },
+                                                                },
+                                                            },
+                                                        }));
+                                                        setInObra({
+                                                            ...inObra,
+                                                            selected: obra.id,
+                                                            action: "direccion",
+                                                            data: obra.direccion,
+                                                        });
+                                                    }}
+                                                >
+                                                    más
+                                                </button>
+                                            </span>
+                                        </div>
+                                    ))}
+                                </section>
+                            )}
+                        </div>
+                    </>
+                ) : (
+                    // Vista detalle (contacto / dirección)
+                    <>
+                        {inObra.action === "contact" && (
+                            <section className="cards">
+                                <div className="headers">
+                                    <div>
+                                        <div className="title">Contacto obra: {inObra?.data?.obra}</div>
+                                        <div className="subtitle">Persona a cargo: {inObra?.data?.nombre}</div>
+                                    </div>
+                                </div>
+
+                                <PersComp
+                                    adress
+                                    contact
+                                    inselected={"contactData"}
+                                    actualizeData={console.log}
+                                    setActiveUser={console.log}
+                                    activeUser={activeUser}
+                                    permision={activeUser.userInfo.userObj.appPermisions}
+                                    objCss={objCss}
+                                    objStrings={objStrings}
+                                />
+                            </section>
+                        )}
+
+                        {inObra.action === "direccion" && (
+                            <section className="cards">
+                                <div className="headers">
+                                    <div>
+                                        <div className="title">Dirección obra: {inObra?.data?.obra}</div>
+                                        <div className="subtitle">
+                                            {inObra?.data?.ciudad} — {inObra?.data?.barrio}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <PersComp
+                                    inselected={"contactData"}
+                                    adress
+                                    actualizeData={console.log}
+                                    setActiveUser={console.log}
+                                    activeUser={activeUser}
+                                    permision={activeUser.userInfo.userObj.appPermisions}
+                                    objCss={objCss}
+                                    objStrings={objStrings}
+                                />
+                            </section>
+                        )}
+
+                        <div className="footer">
+                            <span className="muted">Editar información de la obra seleccionada</span>
+                            <div className="pager">
+                                <button
+                                    className="btn secondary"
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        setInObra({ ...inObra, selected: "", action: "", data: "" });
+                                    }}
+                                >
+                                    Volver
+                                </button>
+                            </div>
+                        </div>
+                    </>
+                )}
+            </div>
+
         </>
     )
 }
